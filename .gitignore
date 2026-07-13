@@ -37,10 +37,13 @@ yarn-error.log*
 # private commercial artifacts and data exports
 *.zip
 *.sql
+!prisma/migrations/**/*.sql
 *.dump
 *.backup
 /storage
 /release-artifacts
+/.cache
+/.prisma-cache
 
 # vercel
 .vercel
