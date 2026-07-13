@@ -34,12 +34,14 @@ Use a modular Next.js application with:
 - React and TypeScript in strict mode;
 - Tailwind CSS;
 - PostgreSQL;
-- Drizzle ORM and versioned migrations;
+- Prisma ORM and versioned migrations;
 - server components by default;
 - route handlers for webhooks, licenses, downloads and releases;
 - a payment-provider interface instead of direct coupling to one vendor;
 - object storage compatible with S3/R2 for private release files;
 - French and English locale-ready routing from the beginning.
+
+The selected starter already contains Next.js, Prisma and UI utilities. Audit and simplify it rather than replacing working foundations without evidence. Upgrade dependencies only when compatibility is verified by lint, typecheck, tests and production build.
 
 Prefer a single deployable application with clear domain modules. Do not introduce microservices unless an approved architecture decision explicitly requires them.
 
@@ -48,42 +50,44 @@ Prefer a single deployable application with clear domain modules. Do not introdu
 Expected structure after Sprint 01:
 
 ```text
-src/
-  app/
-    [locale]/
-      (marketing)/
-      (auth)/
-      account/
-      admin/
-    api/
-      checkout/
-      webhooks/
-      licenses/
-      downloads/
-      releases/
-  components/
-  config/
-  lib/
-  modules/
-    auth/
-    catalog/
-    commerce/
-    entitlements/
-    licensing/
+app/
+  [locale]/
+    (marketing)/
+    (auth)/
+    account/
+    admin/
+  api/
+    checkout/
+    webhooks/
+    licenses/
+    downloads/
     releases/
-    support/
-  db/
-    schema/
-    migrations/
-  styles/
+components/
+config/
+lib/
+modules/
+  auth/
+  catalog/
+  commerce/
+  entitlements/
+  licensing/
+  releases/
+  support/
+prisma/
+  schema.prisma
+  migrations/
+styles/
+tests/
 ```
 
-Keep business rules inside `src/modules`, not inside page components or route handlers. Route handlers validate input, call a domain service and serialize a response.
+Do not move the repository into `src/` only for preference. A structural migration requires a concrete benefit and must be isolated from business-feature work.
+
+Keep business rules inside `modules`, not inside page components or route handlers. Route handlers validate input, call a domain service and serialize a response.
 
 ## Coding rules
 
 - Keep TypeScript strict; do not use `any` unless documented at an external integration boundary.
-- Validate external inputs with schemas.
+- Validate external inputs with Zod schemas.
 - Never trust prices, product identifiers, roles or payment status from the browser.
 - Process payment success only from a verified provider webhook.
 - Make webhook processing idempotent and persist provider event IDs.
@@ -94,6 +98,7 @@ Keep business rules inside `src/modules`, not inside page components or route ha
 - Generate temporary signed download URLs; never expose permanent object-storage URLs.
 - Add audit events for administrative changes to orders, licenses and releases.
 - Avoid destructive migrations without an explicit migration plan.
+- Remove starter demo models, routes, links and branding before implementing product features.
 
 ## UI and content rules
 
