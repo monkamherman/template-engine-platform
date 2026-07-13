@@ -1,81 +1,92 @@
-import { PrismaClient } from '@prisma/client';
+import { BillingMode, OfferType, PrismaClient, ProductStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting database seeding...');
-
-  // Create sample users
-  const user1 = await prisma.user.upsert({
-    where: { email: 'john.doe@example.com' },
-    update: {},
+  const product = await prisma.product.upsert({
+    where: { slug: "woo-app-template-engine" },
+    update: {
+      name: "Woo App Template Engine",
+      status: ProductStatus.ACTIVE,
+    },
     create: {
-      email: 'john.doe@example.com',
-      name: 'John Doe',
-      profile: {
-        create: {
-          bio: 'Full-stack developer and tech enthusiast',
-          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
+      slug: "woo-app-template-engine",
+      name: "Woo App Template Engine",
+      description: "Commercial WooCommerce template engine license.",
+      status: ProductStatus.ACTIVE,
+    },
+  });
+
+  const offers = [
+    {
+      code: "STARTER",
+      name: "Starter",
+      type: OfferType.STARTER,
+      billingMode: BillingMode.ONE_TIME,
+      activationLimit: 1,
+      amountMinor: 4900,
+    },
+    {
+      code: "PRO",
+      name: "Pro",
+      type: OfferType.PRO,
+      billingMode: BillingMode.ONE_TIME,
+      activationLimit: 1,
+      amountMinor: 14900,
+    },
+    {
+      code: "MANAGED",
+      name: "Managed",
+      type: OfferType.MANAGED,
+      billingMode: BillingMode.MANUAL_CONTRACT,
+      activationLimit: 1,
+      amountMinor: 29900,
+    },
+  ];
+
+  for (const offer of offers) {
+    const savedOffer = await prisma.offer.upsert({
+      where: { code: offer.code },
+      update: {
+        name: offer.name,
+        status: ProductStatus.ACTIVE,
+        activationLimit: offer.activationLimit,
+      },
+      create: {
+        productId: product.id,
+        code: offer.code,
+        name: offer.name,
+        type: offer.type,
+        billingMode: offer.billingMode,
+        activationLimit: offer.activationLimit,
+        status: ProductStatus.ACTIVE,
+      },
+    });
+
+    await prisma.price.upsert({
+      where: {
+        provider_providerPriceId: {
+          provider: "mock",
+          providerPriceId: `dev_${offer.code.toLowerCase()}_eur`,
         },
       },
-    },
-  });
-
-  const user2 = await prisma.user.upsert({
-    where: { email: 'jane.smith@example.com' },
-    update: {},
-    create: {
-      email: 'jane.smith@example.com',
-      name: 'Jane Smith',
-      profile: {
-        create: {
-          bio: 'Designer and creative thinker',
-          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jane',
-        },
+      update: {
+        amountMinor: offer.amountMinor,
+        active: true,
       },
-    },
-  });
-
-  console.log('✅ Created users:', { user1, user2 });
-
-  // Create sample posts
-  const post1 = await prisma.post.create({
-    data: {
-      title: 'Getting Started with Next.js 15',
-      content: 'Next.js 15 brings amazing new features including improved performance, better developer experience, and more...',
-      published: true,
-      authorId: user1.id,
-    },
-  });
-
-  const post2 = await prisma.post.create({
-    data: {
-      title: 'Building Fullstack Apps with Prisma',
-      content: 'Prisma makes database access easy and type-safe. Learn how to integrate it with Next.js...',
-      published: true,
-      authorId: user1.id,
-    },
-  });
-
-  const post3 = await prisma.post.create({
-    data: {
-      title: 'Design Systems with TailwindCSS',
-      content: 'Creating beautiful and consistent UIs with TailwindCSS and ShadCN/UI components...',
-      published: false,
-      authorId: user2.id,
-    },
-  });
-
-  console.log('✅ Created posts:', { post1, post2, post3 });
-
-  console.log('🎉 Database seeding completed successfully!');
+      create: {
+        offerId: savedOffer.id,
+        currency: "EUR",
+        amountMinor: offer.amountMinor,
+        provider: "mock",
+        providerPriceId: `dev_${offer.code.toLowerCase()}_eur`,
+        active: true,
+      },
+    });
+  }
 }
 
 main()
-  .catch((e) => {
-    console.error('❌ Error during seeding:', e);
-    process.exit(1);
-  })
   .finally(async () => {
     await prisma.$disconnect();
   });

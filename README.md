@@ -1,57 +1,42 @@
-<<<<<<< HEAD
 # Template Engine Platform
 
 Official commercial platform for the Woo App Commercial Template Engine.
 
 This repository contains the Next.js application used to present, sell, license, deliver and support the commercial WordPress/WooCommerce template engine maintained separately in `monkamherman/woo-app-theme`.
 
-## Current status
+## Current Status
 
-The repository starts from a generic Next.js full-stack template. Sprint 01 will remove demo code, normalize the toolchain and establish the commercial platform foundation before feature development.
+Sprint 01 is transforming the generic starter into a commercial platform foundation. The codebase now uses locale-ready App Router routes, Prisma/PostgreSQL domain models, server-owned pricing rules and pure tests for initial entitlement, license and release-access behavior.
 
-## V1 responsibilities
+## Product Boundary
 
-- public marketing website;
-- Starter, Pro and Managed offers;
-- customer authentication and account area;
-- payment-provider abstraction and verified webhooks;
-- orders and entitlements;
-- licenses and activations;
-- protected release downloads;
-- service onboarding and support foundations;
-- administrative operations.
-
-## Product separation
-
-- `template-engine-platform`: sales, checkout, customer portal, licensing, releases and support.
+- `template-engine-platform`: sales, checkout orchestration, customer portal, licensing, releases and support operations.
 - `woo-app-theme`: private WordPress/WooCommerce product source and release packaging.
 
-The theme source and private ZIP archives must never be committed to this repository.
+Do not commit theme source, private ZIP archives, customer secrets, production credentials, database dumps or permanent object-storage URLs.
 
-## Documentation
-
-- [`AGENTS.md`](./AGENTS.md): permanent instructions for Codex and contributors.
-- [`docs/product-scope.md`](./docs/product-scope.md): product boundaries and V1 outcomes.
-- [`docs/architecture.md`](./docs/architecture.md): target technical architecture.
-- [`docs/database-model.md`](./docs/database-model.md): initial domain and data model.
-- [`docs/sprints/sprint-01-foundation.md`](./docs/sprints/sprint-01-foundation.md): first executable sprint.
-- [`docs/codex-execution-prompt.md`](./docs/codex-execution-prompt.md): ready-to-use Codex mission.
-
-## Planned development commands
-
-Sprint 01 must normalize and document the actual commands. The intended interface is:
+## Commands
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 pnpm dev
 pnpm lint
 pnpm typecheck
 pnpm test
 pnpm build
+pnpm db:generate
+pnpm db:migrate
+pnpm db:seed
 ```
 
-## Security
+## Documentation
 
-Never commit `.env`, provider secrets, database credentials, private release archives, license signing secrets or customer data. Use `.env.example` only for documented variable names and safe placeholders.
-=======
->>>>>>> 7a3cbb4 (docs: remove GETTING_STARTED.md and README.md)
+- [`AGENTS.md`](./AGENTS.md): permanent repository instructions.
+- [`docs/product-scope.md`](./docs/product-scope.md): product boundaries and V1 outcomes.
+- [`docs/architecture.md`](./docs/architecture.md): target technical architecture.
+- [`docs/database-model.md`](./docs/database-model.md): initial domain and data model.
+- [`docs/sprints/sprint-01-foundation.md`](./docs/sprints/sprint-01-foundation.md): active sprint.
+
+## Environment
+
+Copy `.env.example` to `.env` for local development and replace every development placeholder before any production deployment.
