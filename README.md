@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Template Engine Platform
 
 Official commercial platform for the Woo App Commercial Template Engine.
@@ -52,3 +53,5 @@ pnpm build
 ## Security
 
 Never commit `.env`, provider secrets, database credentials, private release archives, license signing secrets or customer data. Use `.env.example` only for documented variable names and safe placeholders.
+=======
+>>>>>>> 7a3cbb4 (docs: remove GETTING_STARTED.md and README.md)
