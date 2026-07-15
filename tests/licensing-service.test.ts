@@ -17,6 +17,9 @@ import {
   verifyLicenseKeyHash,
   verifyLicenseLease,
 } from "../modules/licensing"
+import { handleLicenseRoute } from "../modules/licensing/http/protocol"
+import { activateLicenseRequestSchema } from "../modules/licensing/schemas"
+import { LicensingError } from "../modules/licensing/errors"
 
 test("generates and canonicalizes protocol v1 license keys", () => {
   const key = generateLicenseKey(Buffer.alloc(20, 7))
@@ -147,4 +150,49 @@ test("memory rate limiter blocks repeated requests deterministically", async () 
 
   assert.equal((await limiter.consume(input)).allowed, true)
   assert.equal((await limiter.consume(input)).allowed, false)
+})
+
+test("license route protocol rejects missing protocol header", async () => {
+  const response = await handleLicenseRoute(
+    new Request("https://platform.test/api/licenses/activate", {
+      method: "POST",
+      body: "{}",
+    }),
+    activateLicenseRequestSchema,
+    async () => ({}),
+  )
+  const body = (await response.json()) as { ok: boolean; error: { code: string } }
+
+  assert.equal(response.status, 400)
+  assert.equal(response.headers.get("x-tep-protocol"), "1")
+  assert.equal(body.ok, false)
+  assert.equal(body.error.code, "BAD_REQUEST")
+})
+
+test("license route protocol maps invalid license errors generically", async () => {
+  const response = await handleLicenseRoute(
+    new Request("https://platform.test/api/licenses/activate", {
+      method: "POST",
+      headers: {
+        "x-tep-protocol": "1",
+      },
+      body: JSON.stringify({
+        licenseKey: generateLicenseKey(Buffer.alloc(20, 1)).displayKey,
+        installationId: "6df54c7c-e60a-4e31-8bdc-4ecf3b22bc4b",
+        siteUrl: "https://shop.example.com",
+        environment: "PRODUCTION",
+        productSlug: "woo-app-theme",
+        themeVersion: "1.0.0",
+      }),
+    }),
+    activateLicenseRequestSchema,
+    async () => {
+      throw new LicensingError("INVALID_LICENSE")
+    },
+  )
+  const body = (await response.json()) as { ok: boolean; error: { code: string; message: string } }
+
+  assert.equal(response.status, 401)
+  assert.equal(body.error.code, "INVALID_LICENSE")
+  assert.equal(body.error.message, "The license could not be validated.")
 })
