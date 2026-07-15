@@ -1,42 +1,53 @@
-# Project Structure — Full Application Blueprint
+# Project Structure — Template Engine Platform
 
 ## Purpose
 
-This document defines how the complete Template Engine Platform is generated as a coherent application before each interface is progressively customized and connected to real business services.
+Define the application structure used to generate the complete V1 product before progressively customizing and connecting each interface.
 
-The strategy is:
+The project is a modular monolith deployed as one Next.js application. The structure must support marketing, documentation, legal content, authentication, customer account, administration and machine interfaces without mixing business rules into pages.
 
-1. create the complete route, layout and navigation skeleton;
-2. render every required interface with meaningful fixture data and states;
-3. apply the approved design system consistently;
-4. customize one interface family at a time;
-5. replace fixtures with real domain services progressively;
-6. validate accessibility, security and business behavior before release.
-
-Generating the full skeleton does not mean pretending that every feature is operational. Every interface must expose an explicit maturity state.
-
-## Interface maturity states
-
-Use the following states in documentation and the internal interface registry:
-
-| State | Meaning |
-|---|---|
-| `SKELETON` | Route, shell, navigation and page structure exist. Content is structural and may use fixtures. |
-| `WIREFRAME` | Information hierarchy, sections, tables, forms and empty/error/loading states are represented. |
-| `BRANDED` | Approved tokens, typography, spacing, icons and visual components are applied. |
-| `CONNECTED` | The interface reads or writes through a real domain service or approved adapter. |
-| `VALIDATED` | Functional, responsive, accessibility and authorization tests pass. |
-| `RELEASED` | The interface is approved for the target production release. |
-
-A page may not be described as complete before reaching `VALIDATED`.
-
-## Repository shape
-
-Keep the current root-based Next.js structure unless a dedicated migration proves that `src/` provides a concrete benefit.
+## Top-level structure
 
 ```text
 app/
   [locale]/
+    (marketing)/
+    (docs)/
+    (auth)/
+    account/
+    admin/
+  api/
+components/
+config/
+content/
+  marketing/
+  docs/
+    fr/
+    en/
+  legal/
+    fr/
+    en/
+lib/
+modules/
+prisma/
+  schema.prisma
+  migrations/
+public/
+styles/
+tests/
+```
+
+Do not move the repository into `src/` only for preference. A structural migration requires a concrete benefit and must be isolated from business-feature work.
+
+## App Router structure
+
+```text
+app/
+  layout.tsx
+  globals.css
+  [locale]/
+    layout.tsx
+
     (marketing)/
       layout.tsx
       page.tsx
@@ -49,6 +60,35 @@ app/
       faq/
       contact/
       legal/
+        software-license/
+        commercial-terms/
+        support-policy/
+        refunds/
+        privacy/
+        trademark/
+
+    (docs)/
+      docs/
+        layout.tsx
+        page.tsx
+        getting-started/
+        requirements/
+        installation/
+        activation/
+        initial-setup/
+        shop-models/
+        niches/
+        localization/
+        products/
+        payments/
+        customization/
+        updates/
+        backup-rollback/
+        troubleshooting/
+        faq/
+        releases/
+          [version]/
+
     (auth)/
       layout.tsx
       login/
@@ -56,6 +96,7 @@ app/
       forgot-password/
       reset-password/
       verify-email/
+
     account/
       layout.tsx
       page.tsx
@@ -67,6 +108,7 @@ app/
       onboarding/
       support/
       settings/
+
     admin/
       layout.tsx
       page.tsx
@@ -77,10 +119,13 @@ app/
       entitlements/
       licenses/
       releases/
+      legal/
+      documentation/
       services/
       support/
       audit/
       settings/
+
   api/
     health/
     checkout/
@@ -88,40 +133,221 @@ app/
     licenses/
     downloads/
     releases/
+    docs/
+      search/
+```
 
+## Shells
+
+### Locale shell
+
+Responsibilities:
+
+- validate locale;
+- provide translation/content context;
+- set HTML language metadata;
+- expose locale-aware route helpers;
+- provide common error and not-found behavior.
+
+### Marketing shell
+
+Responsibilities:
+
+- public header and navigation;
+- footer and trust links;
+- locale switcher;
+- documentation entry point;
+- global conversion actions;
+- legal links.
+
+It must not contain account or admin business logic.
+
+### Documentation shell
+
+Responsibilities:
+
+- documentation sidebar;
+- mobile documentation navigation;
+- breadcrumbs;
+- previous/next article links;
+- version and locale indicators;
+- article metadata;
+- contextual support path;
+- accessible heading anchors.
+
+Documentation content belongs in `content/docs`, not in shell components.
+
+### Auth shell
+
+Responsibilities:
+
+- focused identity layout;
+- safe provider states;
+- links to privacy and applicable terms;
+- clear preview behavior before production auth is connected.
+
+### Account shell
+
+Responsibilities:
+
+- authenticated customer navigation;
+- entitlement-aware sections;
+- contextual documentation links;
+- role and session checks;
+- mobile account navigation.
+
+### Admin shell
+
+Responsibilities:
+
+- operator navigation;
+- role authorization;
+- high-risk action affordances;
+- operational status and audit links;
+- legal/documentation review navigation.
+
+## Components
+
+```text
 components/
   brand/
+    logo.tsx
+    wordmark.tsx
   design-system/
+    button.tsx
+    card.tsx
+    input.tsx
+    select.tsx
+    badge.tsx
+    alert.tsx
+    table.tsx
+    tabs.tsx
+    dialog.tsx
+    pagination.tsx
   layout/
+    container.tsx
+    page-header.tsx
+    section.tsx
+    stack.tsx
+    grid.tsx
   navigation/
+    marketing-nav.tsx
+    docs-nav.tsx
+    account-nav.tsx
+    admin-nav.tsx
+    locale-switcher.tsx
+  documentation/
+    docs-sidebar.tsx
+    docs-breadcrumbs.tsx
+    docs-toc.tsx
+    docs-version-badge.tsx
+    docs-review-status.tsx
+    docs-pagination.tsx
+  legal/
+    legal-review-banner.tsx
+    legal-version-meta.tsx
+    acceptance-summary.tsx
   marketing/
   auth/
   account/
   admin/
-  data-display/
-  feedback/
-  forms/
+  system/
+    empty-state.tsx
+    error-state.tsx
+    forbidden-state.tsx
+    loading-skeleton.tsx
+```
 
+Shared components must remain presentation-focused. Business decisions belong in modules and queries.
+
+## Configuration
+
+```text
 config/
-  app.ts
+  env.ts
   locales.ts
-  navigation.ts
   routes.ts
+  navigation.ts
   interface-registry.ts
+  offers.ts
+  documentation.ts
+  legal-documents.ts
+```
 
+### `routes.ts`
+
+Owns internal route generation and prevents scattered route strings.
+
+### `navigation.ts`
+
+Defines marketing, documentation, account and administration navigation from approved routes.
+
+### `interface-registry.ts`
+
+Tracks:
+
+- interface ID;
+- route;
+- area;
+- owner;
+- maturity;
+- data mode;
+- visibility;
+- known limitations.
+
+### `documentation.ts`
+
+Defines documentation sections, article order, version aliases and visibility rules.
+
+### `legal-documents.ts`
+
+Defines legal document types and allowed review/publication states. It must not contain invented binding legal text.
+
+## Content structure
+
+```text
 content/
-  fr/
-  en/
+  marketing/
+    fr/
+    en/
+  docs/
+    fr/
+      getting-started/
+      installation/
+      configuration/
+      operations/
+      troubleshooting/
+    en/
+      getting-started/
+      installation/
+      configuration/
+      operations/
+      troubleshooting/
+  legal/
+    fr/
+    en/
+```
 
-lib/
-  auth/
-  env/
-  errors/
-  formatting/
-  logging/
-  permissions/
-  validation/
+Content files should use typed metadata such as:
 
+```text
+id
+locale
+title
+summary
+status
+owner
+lastReviewedAt
+visibility
+productVersionRange
+legalVersion
+```
+
+Do not hard-code long-form documentation or legal text directly inside page components.
+
+## Domain modules
+
+```text
 modules/
   auth/
   catalog/
@@ -131,260 +357,209 @@ modules/
   releases/
   services/
   support/
+  documentation/
+  legal/
   audit/
-
-prisma/
-  schema.prisma
-  migrations/
-  seed.ts
-
-tests/
-  unit/
-  integration/
-  routes/
-  e2e/
 ```
-
-## Route groups and shells
-
-### Marketing shell
-
-Owns:
-
-- public header and mobile navigation;
-- locale switcher;
-- product navigation;
-- footer and legal navigation;
-- public SEO metadata defaults;
-- public announcements when approved.
-
-It must not include account or admin navigation logic.
-
-### Authentication shell
-
-Owns:
-
-- compact brand header;
-- authentication panel layout;
-- security and privacy context;
-- links back to public product pages.
-
-It must not simulate successful authentication when no provider is connected.
-
-### Customer account shell
-
-Owns:
-
-- account sidebar or responsive navigation;
-- customer identity summary;
-- entitlement-aware navigation;
-- global account alerts;
-- protected route boundary.
-
-A fixture session may be used only in development and test environments through an explicit adapter.
-
-### Administration shell
-
-Owns:
-
-- role-protected navigation;
-- operational search and filters;
-- environment indicator;
-- audit-aware action patterns;
-- high-risk action confirmations.
-
-Admin pages must never rely on hidden navigation as authorization. Authorization is enforced server-side.
-
-## Component boundaries
-
-### `components/design-system`
-
-Contains reusable visual primitives and composed components that are independent from a specific domain:
-
-- button;
-- link;
-- badge;
-- card;
-- input, textarea, select, checkbox and radio;
-- dialog and drawer;
-- table shell;
-- tabs;
-- alert;
-- skeleton loader;
-- pagination;
-- empty state;
-- status indicator.
-
-### `components/marketing`
-
-Contains reusable public-site sections:
-
-- hero;
-- proof or trust section using verified content only;
-- feature grid;
-- use-case cards;
-- offer comparison;
-- FAQ list;
-- calls to action;
-- product demonstration frames.
-
-### `components/account` and `components/admin`
-
-Contain interface composition components, not business rules. Examples:
-
-- account summary cards;
-- order timeline;
-- entitlement summary;
-- license activation table;
-- release list;
-- onboarding progress;
-- admin resource tables;
-- audit event viewer.
-
-## Page contract
-
-Every `page.tsx` should primarily:
-
-1. resolve locale and route parameters;
-2. enforce the required access boundary;
-3. call one application service or page-query function;
-4. map the result to view data;
-5. compose page sections;
-6. provide loading, empty, error and unauthorized states where relevant.
-
-Pages and route handlers must not contain pricing rules, entitlement rules, activation-limit logic or payment-event processing.
-
-## Module contract
-
-Each business module should expose a small public surface and keep implementation details private.
 
 Recommended module shape:
 
 ```text
-modules/catalog/
+modules/{domain}/
   index.ts
   types.ts
   schemas.ts
-  services/
   repositories/
-  adapters/
+  services/
   queries/
   fixtures/
   tests/
 ```
 
-Rules:
+### Auth
 
-- `index.ts` exports only the supported public API;
-- schemas validate external and persistence-bound input;
-- services implement business use cases;
-- repositories abstract persistence;
-- adapters translate external providers;
-- queries prepare read models for interfaces;
-- fixtures are development/test-only;
-- tests stay close to business behavior or in the central test folders according to scope.
+Identity, roles, sessions and authorization policies.
 
-## Fixture and real-data strategy
+### Catalog
 
-The complete application skeleton may use fixtures, but fixture usage must be isolated behind the same interfaces later used by real services.
+Products, offers, prices, demonstrations and use-case data.
 
-Correct flow:
+### Commerce
 
-```text
-Page -> page query -> repository interface -> fixture repository or Prisma repository
+Checkout, orders, payments, refunds and provider events.
+
+### Entitlements
+
+Commercial access created from order items or approved grants.
+
+### Licensing
+
+Official-service key issuance, activation, validation, suspension and revocation rules.
+
+### Releases
+
+Version metadata, checksums, files and download grants.
+
+### Services
+
+Pro/Managed onboarding, milestones and approvals.
+
+### Support
+
+Support requests, messages, assignment and state.
+
+### Documentation
+
+Typed document loading, locale/version resolution, navigation and search contracts.
+
+### Legal
+
+Legal document versions, publication states, offer-term references and customer acceptance records.
+
+### Audit
+
+Privileged and commercial event records.
+
+## Repository and fixture strategy
+
+Every data-driven interface uses a repository or query boundary.
+
+```ts
+export interface OrderRepository {
+  findForCustomer(customerId: string): Promise<OrderSummary[]>;
+  findByIdForCustomer(orderId: string, customerId: string): Promise<OrderDetail | null>;
+}
 ```
 
-Incorrect flow:
+A fixture repository may satisfy the interface during skeleton development. Pages must not import mock JSON directly.
+
+Recommended provider selection:
 
 ```text
-Page -> import mock JSON directly
+APP_DATA_MODE=fixture | database
 ```
 
-Requirements:
+Provider selection occurs in a server-only composition root, not inside page components.
 
-- fixture records use clearly fictional names and domains;
-- no fake testimonials, fake logos or fabricated sales metrics;
-- fixtures never run in production unless explicitly required for a demo environment;
-- production configuration must fail safely if a required real adapter is missing;
-- forms that are not connected must use a disabled or clearly marked preview mode rather than pretending to save data.
+## Documentation content contract
 
-## Central configuration
+Documentation loaders must validate:
 
-### `config/routes.ts`
+- stable document ID;
+- locale;
+- navigation section;
+- review state;
+- visibility;
+- product compatibility range;
+- duplicate IDs;
+- broken internal links;
+- archived/current version behavior.
 
-Defines canonical route builders. Avoid scattering string URLs throughout components.
+Documentation search remains behind an adapter so a local index can later be replaced.
 
-### `config/navigation.ts`
+## Legal content contract
 
-Defines public, account and admin navigation using route builders and permission metadata.
+Legal content requires:
 
-### `config/interface-registry.ts`
+- document type;
+- locale;
+- immutable version;
+- review/publication state;
+- effective date when approved;
+- content checksum;
+- owner;
+- links to superseded versions.
 
-Tracks each interface with:
+Unapproved content must display a review banner and must not be recorded as customer-accepted production terms.
 
-- stable identifier;
-- route pattern;
-- audience;
-- maturity state;
-- owning module;
-- data mode (`fixture`, `database`, `provider`);
-- implementation notes.
+## Server actions and route handlers
 
-The registry supports an internal interface map in development and keeps the progressive customization plan visible.
+Page-level server actions and route handlers must:
 
-## Content architecture
+1. validate input;
+2. authorize the actor;
+3. call a module service;
+4. serialize a safe result;
+5. audit privileged changes when applicable.
 
-Keep editorial content separate from page layout when practical.
+Do not place transaction orchestration or provider-specific logic in React components.
+
+## Data model and Prisma
+
+Prisma owns persisted commercial state. Schema changes must use migrations.
+
+Planned entities include:
+
+- users and roles;
+- products, offers and prices;
+- orders, payments and provider events;
+- entitlements;
+- licenses and activations;
+- releases, files and download grants;
+- service requests;
+- support tickets and messages;
+- legal documents, versions and acceptances;
+- documentation metadata when persistence is required;
+- audit events.
+
+Content files may remain file-backed while publication and acceptance metadata uses PostgreSQL.
+
+## API boundaries
+
+Machine routes must return explicit configuration states before real providers exist. They must not simulate successful payment, persistent activation or protected download behavior.
+
+Licensing endpoints control official platform services. Their wording and behavior must not claim to revoke software copyright rights already granted with distributed GPL-covered code.
+
+## Tests
 
 ```text
-content/fr/marketing.ts
-content/fr/offers.ts
-content/fr/legal.ts
-content/en/marketing.ts
-content/en/offers.ts
-content/en/legal.ts
+tests/
+  unit/
+  integration/
+  routes/
+  e2e/
+  documentation/
+  legal/
 ```
 
-French remains the initial editorial source. English files may contain reviewed translations or explicit translation placeholders, but routes must exist from the skeleton stage.
+Required coverage includes:
 
-## Loading, empty, error and permission states
+- route and interface registry uniqueness;
+- locale resolution;
+- role boundaries;
+- repository contracts;
+- pricing and entitlement rules;
+- licensing rules;
+- documentation metadata and broken links;
+- legal publication-state safeguards;
+- navigation smoke tests;
+- build validation.
 
-Every data-driven interface must define:
+## Environment boundaries
 
-- loading state;
-- empty state;
-- recoverable error state;
-- unauthorized or forbidden state when applicable;
-- destructive-action confirmation when applicable.
+Use separate development, preview and production configuration.
 
-Do not use one generic spinner or one generic error page for all business contexts.
+- never commit `.env`;
+- validate environment variables on the server;
+- keep fixture mode explicit;
+- keep legal draft mode explicit;
+- keep private release files outside Git;
+- keep internal runbooks outside public content loaders.
 
-## Progressive customization waves
+## Progressive customization rule
 
-After the complete skeleton exists, customize in this order:
+Creating the full route skeleton does not mean every interface is complete.
 
-1. global brand, navigation and layout shells;
-2. home, product, use cases and pricing;
-3. offer detail and conversion pages;
-4. authentication interfaces;
-5. customer account dashboard and core resources;
-6. Pro/Managed onboarding and support;
-7. administration dashboards and resource management;
-8. commerce, entitlement, licensing and release integrations;
-9. legal, accessibility, performance and launch polish.
+Each interface moves through:
 
-Each wave updates `docs/interface-inventory.md` and the runtime interface registry.
+```text
+SKELETON -> WIREFRAME -> BRANDED -> CONNECTED -> VALIDATED -> RELEASED
+```
 
-## Definition of structural completion
+Documentation also tracks editorial state:
 
-The project skeleton is structurally complete when:
+```text
+DRAFT -> TECH_REVIEW -> PRODUCT_REVIEW -> LEGAL_REVIEW -> APPROVED -> PUBLISHED -> ARCHIVED
+```
 
-- every V1 interface has a route or is explicitly marked deferred;
-- every route belongs to the correct shell;
-- navigation is generated from central configuration;
-- French and English routes resolve;
-- data-driven pages render representative loading, empty, success and error states;
-- fixtures are isolated behind repository/query interfaces;
-- protected pages enforce server-side boundaries;
-- the project passes lint, typecheck, tests and production build;
-- no page claims operational functionality that has not been connected and validated.
+The interface registry and documentation/legal metadata must show the real state.
