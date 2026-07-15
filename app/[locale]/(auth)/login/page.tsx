@@ -1,12 +1,14 @@
-export default function LoginPage() {
-  return (
-    <main className="min-h-screen bg-white px-5 py-12 text-slate-950">
-      <section className="mx-auto max-w-md rounded-lg border border-slate-200 p-6">
-        <h1 className="text-2xl font-bold">Connexion</h1>
-        <p className="mt-3 text-sm leading-6 text-slate-700">
-          L&apos;authentification de production sera connectee apres la decision technique dediee.
-        </p>
-      </section>
-    </main>
-  );
+import { InterfacePage } from "@/components/layout/interface-page"
+import { getInterfacePreviewById } from "@/modules/platform/interface-query"
+import type { Locale } from "@/src/i18n/locales"
+
+export default async function LoginPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale: rawLocale } = await params
+  const locale = rawLocale as Locale
+
+  return <InterfacePage preview={getInterfacePreviewById(locale, "auth.login")} />
 }

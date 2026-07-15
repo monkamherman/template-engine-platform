@@ -6,6 +6,16 @@ This inventory is the source of truth for the interfaces that must exist in the 
 
 Initial status for all non-deferred interfaces is `SKELETON` until implementation proves a higher maturity level.
 
+## Sprint 03 implementation status
+
+Runtime source: `config/interface-registry.ts`.
+
+Sprint 03 has introduced the central route builders, navigation lists, interface registry and generated preview renderer for the V1 skeleton. Public home/product/pricing pages remain branded Sprint 02/early Sprint 03 surfaces. The generated marketing, auth, customer account and admin routes are currently `WIREFRAME` unless their runtime registry entry marks a more specific maturity.
+
+All generated preview pages use representative fixture data through `modules/platform/interface-query.ts`; they do not simulate successful checkout, authentication, license activation, download signing or administrative writes. Protected customer and admin areas use an explicit development fixture session only outside production until a real auth provider is approved.
+
+The development interface map lives at `/{locale}/dev/interfaces` and is hidden through `notFound()` in production.
+
 ## Status vocabulary
 
 - `SKELETON`: route and shell exist;

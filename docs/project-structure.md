@@ -34,6 +34,8 @@ A page may not be described as complete before reaching `VALIDATED`.
 
 Keep the current root-based Next.js structure unless a dedicated migration proves that `src/` provides a concrete benefit.
 
+Sprint 03 implementation note: the current application keeps Sprint 01/02 domain-rule helpers under `src/modules/*` while the new skeleton registry and page-query layer live in root `config/*` and `modules/platform/*`. Do not migrate working files only for cosmetic alignment; move code when an implementation sprint needs a real ownership boundary.
+
 ```text
 app/
   [locale]/
