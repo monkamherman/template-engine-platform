@@ -47,7 +47,7 @@ Prefer a single deployable application with clear domain modules. Do not introdu
 
 ## Repository conventions
 
-Expected structure after Sprint 01:
+Expected structure after the foundation and application-skeleton sprints:
 
 ```text
 app/
@@ -57,22 +57,11 @@ app/
     account/
     admin/
   api/
-    checkout/
-    webhooks/
-    licenses/
-    downloads/
-    releases/
 components/
 config/
+content/
 lib/
 modules/
-  auth/
-  catalog/
-  commerce/
-  entitlements/
-  licensing/
-  releases/
-  support/
 prisma/
   schema.prisma
   migrations/
@@ -83,6 +72,31 @@ tests/
 Do not move the repository into `src/` only for preference. A structural migration requires a concrete benefit and must be isolated from business-feature work.
 
 Keep business rules inside `modules`, not inside page components or route handlers. Route handlers validate input, call a domain service and serialize a response.
+
+Use central route, navigation and interface-registry configuration. Do not scatter internal route strings across page components.
+
+## Interface generation workflow
+
+The platform is generated horizontally before interfaces are completed vertically.
+
+Use these maturity states:
+
+- `SKELETON`: route, shell and structure exist;
+- `WIREFRAME`: hierarchy and relevant interface states exist;
+- `BRANDED`: approved design system is applied;
+- `CONNECTED`: real approved service or adapter is connected;
+- `VALIDATED`: functional, responsive, accessibility and authorization checks pass;
+- `RELEASED`: approved for the target production release.
+
+Rules:
+
+- never describe a skeleton or fixture-backed interface as complete;
+- update `docs/interface-inventory.md` and the runtime interface registry when maturity changes;
+- fixture data must remain behind repository/query interfaces;
+- pages must not import mock JSON directly;
+- forms that are not connected must use preview or disabled behavior and must not simulate persistence;
+- every data-driven interface must consider loading, empty, error and forbidden states where relevant;
+- generated pages containing only a title or generic “coming soon” message are not acceptable.
 
 ## Coding rules
 
@@ -116,7 +130,9 @@ Every implemented domain must include appropriate tests. At minimum:
 - unit tests for pricing, entitlement and license rules;
 - integration tests for database-backed services;
 - route tests for webhook signature rejection and idempotency;
-- end-to-end smoke tests for public navigation and authentication boundaries.
+- end-to-end smoke tests for public navigation and authentication boundaries;
+- route-registry and interface-registry uniqueness tests;
+- protected account and admin boundary tests.
 
 Before completing a task, run the repository-defined lint, typecheck, test and build commands. Report commands that could not run and why.
 
@@ -125,7 +141,7 @@ Before completing a task, run the repository-defined lint, typecheck, test and b
 - Work on a dedicated branch.
 - Make small, intentional commits using Conventional Commit style.
 - Do not commit generated secrets, `.env`, database dumps or release ZIP files.
-- Update documentation when an architectural decision or environment variable changes.
+- Update documentation when an architectural decision, route, maturity state or environment variable changes.
 - Open a draft pull request with a summary, test evidence, risks and remaining work.
 
 ## Source of truth
@@ -135,6 +151,9 @@ Read these files before implementation:
 1. `docs/product-scope.md`
 2. `docs/architecture.md`
 3. `docs/database-model.md`
-4. the active file under `docs/sprints/`
+4. `docs/project-structure.md`
+5. `docs/interface-inventory.md`
+6. `docs/implementation-roadmap.md`
+7. the active file under `docs/sprints/`
 
-When documents conflict, the active sprint defines execution scope, while `docs/product-scope.md` defines product boundaries. Stop and document a decision when a requested change would violate those boundaries.
+When documents conflict, the active sprint defines execution scope, `docs/product-scope.md` defines product boundaries, and `docs/interface-inventory.md` defines the approved V1 interface map. Stop and document a decision when a requested change would violate those boundaries.
