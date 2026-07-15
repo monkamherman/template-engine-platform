@@ -41,12 +41,38 @@ Initial status for all non-deferred interfaces is `SKELETON` until implementatio
 
 | ID | Route | Interface | Main purpose | Initial data mode | Owner |
 |---|---|---|---|---|---|
-| `legal.license` | `/{locale}/legal/license` | Commercial license placeholder | Present approved licensing terms when available | content | legal/catalog |
-| `legal.terms` | `/{locale}/legal/terms` | Terms | Present commercial terms | content | legal/commerce |
-| `legal.privacy` | `/{locale}/legal/privacy` | Privacy | Present privacy information | content | legal/auth |
-| `legal.refunds` | `/{locale}/legal/refunds` | Refund policy | Present refund boundaries | content | legal/commerce |
+| `legal.software-license` | `/{locale}/legal/software-license` | Software license | Explain the software copyright license and GPL relationship | content | legal/catalog |
+| `legal.commercial-terms` | `/{locale}/legal/commercial-terms` | Commercial terms | Define official access, updates, payment and account terms after approval | content | legal/commerce |
+| `legal.support-policy` | `/{locale}/legal/support-policy` | Support policy | Define Starter, Pro and Managed support boundaries after approval | content | legal/support |
+| `legal.refunds` | `/{locale}/legal/refunds` | Refund policy | Present approved refund boundaries | content | legal/commerce |
+| `legal.privacy` | `/{locale}/legal/privacy` | Privacy | Present approved privacy information | content | legal/auth |
+| `legal.trademark` | `/{locale}/legal/trademark` | Trademark notice | Explain permitted use of the Template Engine identity | content | legal/brand |
 
-Legal pages may begin with explicit review placeholders. They must never invent binding terms.
+Legal pages may begin with explicit review placeholders. They must never invent binding terms or appear approved before legal review.
+
+## Product documentation interfaces
+
+| ID | Route | Interface | Main purpose | Initial data mode | Owner |
+|---|---|---|---|---|---|
+| `docs.home` | `/{locale}/docs` | Documentation home | Guide users to the correct setup and support path | content | documentation/support |
+| `docs.getting-started` | `/{locale}/docs/getting-started` | Getting started | Explain the end-to-end customer journey | content | documentation/product |
+| `docs.requirements` | `/{locale}/docs/requirements` | Requirements | Explain tested hosting, WordPress and WooCommerce prerequisites | content | documentation/engineering |
+| `docs.installation` | `/{locale}/docs/installation` | Installation | Guide theme installation from a clean environment | content | documentation/engineering |
+| `docs.activation` | `/{locale}/docs/activation` | Official-access activation | Explain keys, production/staging activations and limits | content/fixture | documentation/licensing |
+| `docs.initial-setup` | `/{locale}/docs/initial-setup` | Initial setup | Configure locale, currency, WooCommerce pages and core identity | content | documentation/product |
+| `docs.shop-models` | `/{locale}/docs/shop-models` | Shop models | Configure dropshipping, stock, hybrid or digital operation | content | documentation/catalog |
+| `docs.niches` | `/{locale}/docs/niches` | Niches | Explain niche starter configuration and safe switching boundaries | content | documentation/catalog |
+| `docs.localization` | `/{locale}/docs/localization` | Localization | Configure language, market and currency | content | documentation/platform |
+| `docs.products` | `/{locale}/docs/products` | Products | Add products, variations, stock and digital items | content | documentation/catalog |
+| `docs.payments` | `/{locale}/docs/payments` | Store payments | Configure customer-store payment methods without exposing platform secrets | content | documentation/commerce |
+| `docs.customization` | `/{locale}/docs/customization` | Customization | Configure branding and visual sections safely | content | documentation/design |
+| `docs.updates` | `/{locale}/docs/updates` | Updates | Explain backup, staging validation and update workflow | content | documentation/releases |
+| `docs.backup-rollback` | `/{locale}/docs/backup-rollback` | Backup and rollback | Explain operational recovery principles | content | documentation/operations |
+| `docs.troubleshooting` | `/{locale}/docs/troubleshooting` | Troubleshooting | Resolve known installation, checkout, cache and activation issues | content | documentation/support |
+| `docs.faq` | `/{locale}/docs/faq` | Documentation FAQ | Answer procedural customer questions | content | documentation/support |
+| `docs.release` | `/{locale}/docs/releases/{version}` | Version documentation | Show version-specific changelog, compatibility and upgrade notes | content/query | documentation/releases |
+
+Documentation routes require stable IDs, locale metadata, version compatibility and review states. Unverified compatibility statements must not be published as facts.
 
 ## Authentication interfaces
 
@@ -66,17 +92,17 @@ Until a production authentication provider is connected, forms must clearly use 
 |---|---|---|---|---|---|
 | `account.dashboard` | `/{locale}/account` | Account dashboard | Summarize orders, access, licenses, downloads and onboarding | fixture/query | account/entitlements |
 | `account.orders` | `/{locale}/account/orders` | Order history | List customer orders | fixture/query | commerce |
-| `account.order-detail` | `/{locale}/account/orders/{orderId}` | Order detail | Show items, totals, payment state and history | fixture/query | commerce |
+| `account.order-detail` | `/{locale}/account/orders/{orderId}` | Order detail | Show items, totals, payment state, accepted terms and history | fixture/query | commerce/legal |
 | `account.entitlements` | `/{locale}/account/entitlements` | Entitlements | List commercial access rights | fixture/query | entitlements |
 | `account.entitlement-detail` | `/{locale}/account/entitlements/{entitlementId}` | Entitlement detail | Explain rights, source order and access state | fixture/query | entitlements |
-| `account.licenses` | `/{locale}/account/licenses` | Licenses | List issued licenses and activation limits | fixture/query | licensing |
-| `account.license-detail` | `/{locale}/account/licenses/{licenseId}` | License detail | Show status, activations and allowed actions | fixture/query | licensing |
+| `account.licenses` | `/{locale}/account/licenses` | Licenses | List issued official-service keys and activation limits | fixture/query | licensing |
+| `account.license-detail` | `/{locale}/account/licenses/{licenseId}` | License detail | Show status, activations, allowed actions and documentation links | fixture/query | licensing/documentation |
 | `account.downloads` | `/{locale}/account/downloads` | Protected downloads | List downloadable releases available through entitlements | fixture/query | releases/entitlements |
-| `account.releases` | `/{locale}/account/releases` | Release history | Show versions and customer-visible changelog | fixture/query | releases |
+| `account.releases` | `/{locale}/account/releases` | Release history | Show versions, changelog and matching documentation | fixture/query | releases/documentation |
 | `account.onboarding` | `/{locale}/account/onboarding` | Onboarding requests | List Pro/Managed service requests | fixture/query | services |
 | `account.onboarding-detail` | `/{locale}/account/onboarding/{requestId}` | Onboarding detail | Show questionnaire, milestones, approvals and status | fixture/query | services |
 | `account.support` | `/{locale}/account/support` | Support requests | List customer support tickets | fixture/query | support |
-| `account.support-new` | `/{locale}/account/support/new` | New support request | Prepare a support request | preview/fixture | support |
+| `account.support-new` | `/{locale}/account/support/new` | New support request | Prepare a support request and recommend relevant documentation | preview/fixture | support/documentation |
 | `account.support-detail` | `/{locale}/account/support/{ticketId}` | Support request detail | Show messages, state and allowed responses | fixture/query | support |
 | `account.settings-profile` | `/{locale}/account/settings/profile` | Profile settings | Edit identity and locale fields when connected | preview/query | auth |
 | `account.settings-security` | `/{locale}/account/settings/security` | Security settings | Manage password/session/security controls when connected | preview/adapter | auth |
@@ -87,24 +113,28 @@ Until a production authentication provider is connected, forms must clearly use 
 |---|---|---|---|---|---|
 | `admin.dashboard` | `/{locale}/admin` | Operations dashboard | Summarize commercial and operational attention items | fixture/query | audit/commerce |
 | `admin.customers` | `/{locale}/admin/customers` | Customer list | Search customers and inspect account state | fixture/query | auth/commerce |
-| `admin.customer-detail` | `/{locale}/admin/customers/{customerId}` | Customer detail | Inspect orders, entitlements, licenses and service history | fixture/query | auth/commerce |
+| `admin.customer-detail` | `/{locale}/admin/customers/{customerId}` | Customer detail | Inspect orders, entitlements, licenses, acceptances and service history | fixture/query | auth/commerce/legal |
 | `admin.products` | `/{locale}/admin/catalog/products` | Product list | Manage commercial products | fixture/query | catalog |
 | `admin.product-new` | `/{locale}/admin/catalog/products/new` | New product | Prepare product creation | preview/fixture | catalog |
 | `admin.product-detail` | `/{locale}/admin/catalog/products/{productId}` | Product detail | Manage product metadata and availability | fixture/query | catalog |
 | `admin.offers` | `/{locale}/admin/catalog/offers` | Offer list | Manage Starter, Pro and Managed offers | fixture/query | catalog |
-| `admin.offer-detail` | `/{locale}/admin/catalog/offers/{offerId}` | Offer detail | Manage included rights and service behavior | fixture/query | catalog/services |
+| `admin.offer-detail` | `/{locale}/admin/catalog/offers/{offerId}` | Offer detail | Manage included rights, terms version and service behavior | fixture/query | catalog/services/legal |
 | `admin.prices` | `/{locale}/admin/catalog/prices` | Price list | Manage currencies, amounts and publication state | fixture/query | catalog |
 | `admin.orders` | `/{locale}/admin/orders` | Order list | Search and filter orders | fixture/query | commerce |
-| `admin.order-detail` | `/{locale}/admin/orders/{orderId}` | Order detail | Inspect payment, items, entitlements and audit history | fixture/query | commerce/audit |
+| `admin.order-detail` | `/{locale}/admin/orders/{orderId}` | Order detail | Inspect payment, items, entitlements, accepted terms and audit history | fixture/query | commerce/audit/legal |
 | `admin.payments` | `/{locale}/admin/payments` | Payment list | Inspect normalized payment records and failures | fixture/query | commerce |
 | `admin.payment-detail` | `/{locale}/admin/payments/{paymentId}` | Payment detail | Inspect provider references and safe operational state | fixture/query | commerce |
 | `admin.entitlements` | `/{locale}/admin/entitlements` | Entitlement list | Review and manage customer access rights | fixture/query | entitlements |
 | `admin.entitlement-detail` | `/{locale}/admin/entitlements/{entitlementId}` | Entitlement detail | Inspect origin, state and audit-sensitive actions | fixture/query | entitlements/audit |
-| `admin.licenses` | `/{locale}/admin/licenses` | License list | Search issued licenses | fixture/query | licensing |
+| `admin.licenses` | `/{locale}/admin/licenses` | License list | Search issued official-service keys | fixture/query | licensing |
 | `admin.license-detail` | `/{locale}/admin/licenses/{licenseId}` | License detail | Inspect status, activations, limits and revocation actions | fixture/query | licensing/audit |
 | `admin.releases` | `/{locale}/admin/releases` | Release list | Manage release metadata and publication state | fixture/query | releases |
-| `admin.release-new` | `/{locale}/admin/releases/new` | New release | Prepare release metadata creation | preview/fixture | releases |
-| `admin.release-detail` | `/{locale}/admin/releases/{releaseId}` | Release detail | Manage files, checksum, changelog and availability | fixture/query | releases/audit |
+| `admin.release-new` | `/{locale}/admin/releases/new` | New release | Prepare release metadata and documentation requirements | preview/fixture | releases/documentation |
+| `admin.release-detail` | `/{locale}/admin/releases/{releaseId}` | Release detail | Manage files, checksum, changelog, docs and availability | fixture/query | releases/audit/documentation |
+| `admin.legal-documents` | `/{locale}/admin/legal` | Legal documents | Manage review and publication state of versioned legal content | fixture/query | legal/audit |
+| `admin.legal-document-detail` | `/{locale}/admin/legal/{documentId}` | Legal document detail | Review versions, effective dates and publication state | fixture/query | legal/audit |
+| `admin.documentation` | `/{locale}/admin/documentation` | Documentation overview | Track document versions, locale freshness and review state | fixture/query | documentation |
+| `admin.documentation-detail` | `/{locale}/admin/documentation/{documentId}` | Documentation detail | Review metadata, compatibility and publishing status | fixture/query | documentation/audit |
 | `admin.services` | `/{locale}/admin/services` | Service request list | Track Pro/Managed onboarding work | fixture/query | services |
 | `admin.service-detail` | `/{locale}/admin/services/{requestId}` | Service request detail | Track questionnaire, milestones and approvals | fixture/query | services/audit |
 | `admin.support` | `/{locale}/admin/support` | Support queue | Triage and assign support requests | fixture/query | support |
@@ -121,11 +151,12 @@ These endpoints belong to the architecture, but Sprint 03 may create only safe r
 | `api.health` | `/api/health` | Health and version information safe for exposure | local | platform |
 | `api.checkout` | `/api/checkout` | Create checkout through the configured payment provider | mock/adapter | commerce |
 | `api.webhook-provider` | `/api/webhooks/{provider}` | Verify and normalize provider events | mock/adapter | commerce |
-| `api.license-activate` | `/api/licenses/activate` | Activate a license for an installation | contract/fixture | licensing |
-| `api.license-validate` | `/api/licenses/validate` | Validate license and activation state | contract/fixture | licensing |
+| `api.license-activate` | `/api/licenses/activate` | Activate official-service access for an installation | contract/fixture | licensing |
+| `api.license-validate` | `/api/licenses/validate` | Validate official-service access and activation state | contract/fixture | licensing |
 | `api.license-deactivate` | `/api/licenses/deactivate` | Deactivate an installation | contract/fixture | licensing |
 | `api.download` | `/api/downloads/{grantId}` | Exchange an authorized grant for a short-lived download | contract/fixture | releases/entitlements |
 | `api.release-latest` | `/api/releases/latest` | Return the latest entitled release metadata | contract/fixture | releases/licensing |
+| `api.docs-search` | `/api/docs/search` | Search approved documentation when a search adapter is configured | contract/local | documentation |
 
 ## Shared system interfaces
 
@@ -151,7 +182,7 @@ The following are intentionally excluded from the V1 skeleton unless a later app
 - AI shop generator;
 - public third-party API portal;
 - complete CRM;
-- automated WordPress updater before licensing and release flows are validated.
+- automatic WordPress updater before licensing and release flows are validated.
 
 ## Inventory update rule
 
