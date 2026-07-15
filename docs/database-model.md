@@ -70,11 +70,11 @@ User, optional source order item, offer, status (`ACTIVE`, `SUSPENDED`, `EXPIRED
 
 ### License
 
-Entitlement, indexed key prefix, secret hash, status, activation limit, issue/expiry/last-validation timestamps. Do not persist the full license key in plaintext.
+One current V1 license per entitlement. Store indexed key prefix, key last-four, versioned HMAC hash, authenticated ciphertext for privileged redisplay, encryption/hash/key versions, status, production and staging activation limits, issue/expiry/last-validation timestamps. Do not persist the full license key in plaintext.
 
 ### LicenseActivation
 
-License, installation ID, normalized domain, optional site URL, status (`ACTIVE`, `DEACTIVATED`, `BLOCKED`), activation/last-seen/deactivation timestamps and privacy-limited environment metadata. Enforce activation limits transactionally.
+License, installation ID, environment (`PRODUCTION`, `STAGING`), normalized domain, optional site URL, status (`ACTIVE`, `DEACTIVATED`, `BLOCKED`), activation/last-seen/deactivation timestamps and privacy-limited environment metadata. Enforce production and staging limits independently and transactionally.
 
 ## Releases and downloads
 

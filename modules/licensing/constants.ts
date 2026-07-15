@@ -1,0 +1,9 @@
+export const LICENSE_PROTOCOL_VERSION = 1
+export const LICENSE_KEY_GROUPS = 8
+export const LICENSE_KEY_GROUP_SIZE = 4
+export const LICENSE_KEY_PREFIX_MARKER = "TEP1"
+export const LICENSE_KEY_RANDOM_BYTES = 20
+export const LICENSE_HASH_VERSION = "v1"
+export const LICENSE_ENCRYPTION_KEY_VERSION = "v1"
+export const LICENSE_LEASE_ISSUER = "template-engine-platform"
+export const LICENSE_LEASE_AUDIENCE = "woo-app-theme"

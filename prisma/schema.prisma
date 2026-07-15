@@ -87,6 +87,11 @@ enum LicenseActivationStatus {
   BLOCKED
 }
 
+enum LicenseActivationEnvironment {
+  PRODUCTION
+  STAGING
+}
+
 enum ReleaseChannel {
   STABLE
   EARLY_ACCESS
@@ -296,45 +301,56 @@ model Entitlement {
   user              User              @relation(fields: [userId], references: [id], onDelete: Restrict)
   sourceOrderItem   OrderItem?        @relation(fields: [sourceOrderItemId], references: [id], onDelete: SetNull)
   offer             Offer             @relation(fields: [offerId], references: [id], onDelete: Restrict)
-  licenses          License[]
+  license           License?
 
   @@map("entitlements")
 }
 
 model License {
-  id              String              @id @default(cuid())
-  entitlementId   String
-  keyPrefix       String
-  secretHash      String
-  status          LicenseStatus       @default(ACTIVE)
-  activationLimit Int
-  issuedAt        DateTime            @default(now())
-  expiresAt       DateTime?
-  lastValidatedAt DateTime?
-  revokedAt       DateTime?
-  entitlement     Entitlement         @relation(fields: [entitlementId], references: [id], onDelete: Restrict)
-  activations     LicenseActivation[]
+  id                   String              @id @default(cuid())
+  entitlementId        String              @unique
+  keyPrefix            String
+  keyLast4             String
+  secretHash           String
+  secretCiphertext     String
+  secretNonce          String
+  secretAuthTag        String
+  encryptionKeyVersion String
+  hashVersion          String
+  keyVersion           Int                 @default(1)
+  status               LicenseStatus       @default(ACTIVE)
+  productionLimit      Int                 @default(1)
+  stagingLimit         Int                 @default(1)
+  issuedAt             DateTime            @default(now())
+  expiresAt            DateTime?
+  lastValidatedAt      DateTime?
+  revokedAt            DateTime?
+  entitlement          Entitlement         @relation(fields: [entitlementId], references: [id], onDelete: Restrict)
+  activations          LicenseActivation[]
 
   @@unique([keyPrefix, secretHash])
   @@index([keyPrefix])
+  @@index([status])
   @@map("licenses")
 }
 
 model LicenseActivation {
-  id                  String                  @id @default(cuid())
+  id                  String                       @id @default(cuid())
   licenseId           String
   installationId      String
+  environment         LicenseActivationEnvironment
   normalizedDomain    String
   siteUrl             String?
-  status              LicenseActivationStatus @default(ACTIVE)
+  status              LicenseActivationStatus      @default(ACTIVE)
   environmentMetadata Json?
-  activatedAt         DateTime                @default(now())
+  activatedAt         DateTime                     @default(now())
   lastSeenAt          DateTime?
   deactivatedAt       DateTime?
-  license             License                 @relation(fields: [licenseId], references: [id], onDelete: Cascade)
+  license             License                      @relation(fields: [licenseId], references: [id], onDelete: Cascade)
 
   @@unique([licenseId, installationId])
   @@index([licenseId, status])
+  @@index([licenseId, environment, status])
   @@map("license_activations")
 }
 
