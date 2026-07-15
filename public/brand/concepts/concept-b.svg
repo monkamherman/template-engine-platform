@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Concept B - Modules emboites</title>
+  <desc id="desc">Monogramme TE modulaire avec T structurel et niveaux E emboites.</desc>
+  <g fill="none" stroke="#0B0B0C" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 22H78" />
+    <path d="M47 22V76" />
+    <path d="M47 34H74" />
+    <path d="M47 49H68" />
+    <path d="M47 64H74" />
+  </g>
+  <path d="M20 72H33V59" fill="none" stroke="#FF6B00" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

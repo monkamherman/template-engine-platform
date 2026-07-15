@@ -1,44 +1,84 @@
 import type { Metadata } from "next";
-import "../styles/globals.css";
+import localFont from "next/font/local";
+import "../src/styles/globals.css";
+
+const inter = localFont({
+  src: [
+    {
+      path: "../node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/inter/files/inter-latin-700-normal.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const manrope = localFont({
+  src: [
+    {
+      path: "../node_modules/@fontsource/manrope/files/manrope-latin-600-normal.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/manrope/files/manrope-latin-700-normal.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/manrope/files/manrope-latin-800-normal.woff2",
+      weight: "800",
+      style: "normal",
+    },
+  ],
+  variable: "--font-manrope",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
-    default: "Snowdev NextJs Template",
-    template: "%s | Snowdev NextJs Template",
+    default: "Woo App Template Engine",
+    template: "%s | Woo App Template Engine",
   },
   description:
-    "",
+    "Commercial platform for WooCommerce template licensing, releases and services.",
   keywords: [
-    "snowdev",
-    "template"
+    "woocommerce",
+    "template engine",
+    "licensing",
+    "commerce"
   ],
-  authors: [{ name: "Dimitri Tedom", url: "https://github.com/DimitriTedom" }],
-  metadataBase: new URL("https://snow-dev-portfolio-mu.vercel.app/"),
+  metadataBase: new URL("https://example.com/"),
   openGraph: {
-    title: "Snowdev NextJs Template",
+    title: "Woo App Template Engine",
     description:
-      "",
-    url: "https://snow-dev-portfolio-mu.vercel.app/",
-    siteName: "Snowdev NextJs Template",
-    images: [
-      {
-        url: "https://snow-prompt-builder.vercel.app/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Snowdev NextJs Template Preview",
-      },
-    ],
-    locale: "en_US",
+      "Commercial platform for WooCommerce template licensing, releases and services.",
+    url: "https://example.com/",
+    siteName: "Woo App Template Engine",
+    locale: "fr_FR",
     type: "website",
   },
   twitter: {
-    card: "summary_large_image",
-    site: "@DimitriTedom",
-    creator: "@DimitriTedom",
-    title: "Snowdev NextJs Template",
+    card: "summary",
+    title: "Woo App Template Engine",
     description:
-      "",
-    images: ["https://snow-dev-portfolio-mu.vercel.app/og-image.png"],
+      "Commercial platform for WooCommerce template licensing, releases and services.",
   },
   robots: {
     index: true,
@@ -46,9 +86,9 @@ export const metadata: Metadata = {
     nocache: false,
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/og-image.png",
-    apple: "/og-image.png",
+    icon: "/brand/favicon.svg",
+    shortcut: "/brand/favicon.svg",
+    apple: "/brand/favicon.svg",
   },
 };
 
@@ -58,10 +98,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`font-nexa`}
-      >
+    <html lang="fr">
+      <body className={`${inter.variable} ${manrope.variable}`}>
         {children}
       </body>
     </html>

@@ -5,18 +5,50 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       fontFamily: {
-        nexa: ["Nexa", "sans-serif"],
+        sans: ["var(--font-body)"],
+        heading: ["var(--font-heading)"],
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "var(--radius-lg)",
+        md: "var(--radius-md)",
+        sm: "var(--radius-sm)",
       },
       colors: {
+        brand: {
+          ink: "var(--brand-ink)",
+          ivory: "var(--brand-ivory)",
+          canvas: "var(--brand-canvas)",
+          slate: "var(--brand-slate)",
+          border: "var(--brand-border)",
+          orange: "var(--brand-orange)",
+          "orange-strong": "var(--brand-orange-strong)",
+          "orange-soft": "var(--brand-orange-soft)",
+        },
+        success: {
+          DEFAULT: "var(--success)",
+          soft: "var(--success-soft)",
+        },
+        warning: {
+          DEFAULT: "var(--warning)",
+          soft: "var(--warning-soft)",
+        },
+        danger: {
+          DEFAULT: "var(--danger)",
+          soft: "var(--danger-soft)",
+        },
+        info: {
+          DEFAULT: "var(--info)",
+          soft: "var(--info-soft)",
+        },
+        surface: {
+          DEFAULT: "var(--surface)",
+          elevated: "var(--surface-elevated)",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -36,8 +68,8 @@ module.exports = {
           foreground: "hsl(var(--secondary-foreground))",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "var(--muted)",
+          foreground: "var(--brand-slate)",
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
@@ -67,6 +99,10 @@ module.exports = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+      },
+      boxShadow: {
+        subtle: "var(--shadow-subtle)",
+        panel: "var(--shadow-panel)",
       },
     },
   },

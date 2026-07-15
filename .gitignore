@@ -32,6 +32,18 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# private commercial artifacts and data exports
+*.zip
+*.sql
+!prisma/migrations/**/*.sql
+*.dump
+*.backup
+/storage
+/release-artifacts
+/.cache
+/.prisma-cache
 
 # vercel
 .vercel
