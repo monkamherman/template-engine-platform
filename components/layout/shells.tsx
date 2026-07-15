@@ -6,7 +6,7 @@ import { LanguageToggle } from "@/components/navigation/language-toggle"
 import { Badge } from "@/components/ui/badge"
 import { Container } from "@/components/ui/layout"
 import type { NavigationItem } from "@/config/navigation"
-import { publicNavigation } from "@/config/navigation"
+import { legalNavigation, publicNavigation } from "@/config/navigation"
 import { routes } from "@/config/routes"
 import type { Locale } from "@/src/i18n/locales"
 
@@ -47,13 +47,13 @@ export function MarketingShell({
             <LogoLockup className="h-10 w-auto" />
             <p className="mt-3 leading-6">Template Engine Platform. Fixture-backed skeleton until connected services are approved.</p>
           </div>
-          <FooterGroup locale={locale} title="Product" items={publicNavigation.slice(0, 4)} />
+          <FooterGroup locale={locale} title="Product" items={publicNavigation.slice(0, 5)} />
           <div>
             <p className="font-semibold text-brand-ink">Legal</p>
             <div className="mt-3 grid gap-2">
-              {["license", "terms", "privacy", "refunds"].map((slug) => (
-                <Link key={slug} href={routes.marketing.legal(locale, slug)} className="hover:text-brand-ink">
-                  {slug}
+              {legalNavigation.map((item) => (
+                <Link key={item.id} href={item.href(locale)} className="hover:text-brand-ink">
+                  {item.label[locale]}
                 </Link>
               ))}
             </div>

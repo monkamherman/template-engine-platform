@@ -1,3 +1,4 @@
+import { ReviewWorkspacePreview } from "@/components/admin/review-workspace-preview"
 import { InterfacePage } from "@/components/layout/interface-page"
 import { getInterfacePreviewByPath } from "@/modules/platform/interface-query"
 import type { Locale } from "@/src/i18n/locales"
@@ -9,6 +10,15 @@ export default async function AdminGeneratedPage({
 }) {
   const { locale: rawLocale, segments = [] } = await params
   const locale = rawLocale as Locale
+
+  if (segments[0] === "legal") {
+    return <ReviewWorkspacePreview kind="legal" locale={locale} />
+  }
+
+  if (segments[0] === "documentation") {
+    return <ReviewWorkspacePreview kind="documentation" locale={locale} />
+  }
+
   const preview = getInterfacePreviewByPath(locale, ["admin", ...segments])
 
   return <InterfacePage preview={preview} />
@@ -35,6 +45,10 @@ export function generateStaticParams() {
     ["releases"],
     ["releases", "new"],
     ["releases", "rel_preview"],
+    ["legal"],
+    ["legal", "legal_preview"],
+    ["documentation"],
+    ["documentation", "docs_preview"],
     ["services"],
     ["services", "svc_preview"],
     ["support"],

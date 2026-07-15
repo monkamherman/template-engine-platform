@@ -29,6 +29,7 @@ content/
   legal/
     fr/
     en/
+  shared/
 lib/
 modules/
 prisma/

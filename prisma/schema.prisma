@@ -103,19 +103,36 @@ enum ReleaseFileStatus {
   DISABLED
 }
 
+enum LegalDocumentType {
+  SOFTWARE_LICENSE
+  COMMERCIAL_TERMS
+  SUPPORT_POLICY
+  REFUNDS
+  PRIVACY
+  TRADEMARK
+}
+
+enum LegalDocumentStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
 model User {
-  id              String        @id @default(cuid())
-  email           String        @unique
+  id              String               @id @default(cuid())
+  email           String               @unique
   name            String?
   emailVerifiedAt DateTime?
-  preferredLocale String        @default("fr")
-  status          UserStatus    @default(ACTIVE)
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  preferredLocale String               @default("fr")
+  status          UserStatus           @default(ACTIVE)
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
   roles           UserRole[]
   orders          Order[]
   entitlements    Entitlement[]
-  auditEvents     AuditEvent[]  @relation("AuditActor")
+  acceptances     CustomerAcceptance[]
+  auditEvents     AuditEvent[]         @relation("AuditActor")
 
   @@map("users")
 }
@@ -146,22 +163,23 @@ model Product {
 }
 
 model Offer {
-  id              String        @id @default(cuid())
+  id              String              @id @default(cuid())
   productId       String
-  code            String        @unique
+  code            String              @unique
   name            String
   type            OfferType
   billingMode     BillingMode
   activationLimit Int
   supportPolicy   String?
   updatePolicy    String?
-  status          ProductStatus @default(DRAFT)
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  product         Product       @relation(fields: [productId], references: [id], onDelete: Restrict)
+  status          ProductStatus       @default(DRAFT)
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  product         Product             @relation(fields: [productId], references: [id], onDelete: Restrict)
   prices          Price[]
   orderItems      OrderItem[]
   entitlements    Entitlement[]
+  termsVersions   OfferTermsVersion[]
 
   @@map("offers")
 }
@@ -181,48 +199,49 @@ model Price {
   updatedAt       DateTime  @updatedAt
   offer           Offer     @relation(fields: [offerId], references: [id], onDelete: Restrict)
 
-  @@index([offerId, currency, active])
   @@unique([provider, providerPriceId])
+  @@index([offerId, currency, active])
   @@map("prices")
 }
 
 model Order {
-  id              String      @id @default(cuid())
-  number          String      @unique
+  id              String               @id @default(cuid())
+  number          String               @unique
   userId          String?
   email           String
-  status          OrderStatus @default(PENDING)
+  status          OrderStatus          @default(PENDING)
   subtotalMinor   Int
-  discountMinor   Int         @default(0)
-  taxMinor        Int         @default(0)
+  discountMinor   Int                  @default(0)
+  taxMinor        Int                  @default(0)
   totalMinor      Int
   currency        String
   billingSnapshot Json?
   paidAt          DateTime?
   cancelledAt     DateTime?
   refundedAt      DateTime?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  user            User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  user            User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
   items           OrderItem[]
   payments        Payment[]
+  acceptances     CustomerAcceptance[]
 
   @@map("orders")
 }
 
 model OrderItem {
-  id                 String        @id @default(cuid())
-  orderId            String
-  offerId            String
-  offerNameSnapshot  String
+  id                  String        @id @default(cuid())
+  orderId             String
+  offerId             String
+  offerNameSnapshot   String
   offerPolicySnapshot Json?
-  quantity           Int
-  unitAmountMinor    Int
-  totalAmountMinor   Int
-  createdAt          DateTime      @default(now())
-  order              Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  offer              Offer         @relation(fields: [offerId], references: [id], onDelete: Restrict)
-  entitlements       Entitlement[]
+  quantity            Int
+  unitAmountMinor     Int
+  totalAmountMinor    Int
+  createdAt           DateTime      @default(now())
+  order               Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  offer               Offer         @relation(fields: [offerId], references: [id], onDelete: Restrict)
+  entitlements        Entitlement[]
 
   @@map("order_items")
 }
@@ -262,22 +281,22 @@ model ProviderEvent {
 }
 
 model Entitlement {
-  id              String            @id @default(cuid())
-  userId          String
+  id                String            @id @default(cuid())
+  userId            String
   sourceOrderItemId String?
-  offerId         String
-  status          EntitlementStatus @default(ACTIVE)
-  source          EntitlementSource @default(PURCHASE)
-  startsAt        DateTime          @default(now())
-  endsAt          DateTime?
-  updateExpiresAt DateTime?
-  supportExpiresAt DateTime?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  user            User              @relation(fields: [userId], references: [id], onDelete: Restrict)
-  sourceOrderItem OrderItem?        @relation(fields: [sourceOrderItemId], references: [id], onDelete: SetNull)
-  offer           Offer             @relation(fields: [offerId], references: [id], onDelete: Restrict)
-  licenses        License[]
+  offerId           String
+  status            EntitlementStatus @default(ACTIVE)
+  source            EntitlementSource @default(PURCHASE)
+  startsAt          DateTime          @default(now())
+  endsAt            DateTime?
+  updateExpiresAt   DateTime?
+  supportExpiresAt  DateTime?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  user              User              @relation(fields: [userId], references: [id], onDelete: Restrict)
+  sourceOrderItem   OrderItem?        @relation(fields: [sourceOrderItemId], references: [id], onDelete: SetNull)
+  offer             Offer             @relation(fields: [offerId], references: [id], onDelete: Restrict)
+  licenses          License[]
 
   @@map("entitlements")
 }
@@ -320,18 +339,18 @@ model LicenseActivation {
 }
 
 model Release {
-  id            String         @id @default(cuid())
-  productId     String
-  version       String
-  channel       ReleaseChannel @default(STABLE)
-  status        ReleaseStatus  @default(DRAFT)
-  changelog     String?
-  requirements  Json?
-  publishedAt   DateTime?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  product       Product        @relation(fields: [productId], references: [id], onDelete: Restrict)
-  files         ReleaseFile[]
+  id           String         @id @default(cuid())
+  productId    String
+  version      String
+  channel      ReleaseChannel @default(STABLE)
+  status       ReleaseStatus  @default(DRAFT)
+  changelog    String?
+  requirements Json?
+  publishedAt  DateTime?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  product      Product        @relation(fields: [productId], references: [id], onDelete: Restrict)
+  files        ReleaseFile[]
 
   @@unique([productId, version])
   @@map("releases")
@@ -369,4 +388,76 @@ model AuditEvent {
 
   @@index([targetType, targetId])
   @@map("audit_events")
+}
+
+model LegalDocument {
+  id        String                 @id @default(cuid())
+  type      LegalDocumentType
+  slug      String
+  locale    String
+  title     String
+  owner     String
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+  versions  LegalDocumentVersion[]
+
+  @@unique([type, locale])
+  @@unique([slug, locale])
+  @@map("legal_documents")
+}
+
+model LegalDocumentVersion {
+  id              String               @id @default(cuid())
+  documentId      String
+  version         String
+  status          LegalDocumentStatus  @default(DRAFT)
+  effectiveAt     DateTime?
+  contentChecksum String
+  reviewNotes     String?
+  createdAt       DateTime             @default(now())
+  publishedAt     DateTime?
+  archivedAt      DateTime?
+  document        LegalDocument        @relation(fields: [documentId], references: [id], onDelete: Restrict)
+  offerTerms      OfferTermsVersion[]
+  acceptances     CustomerAcceptance[]
+
+  @@unique([documentId, version])
+  @@index([documentId, status])
+  @@map("legal_document_versions")
+}
+
+model OfferTermsVersion {
+  id                     String               @id @default(cuid())
+  offerId                String
+  legalDocumentVersionId String
+  version                String
+  status                 LegalDocumentStatus  @default(DRAFT)
+  effectiveAt            DateTime?
+  contentChecksum        String
+  createdAt              DateTime             @default(now())
+  offer                  Offer                @relation(fields: [offerId], references: [id], onDelete: Restrict)
+  legalDocumentVersion   LegalDocumentVersion @relation(fields: [legalDocumentVersionId], references: [id], onDelete: Restrict)
+  acceptances            CustomerAcceptance[]
+
+  @@unique([offerId, version])
+  @@index([offerId, status])
+  @@map("offer_terms_versions")
+}
+
+model CustomerAcceptance {
+  id                     String               @id @default(cuid())
+  userId                 String?
+  orderId                String?
+  legalDocumentVersionId String
+  offerTermsVersionId    String?
+  acceptedAt             DateTime             @default(now())
+  acceptanceContext      Json?
+  user                   User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
+  order                  Order?               @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  legalDocumentVersion   LegalDocumentVersion @relation(fields: [legalDocumentVersionId], references: [id], onDelete: Restrict)
+  offerTermsVersion      OfferTermsVersion?   @relation(fields: [offerTermsVersionId], references: [id], onDelete: SetNull)
+
+  @@index([userId, acceptedAt])
+  @@index([orderId])
+  @@map("customer_acceptances")
 }
