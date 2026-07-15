@@ -8,6 +8,8 @@ The project is a modular monolith deployed as one Next.js application. The struc
 
 ## Top-level structure
 
+Sprint 03 implementation note: the current application keeps Sprint 01/02 domain-rule helpers under `src/modules/*` while the new skeleton registry and page-query layer live in root `config/*` and `modules/platform/*`. Do not migrate working files only for cosmetic alignment; move code when an implementation sprint needs a real ownership boundary.
+
 ```text
 app/
   [locale]/

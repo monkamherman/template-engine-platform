@@ -65,6 +65,8 @@ The team has a stable visual language that can be applied consistently to all in
 
 Primary sprint: Sprint 03.
 
+Current status: in progress on branch `dev`. Central route builders, navigation configuration, runtime interface registry, development interface map, generated wireframe renderer and development-only customer/admin preview guards have been introduced. Remaining Sprint 03 work should keep fixture behavior explicit and continue raising individual interface maturity only when tests and review evidence support it.
+
 Goals:
 
 - create every approved V1 route;
