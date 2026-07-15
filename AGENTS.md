@@ -2,7 +2,7 @@
 
 ## Mission
 
-Build the official commercial platform for the Woo App Commercial Template Engine. This repository is the sales, delivery, licensing and customer-operations platform. The WordPress/WooCommerce product itself lives in the separate private repository `monkamherman/woo-app-theme`.
+Build the official commercial platform for the Woo App Commercial Template Engine. This repository is the sales, delivery, licensing, documentation and customer-operations platform. The WordPress/WooCommerce product itself lives in the separate private repository `monkamherman/woo-app-theme`.
 
 ## Product boundary
 
@@ -10,6 +10,8 @@ This repository owns:
 
 - marketing pages and product demonstrations;
 - pricing and offer presentation;
+- customer-facing legal and commercial-term pages;
+- versioned product documentation and customer mode d’emploi;
 - customer authentication and account portal;
 - checkout orchestration through an abstract payment-provider layer;
 - webhook processing and order state;
@@ -23,6 +25,7 @@ This repository must not contain:
 - the source code of the commercial WordPress theme;
 - customer secrets or production credentials;
 - a public copy of release ZIP files;
+- invented or unreviewed binding legal terms presented as approved;
 - a universal client-deployment engine in V1;
 - a marketplace, page builder or affiliate platform in V1.
 
@@ -60,6 +63,12 @@ app/
 components/
 config/
 content/
+  docs/
+    fr/
+    en/
+  legal/
+    fr/
+    en/
 lib/
 modules/
 prisma/
@@ -98,6 +107,26 @@ Rules:
 - every data-driven interface must consider loading, empty, error and forbidden states where relevant;
 - generated pages containing only a title or generic “coming soon” message are not acceptable.
 
+## Licensing and legal rules
+
+- Keep software copyright licensing, commercial access, technical license keys and service terms as separate concepts.
+- Do not describe a technical license key as removing rights granted by the software copyright license.
+- Do not invent a jurisdiction, legal entity, refund promise, warranty, liability clause or support SLA.
+- Unapproved legal content must show an explicit draft or review state.
+- Checkout and orders must eventually preserve accepted legal-document versions rather than only linking to mutable current pages.
+- The commercial theme release must include explicit license and third-party notice files defined by `docs/licensing-strategy.md`.
+- Binding launch terms require qualified legal review.
+
+## Documentation rules
+
+- Documentation is a versioned product deliverable.
+- Keep long-form documentation in version-controlled content files, not page components.
+- Maintain stable IDs, locale, version compatibility and review status metadata.
+- French is the initial editorial source; English must remain structurally complete and must not use mixed-language filler.
+- Do not publish untested compatibility claims or procedures.
+- Every customer release must update quick-start, installation, upgrade, troubleshooting and changelog content.
+- Internal operational runbooks must not be exposed through public routes.
+
 ## Coding rules
 
 - Keep TypeScript strict; do not use `any` unless documented at an external integration boundary.
@@ -132,7 +161,9 @@ Every implemented domain must include appropriate tests. At minimum:
 - route tests for webhook signature rejection and idempotency;
 - end-to-end smoke tests for public navigation and authentication boundaries;
 - route-registry and interface-registry uniqueness tests;
-- protected account and admin boundary tests.
+- protected account and admin boundary tests;
+- documentation metadata, broken-link and navigation tests;
+- legal publication-state tests preventing unapproved content from appearing approved.
 
 Before completing a task, run the repository-defined lint, typecheck, test and build commands. Report commands that could not run and why.
 
@@ -154,6 +185,8 @@ Read these files before implementation:
 4. `docs/project-structure.md`
 5. `docs/interface-inventory.md`
 6. `docs/implementation-roadmap.md`
-7. the active file under `docs/sprints/`
+7. `docs/licensing-strategy.md`
+8. `docs/documentation-plan.md`
+9. the active file under `docs/sprints/`
 
-When documents conflict, the active sprint defines execution scope, `docs/product-scope.md` defines product boundaries, and `docs/interface-inventory.md` defines the approved V1 interface map. Stop and document a decision when a requested change would violate those boundaries.
+When documents conflict, the active sprint defines execution scope, `docs/product-scope.md` defines product boundaries, `docs/interface-inventory.md` defines the approved V1 interface map, and approved legal documents control binding customer terms. Stop and document a decision when a requested change would violate those boundaries.

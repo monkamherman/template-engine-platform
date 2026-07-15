@@ -22,6 +22,8 @@ This avoids two common failures:
 - A visual redesign must not move business rules into page components.
 - A backend integration must not silently redesign interfaces outside its scope.
 - Every wave must preserve French and English route compatibility.
+- Legal and documentation content must have explicit review and publication states.
+- No customer release is complete without matching installation, upgrade, troubleshooting and license information.
 
 ## Program phases
 
@@ -66,7 +68,7 @@ Primary sprint: Sprint 03.
 Goals:
 
 - create every approved V1 route;
-- implement marketing, auth, account and admin shells;
+- implement marketing, documentation, auth, account and admin shells;
 - centralize route and navigation configuration;
 - create an interface registry;
 - build meaningful wireframes for all interfaces;
@@ -77,9 +79,30 @@ Exit condition:
 
 The full V1 product can be navigated end to end in development, all pages compile, and every unfinished capability is honestly identified.
 
-### Phase 3 — Public website customization
+### Phase 3 — Licensing and documentation foundation
 
-Suggested sprints: Sprint 04 and Sprint 05.
+Primary sprint: Sprint 04.
+
+Goals:
+
+- separate software copyright licensing, commercial access, technical keys and service terms;
+- create localized legal routes with explicit review states;
+- define versioned legal-document and customer-acceptance contracts;
+- create the documentation content architecture;
+- implement the public documentation shell;
+- create the Starter quick-start and core mode d’emploi drafts;
+- define release-package license and documentation requirements;
+- add third-party notice inventory rules;
+- create honest license-key UX previews;
+- validate documentation metadata and internal links.
+
+Exit condition:
+
+The product can be explained legally and operationally without inventing binding terms, and a Starter customer has a usable draft path from prerequisites through installation, test order, update and support.
+
+### Phase 4 — Public website customization
+
+Suggested sprints: Sprint 05 and Sprint 06.
 
 Wave A — positioning and understanding:
 
@@ -88,7 +111,8 @@ Wave A — positioning and understanding:
 - product overview;
 - features;
 - use-case index and details;
-- demonstrations.
+- demonstrations;
+- documentation entry points.
 
 Wave B — conversion and trust:
 
@@ -96,16 +120,17 @@ Wave B — conversion and trust:
 - Starter, Pro and Managed detail pages;
 - FAQ;
 - contact;
-- legal placeholders and trust content;
+- approved legal/trust content;
+- support and documentation links;
 - responsive navigation and conversion paths.
 
 Exit condition:
 
-A visitor can understand the product, compare offers and reach an approved checkout or contact action without misleading content.
+A visitor can understand the product, compare offers, inspect the applicable license/support principles and reach an approved checkout or contact action without misleading content.
 
-### Phase 4 — Authentication and customer account customization
+### Phase 5 — Authentication and customer account customization
 
-Suggested sprints: Sprint 06 and Sprint 07.
+Suggested sprints: Sprint 07 and Sprint 08.
 
 Wave A — identity and account shell:
 
@@ -117,19 +142,20 @@ Wave A — identity and account shell:
 
 Wave B — commercial access:
 
-- orders;
+- orders and accepted-term references;
 - entitlements;
 - licenses and activations;
 - downloads and release history;
-- empty, suspended, expired and revoked states.
+- contextual documentation links;
+- empty, suspended, expired and revoked official-service states.
 
 Exit condition:
 
-An authenticated customer sees only authorized commercial data and can understand the next valid action.
+An authenticated customer sees only authorized commercial data and can understand the next valid action and the relevant documentation.
 
-### Phase 5 — Pro/Managed service and support workflows
+### Phase 6 — Pro/Managed service and support workflows
 
-Suggested sprint: Sprint 08.
+Suggested sprint: Sprint 09.
 
 Goals:
 
@@ -137,6 +163,7 @@ Goals:
 - service request timeline;
 - milestones and approval states;
 - support request creation and conversation;
+- documentation suggestions before ticket creation;
 - operator assignment and status management;
 - email notification boundaries.
 
@@ -144,14 +171,15 @@ Exit condition:
 
 Pro and Managed purchases create trackable operational work rather than informal manual follow-up.
 
-### Phase 6 — Administration customization
+### Phase 7 — Administration customization
 
-Suggested sprints: Sprint 09 and Sprint 10.
+Suggested sprints: Sprint 10 and Sprint 11.
 
 Wave A — catalog and commerce operations:
 
 - customers;
 - products, offers and prices;
+- offer-term versions;
 - orders and payments;
 - filters, search and detail views.
 
@@ -160,6 +188,8 @@ Wave B — access and operations:
 - entitlements;
 - licenses and activations;
 - releases and files;
+- release documentation status;
+- legal-document review states;
 - service requests;
 - support queue;
 - audit log;
@@ -167,52 +197,58 @@ Wave B — access and operations:
 
 Exit condition:
 
-Operators can investigate and manage the V1 commercial lifecycle with server-side authorization and audit evidence.
+Operators can investigate and manage the V1 commercial lifecycle with server-side authorization, versioned terms and audit evidence.
 
-### Phase 7 — Real commerce integration
+### Phase 8 — Real commerce integration
 
-Suggested sprint: Sprint 11.
+Suggested sprint: Sprint 12.
 
 Goals:
 
 - approve the initial payment provider;
 - implement the provider adapter;
 - create hosted checkout sessions;
+- present applicable document versions before purchase;
 - verify webhook signatures;
 - enforce event idempotency;
 - create orders, payments and entitlements transactionally;
+- persist accepted legal/offer versions;
 - implement safe refund boundaries;
 - add provider failure monitoring.
 
 Exit condition:
 
-A verified payment event creates the correct internal commercial state exactly once.
+A verified payment event creates the correct internal commercial state exactly once and preserves the terms context accepted during purchase.
 
-### Phase 8 — Licensing and release delivery
+### Phase 9 — Technical licensing and release delivery
 
-Suggested sprint: Sprint 12.
+Suggested sprint: Sprint 13.
 
 Goals:
 
 - issue and hash license keys safely;
-- activate, validate and deactivate installations;
+- activate, validate and deactivate official-service access;
 - enforce activation limits transactionally;
+- distinguish production and staging activations;
 - register releases and checksums;
+- require matching changelog and documentation metadata;
 - integrate private object storage;
 - create download grants and short-lived signed URLs;
 - audit privileged changes and downloads.
 
 Exit condition:
 
-An entitled customer can securely receive the correct release, and a license can be limited, suspended and revoked.
+An entitled customer can securely receive the correct release, access matching documentation, and an official-service key can be limited, suspended and revoked without falsely claiming to revoke software copyright rights.
 
-### Phase 9 — Hardening and launch
+### Phase 10 — Hardening and launch
 
-Suggested sprints: Sprint 13 and Sprint 14.
+Suggested sprints: Sprint 14 and Sprint 15.
 
 Goals:
 
-- complete legal review and approved production copy;
+- complete qualified legal review and approve production copy;
+- confirm copyright notices and third-party license inventory;
+- complete the customer mode d’emploi against a clean installation;
 - accessibility audit;
 - responsive/browser/device QA;
 - performance and image optimization;
@@ -221,11 +257,12 @@ Goals:
 - structured logging and error monitoring;
 - backup, migration and rollback rehearsal;
 - production deployment checklist;
+- release-package checklist;
 - release readiness report.
 
 Exit condition:
 
-All launch-critical interfaces are `VALIDATED`, core flows have automated coverage, and operational recovery procedures are documented.
+All launch-critical interfaces are `VALIDATED`, binding legal content is approved, the release package contains the required license/documentation files, core flows have automated coverage, and operational recovery procedures are documented.
 
 ## Progressive customization workflow
 
@@ -234,18 +271,20 @@ For each interface family:
 1. confirm route ownership and current maturity;
 2. review the wireframe and required states;
 3. approve content hierarchy;
-4. apply or refine visual components;
-5. connect the page query or command service;
-6. add authorization and validation;
-7. test loading, empty, success, error and forbidden states;
-8. validate mobile, tablet and desktop behavior;
-9. update the inventory and interface registry;
-10. merge only when the stated maturity is evidenced.
+4. verify applicable licensing/documentation references;
+5. apply or refine visual components;
+6. connect the page query or command service;
+7. add authorization and validation;
+8. test loading, empty, success, error and forbidden states;
+9. validate mobile, tablet and desktop behavior;
+10. update the inventory and interface registry;
+11. merge only when the stated maturity is evidenced.
 
 ## Recommended branch naming
 
 ```text
 feat/sprint-03-application-skeleton
+feat/sprint-04-licensing-documentation
 feat/marketing-home-product
 feat/marketing-pricing-offers
 feat/auth-account-shell
@@ -266,6 +305,7 @@ Recommended later PR boundaries:
 
 - one interface family;
 - one domain integration;
+- one documentation or legal-content family;
 - one shared component upgrade used by identified pages;
 - one accessibility/performance hardening topic.
 
@@ -278,6 +318,8 @@ At the end of each sprint, report:
 - interfaces moved between maturity states;
 - routes added, renamed or deferred;
 - fixture interfaces replaced by real services;
+- legal/documentation states changed;
+- release documentation updated;
 - tests added and commands executed;
 - security or authorization changes;
 - unresolved risks;
@@ -285,4 +327,4 @@ At the end of each sprint, report:
 
 ## Immediate next step
 
-After Sprint 01 provides a stable implementation base and Sprint 02 supplies usable design tokens, execute Sprint 03 to generate the complete V1 application skeleton. Do not begin real payment, production authentication, licensing or storage integrations inside Sprint 03.
+After Sprint 01 provides a stable implementation base and Sprint 02 supplies usable design tokens, execute Sprint 03 to generate the complete V1 application skeleton. Then execute Sprint 04 to establish licensing and the customer mode d’emploi before completing final conversion pages or real payment/licensing integrations.
