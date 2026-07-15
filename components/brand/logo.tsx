@@ -9,6 +9,12 @@ const conceptSrc = {
   c: "/brand/concepts/concept-c.svg",
 } as const
 
+const finalLogoSrc = {
+  mark: "/brand/logo-mark.svg",
+  horizontal: "/brand/logo-lockup-horizontal.svg",
+  stacked: "/brand/logo-lockup-stacked.svg",
+} as const
+
 export type LogoConcept = keyof typeof conceptSrc
 
 export function LogoMark({
@@ -32,22 +38,42 @@ export function LogoMark({
   )
 }
 
-export function LogoLockup({
+export function FinalLogoMark({
   className,
-  concept = "a",
+  size = 48,
 }: {
   className?: string
-  concept?: LogoConcept
+  size?: number
 }) {
   return (
-    <div className={cn("inline-flex items-center gap-3 text-brand-ink", className)}>
-      <LogoMark concept={concept} size={40} />
-      <div className="leading-none">
-        <p className="font-heading text-base font-extrabold">Template Engine</p>
-        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-brand-slate">
-          Platform
-        </p>
-      </div>
-    </div>
+    <Image
+      alt="Template Engine logo mark"
+      className={cn("h-auto w-auto", className)}
+      height={size}
+      priority
+      src={finalLogoSrc.mark}
+      width={size}
+    />
+  )
+}
+
+export function LogoLockup({
+  className,
+  variant = "horizontal",
+}: {
+  className?: string
+  variant?: "horizontal" | "stacked"
+}) {
+  const isStacked = variant === "stacked"
+
+  return (
+    <Image
+      alt="Template Engine Platform logo"
+      className={cn("h-auto w-auto", className)}
+      height={isStacked ? 180 : 96}
+      priority
+      src={finalLogoSrc[variant]}
+      width={isStacked ? 240 : 420}
+    />
   )
 }

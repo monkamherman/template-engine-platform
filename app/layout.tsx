@@ -86,9 +86,9 @@ export const metadata: Metadata = {
     nocache: false,
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/og-image.png",
-    apple: "/og-image.png",
+    icon: "/brand/favicon.svg",
+    shortcut: "/brand/favicon.svg",
+    apple: "/brand/favicon.svg",
   },
 };
 

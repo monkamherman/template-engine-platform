@@ -2,7 +2,7 @@ import { Check, CreditCard, Settings, ShieldAlert } from "lucide-react"
 import * as React from "react"
 import type { ReactNode } from "react"
 
-import { LogoLockup, LogoMark, type LogoConcept } from "@/components/brand/logo"
+import { FinalLogoMark, LogoLockup, LogoMark, type LogoConcept } from "@/components/brand/logo"
 import { Alert } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -98,7 +98,7 @@ export default async function DesignSystemPage({
       <Section className="bg-brand-ivory">
         <Container wide>
           <Stack gap="lg">
-            <LogoLockup concept="a" />
+            <LogoLockup className="h-16 w-auto" />
             <div className="max-w-3xl">
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-brand-orange-strong">
                 {t.eyebrow}
@@ -116,6 +116,32 @@ export default async function DesignSystemPage({
       <Section>
         <Container wide>
           <Stack gap="lg">
+            <SectionHeading title="Validated logo" />
+            <Card variant="pricing">
+              <CardContent className="grid gap-6 pt-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+                <div className="flex min-h-44 items-center justify-center rounded-lg bg-brand-ivory">
+                  <LogoLockup className="h-20 w-auto max-w-full" />
+                </div>
+                <div>
+                  <Badge variant="orange">Concept A selected</Badge>
+                  <h3 className="mt-4 font-heading text-2xl font-extrabold">
+                    Monoline continu
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-brand-slate">
+                    Le monogramme TE final conserve un trace uniforme, compact et arrondi. Les concepts B et C restent archives comme exploration.
+                  </p>
+                  <div className="mt-5 flex items-end gap-4">
+                    {[24, 32, 48, 96].map((size) => (
+                      <div key={size} className="grid justify-items-center gap-2 text-xs text-brand-slate">
+                        <FinalLogoMark size={size} />
+                        <span>{size}px</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             <SectionHeading title="Logo concepts" />
             <div className="grid gap-5 lg:grid-cols-3">
               {concepts.map((concept) => (

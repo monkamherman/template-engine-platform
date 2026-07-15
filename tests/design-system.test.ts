@@ -12,6 +12,15 @@ const conceptFiles = [
   "public/brand/concepts/concept-c.svg",
 ]
 
+const finalLogoFiles = [
+  "public/brand/logo-mark.svg",
+  "public/brand/logo-lockup-horizontal.svg",
+  "public/brand/logo-lockup-stacked.svg",
+  "public/brand/logo-mark-white.svg",
+  "public/brand/logo-mark-black.svg",
+  "public/brand/favicon.svg",
+]
+
 test("supports only fr and en locales", () => {
   assert.deepEqual([...supportedLocales], ["fr", "en"])
   assert.equal(isLocale("fr"), true)
@@ -29,6 +38,25 @@ test("logo concepts are vector svg assets without embedded bitmaps", async () =>
     assert.doesNotMatch(svg, /<image/i)
     assert.doesNotMatch(svg, /base64/i)
   }
+})
+
+test("final selected logo assets exist as clean svg files", async () => {
+  for (const file of finalLogoFiles) {
+    await access(file)
+    const svg = readFileSync(file, "utf8")
+
+    assert.match(svg, /<svg/)
+    assert.doesNotMatch(svg, /<image/i)
+    assert.doesNotMatch(svg, /base64/i)
+  }
+})
+
+test("brand guidelines document final concept A decision", () => {
+  const guidelines = readFileSync("docs/brand-guidelines.md", "utf8")
+
+  assert.match(guidelines, /Concept A/)
+  assert.match(guidelines, /Monoline continu/)
+  assert.match(guidelines, /24 px minimum/)
 })
 
 test("button variants expose required Sprint 02 states", () => {
