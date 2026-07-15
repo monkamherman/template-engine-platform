@@ -16,6 +16,18 @@ All generated preview pages use representative fixture data through `modules/pla
 
 The development interface map lives at `/{locale}/dev/interfaces` and is hidden through `notFound()` in production.
 
+## Sprint 04 implementation status
+
+Runtime sources:
+
+- legal and documentation content: `content/legal/*`, `content/docs/*`;
+- typed loaders and validation: `modules/content/documents.ts`;
+- release package contract: `modules/content/release-contract.ts`;
+- public docs/legal routes: `app/[locale]/(marketing)/docs/*` and `app/[locale]/(marketing)/legal/[legalSlug]`;
+- legal version contract: Prisma models `LegalDocument`, `LegalDocumentVersion`, `OfferTermsVersion` and `CustomerAcceptance`.
+
+Legal pages and documentation pages are `WIREFRAME` content foundations with explicit review states. They are not final legal advice, not production terms and not connected acceptance capture. Customer acceptance storage intentionally excludes IP address and user-agent fields until privacy approval.
+
 ## Status vocabulary
 
 - `SKELETON`: route and shell exist;

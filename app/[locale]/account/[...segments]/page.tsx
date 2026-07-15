@@ -1,3 +1,4 @@
+import { LicenseKeyPreview } from "@/components/account/license-key-preview"
 import { InterfacePage } from "@/components/layout/interface-page"
 import { getInterfacePreviewByPath } from "@/modules/platform/interface-query"
 import type { Locale } from "@/src/i18n/locales"
@@ -9,6 +10,11 @@ export default async function AccountGeneratedPage({
 }) {
   const { locale: rawLocale, segments = [] } = await params
   const locale = rawLocale as Locale
+
+  if (segments[0] === "licenses") {
+    return <LicenseKeyPreview locale={locale} />
+  }
+
   const preview = getInterfacePreviewByPath(locale, ["account", ...segments])
 
   return <InterfacePage preview={preview} />

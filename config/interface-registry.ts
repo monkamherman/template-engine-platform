@@ -1,4 +1,5 @@
 import { routes } from "@/config/routes"
+import { documentationSlugs, legalSlugs } from "@/modules/content/documents"
 import type { Locale } from "@/src/i18n/locales"
 
 export type InterfaceAudience = "public" | "auth" | "account" | "admin" | "api" | "system"
@@ -98,6 +99,15 @@ const adminInterfaceSeeds = [
   ["admin.releases", "Release list", routes.admin.releases, p("/admin/releases")],
   ["admin.release-new", "New release", routes.admin.releaseNew, p("/admin/releases/new")],
   ["admin.release-detail", "Release detail", (locale: Locale) => routes.admin.releaseDetail(locale, "rel_preview"), p("/admin/releases/{releaseId}")],
+  ["admin.legal-documents", "Legal documents", routes.admin.legal, p("/admin/legal")],
+  ["admin.legal-document-detail", "Legal document detail", (locale: Locale) => routes.admin.legalDetail(locale, "legal_preview"), p("/admin/legal/{documentId}")],
+  ["admin.documentation", "Documentation overview", routes.admin.documentation, p("/admin/documentation")],
+  [
+    "admin.documentation-detail",
+    "Documentation detail",
+    (locale: Locale) => routes.admin.documentationDetail(locale, "docs_preview"),
+    p("/admin/documentation/{documentId}"),
+  ],
   ["admin.services", "Service request list", routes.admin.services, p("/admin/services")],
   ["admin.service-detail", "Service request detail", (locale: Locale) => routes.admin.serviceDetail(locale, "svc_preview"), p("/admin/services/{requestId}")],
   ["admin.support", "Support queue", routes.admin.support, p("/admin/support")],
@@ -228,16 +238,27 @@ export const interfaceRegistry = [
     dataMode: "preview",
     notes: "Contact form is disabled preview until provider is connected.",
   },
-  ...["license", "terms", "privacy", "refunds"].map((slug) => ({
+  ...legalSlugs.map((slug) => ({
     id: `legal.${slug}`,
-    title: `Legal ${slug}`,
+    title: `Legal ${slug.replaceAll("-", " ")}`,
     routePattern: p(`/legal/${slug}`),
-    buildPath: (locale: Locale) => routes.marketing.legal(locale, slug),
+    buildPath: (locale: Locale) => routes.legal.document(locale, slug),
     audience: "public" as const,
     owner: "legal",
-    maturity: "SKELETON" as const,
+    maturity: "WIREFRAME" as const,
     dataMode: "content" as const,
     notes: "Explicit legal-review placeholder; no invented binding terms.",
+  })),
+  ...documentationSlugs.map((slug) => ({
+    id: slug ? `docs.${slug.replaceAll("/", ".")}` : "docs.index",
+    title: slug ? `Documentation ${slug.replaceAll("/", " ")}` : "Documentation index",
+    routePattern: p(slug ? `/docs/${slug.replace("1.0.0", "{version}")}` : "/docs"),
+    buildPath: (locale: Locale) => routes.docs.article(locale, slug),
+    audience: "public" as const,
+    owner: "documentation",
+    maturity: "WIREFRAME" as const,
+    dataMode: "content" as const,
+    notes: "Reviewed draft documentation structure backed by typed content.",
   })),
   ...authInterfaceSeeds.map(([id, title, buildPath, routePattern]) => ({
     id,

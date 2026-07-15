@@ -85,6 +85,8 @@ The full V1 product can be navigated end to end in development, all pages compil
 
 Primary sprint: Sprint 04.
 
+Current status: in progress on branch `feat/sprint-04-licensing-documentation`. Localized legal and documentation content foundations, a public documentation shell, typed content validation, release-package documentation checks, legal-document Prisma contracts, license-key account previews, admin review previews and offer legal/support references have been introduced. Remaining work should focus on review, commit/PR evidence and any product-specific copy adjustments before closure.
+
 Goals:
 
 - separate software copyright licensing, commercial access, technical keys and service terms;

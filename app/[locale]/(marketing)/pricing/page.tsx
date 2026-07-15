@@ -1,3 +1,7 @@
+import Link from "next/link";
+
+import { routes } from "@/config/routes";
+
 const offers = {
   fr: [
     ["Starter", "Licence, documentation et telechargement protege."],
@@ -28,6 +32,17 @@ export default async function PricingPage({
             <article key={name} className="rounded-lg border border-slate-200 bg-white p-5">
               <h2 className="text-2xl font-bold">{name}</h2>
               <p className="mt-3 text-sm leading-6 text-slate-700">{description}</p>
+              <div className="mt-5 grid gap-2 text-sm font-semibold">
+                <Link className="text-orange-700 hover:underline" href={routes.legal.commercialTerms(activeLocale)}>
+                  {activeLocale === "fr" ? "Conditions commerciales en revue" : "Commercial terms in review"}
+                </Link>
+                <Link className="text-orange-700 hover:underline" href={routes.legal.supportPolicy(activeLocale)}>
+                  {activeLocale === "fr" ? "Politique support" : "Support policy"}
+                </Link>
+                <Link className="text-orange-700 hover:underline" href={routes.docs.article(activeLocale, "getting-started")}>
+                  {activeLocale === "fr" ? "Guide de demarrage" : "Getting-started guide"}
+                </Link>
+              </div>
             </article>
           ))}
         </div>
