@@ -117,6 +117,20 @@ Rules:
 - The commercial theme release must include explicit license and third-party notice files defined by `docs/licensing-strategy.md`.
 - Binding launch terms require qualified legal review.
 
+### Technical license protocol
+
+- `docs/license-api-contract.md` is the protocol V1 source of truth shared with `woo-app-theme`.
+- `docs/license-security-model.md` defines release-blocking security requirements.
+- Do not change key format, request fields, response fields, error-code meaning, lease claims or domain-normalization rules without updating the shared contract and coordinated fixtures in both repositories.
+- A breaking contract change requires a new protocol version; do not silently mutate protocol V1.
+- License keys must never appear in URLs, logs, analytics, audit summaries or client-visible error details.
+- Verification uses a keyed hash and constant-time comparison; normal verification must not decrypt stored keys.
+- Complete keys must not be stored in plaintext.
+- Production and staging activation limits are independent and enforced transactionally.
+- License activation, validation or outage must never disable public storefront rendering, cart or checkout.
+- The platform is the only lease signer. Private signing keys never enter the theme repository.
+- Automatic issuance may be connected only to verified, idempotent payment processing or an authorized operator workflow.
+
 ## Documentation rules
 
 - Documentation is a versioned product deliverable.
@@ -163,7 +177,12 @@ Every implemented domain must include appropriate tests. At minimum:
 - route-registry and interface-registry uniqueness tests;
 - protected account and admin boundary tests;
 - documentation metadata, broken-link and navigation tests;
-- legal publication-state tests preventing unapproved content from appearing approved.
+- legal publication-state tests preventing unapproved content from appearing approved;
+- license-key generation, hashing, encryption and rotation tests;
+- concurrent activation-limit tests;
+- protocol request/response fixture tests;
+- signed-lease verification fixtures shared with the WordPress client;
+- tests proving storefront-facing behavior does not depend on license-service availability.
 
 Before completing a task, run the repository-defined lint, typecheck, test and build commands. Report commands that could not run and why.
 
@@ -174,6 +193,7 @@ Before completing a task, run the repository-defined lint, typecheck, test and b
 - Do not commit generated secrets, `.env`, database dumps or release ZIP files.
 - Update documentation when an architectural decision, route, maturity state or environment variable changes.
 - Open a draft pull request with a summary, test evidence, risks and remaining work.
+- Cross-repository protocol changes require coordinated pull requests and exact tested commit references.
 
 ## Source of truth
 
@@ -186,7 +206,9 @@ Read these files before implementation:
 5. `docs/interface-inventory.md`
 6. `docs/implementation-roadmap.md`
 7. `docs/licensing-strategy.md`
-8. `docs/documentation-plan.md`
-9. the active file under `docs/sprints/`
+8. `docs/license-api-contract.md`
+9. `docs/license-security-model.md`
+10. `docs/documentation-plan.md`
+11. the active file under `docs/sprints/`
 
-When documents conflict, the active sprint defines execution scope, `docs/product-scope.md` defines product boundaries, `docs/interface-inventory.md` defines the approved V1 interface map, and approved legal documents control binding customer terms. Stop and document a decision when a requested change would violate those boundaries.
+When documents conflict, the active sprint defines execution scope, `docs/product-scope.md` defines product boundaries, `docs/interface-inventory.md` defines the approved V1 interface map, `docs/license-api-contract.md` defines protocol V1, `docs/license-security-model.md` defines technical release blockers, and approved legal documents control binding customer terms. Stop and document a decision when a requested change would violate those boundaries.
