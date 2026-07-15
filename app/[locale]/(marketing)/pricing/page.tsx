@@ -17,13 +17,14 @@ export default async function PricingPage({
   params: Promise<{ locale: "fr" | "en" }>;
 }) {
   const { locale } = await params;
+  const activeLocale = locale === "en" ? "en" : "fr";
 
   return (
     <main className="min-h-screen bg-slate-50 px-5 py-12 text-slate-950">
       <section className="mx-auto max-w-5xl">
-        <h1 className="text-4xl font-bold">{locale === "fr" ? "Offres" : "Plans"}</h1>
+        <h1 className="text-4xl font-bold">{activeLocale === "fr" ? "Offres" : "Plans"}</h1>
         <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {offers[locale].map(([name, description]) => (
+          {offers[activeLocale].map(([name, description]) => (
             <article key={name} className="rounded-lg border border-slate-200 bg-white p-5">
               <h2 className="text-2xl font-bold">{name}</h2>
               <p className="mt-3 text-sm leading-6 text-slate-700">{description}</p>

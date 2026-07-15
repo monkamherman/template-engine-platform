@@ -1,0 +1,82 @@
+@import "./tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--brand-canvas);
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--brand-canvas);
+    color: var(--brand-ink);
+    font-family: var(--font-body);
+    font-feature-settings: "rlig" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--brand-ink);
+    font-family: var(--font-heading);
+    letter-spacing: 0;
+  }
+
+  a {
+    text-underline-offset: 0.18em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--brand-orange-soft);
+    color: var(--brand-ink);
+  }
+}
+
+@layer utilities {
+  .page-container {
+    width: min(100% - 2rem, var(--container-page));
+    margin-inline: auto;
+  }
+
+  .wide-container {
+    width: min(100% - 2rem, var(--container-wide));
+    margin-inline: auto;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .brand-focus {
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+    outline-color: var(--focus-ring);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

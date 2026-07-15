@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Concept C - Portail systeme</title>
+  <desc id="desc">Monogramme TE sous forme de portail ouvert et structure systeme.</desc>
+  <g fill="none" stroke="#0B0B0C" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 78V24H76V78" />
+    <path d="M20 24H76" />
+    <path d="M42 24V78" />
+    <path d="M42 43H69" />
+    <path d="M42 62H64" />
+  </g>
+  <path d="M76 78H58" fill="none" stroke="#FF6B00" stroke-width="11" stroke-linecap="round" />
+</svg>

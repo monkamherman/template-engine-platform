@@ -35,20 +35,21 @@ export default async function MarketingHome({
   params: Promise<{ locale: "fr" | "en" }>;
 }) {
   const { locale } = await params;
-  const t = copy[locale];
+  const activeLocale = locale === "en" ? "en" : "fr";
+  const t = copy[activeLocale];
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-950">
       <section className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-5 py-12 sm:py-16">
         <nav className="flex items-center justify-between gap-4 text-sm">
-          <Link href={`/${locale}`} className="font-bold">
+          <Link href={`/${activeLocale}`} className="font-bold">
             Woo App
           </Link>
           <div className="flex gap-4">
-            <Link className="underline-offset-4 hover:underline" href={`/${locale}/product`}>
+            <Link className="underline-offset-4 hover:underline" href={`/${activeLocale}/product`}>
               {t.product}
             </Link>
-            <Link className="underline-offset-4 hover:underline" href={`/${locale}/pricing`}>
+            <Link className="underline-offset-4 hover:underline" href={`/${activeLocale}/pricing`}>
               {t.pricing}
             </Link>
           </div>
@@ -66,13 +67,13 @@ export default async function MarketingHome({
             <div className="flex flex-wrap gap-3">
               <Link
                 className="rounded-md bg-slate-950 px-5 py-3 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
-                href={`/${locale}/pricing`}
+                href={`/${activeLocale}/pricing`}
               >
                 {t.pricing}
               </Link>
               <Link
                 className="rounded-md border border-slate-300 px-5 py-3 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
-                href={`/${locale}/product`}
+                href={`/${activeLocale}/product`}
               >
                 {t.product}
               </Link>

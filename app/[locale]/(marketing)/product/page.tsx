@@ -17,7 +17,8 @@ export default async function ProductPage({
   params: Promise<{ locale: "fr" | "en" }>;
 }) {
   const { locale } = await params;
-  const t = copy[locale];
+  const activeLocale = locale === "en" ? "en" : "fr";
+  const t = copy[activeLocale];
 
   return (
     <main className="min-h-screen bg-white px-5 py-12 text-slate-950">

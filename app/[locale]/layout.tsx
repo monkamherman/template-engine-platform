@@ -1,12 +1,6 @@
 import { notFound } from "next/navigation";
 
-const supportedLocales = ["fr", "en"] as const;
-
-type Locale = (typeof supportedLocales)[number];
-
-function isLocale(value: string): value is Locale {
-  return supportedLocales.includes(value as Locale);
-}
+import { isLocale, supportedLocales } from "@/src/i18n/locales";
 
 export function generateStaticParams() {
   return supportedLocales.map((locale) => ({ locale }));
