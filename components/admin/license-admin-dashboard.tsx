@@ -17,14 +17,14 @@ export async function LicenseAdminDashboard({ locale }: { locale: Locale }) {
   const overview = await loadOverview()
 
   return (
-    <main className="grid gap-6">
-      <header className="rounded-xl border border-brand-border bg-white p-6 shadow-subtle">
+    <main className="grid min-w-0 gap-6">
+      <header className="rounded-xl border border-brand-border bg-white p-4 shadow-subtle sm:p-6">
         <Cluster>
           <Badge variant="orange">Sprint 05A</Badge>
           <Badge variant="success">CONNECTED</Badge>
           <Badge variant="outline">Prisma</Badge>
         </Cluster>
-        <h1 className="mt-5 font-heading text-3xl font-extrabold">
+        <h1 className="mt-5 font-heading text-2xl font-extrabold sm:text-3xl">
           {isFrench ? "Administration des licences" : "License administration"}
         </h1>
         <p className="mt-3 max-w-3xl leading-7 text-brand-slate">
@@ -61,7 +61,7 @@ function LicenseOverview({ locale, overview }: { locale: Locale; overview: Admin
   ] as const
 
   return (
-    <section className="grid gap-6">
+    <section className="grid min-w-0 gap-6">
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
         {summary.map(([label, value]) => (
           <Card key={label}>
@@ -73,14 +73,48 @@ function LicenseOverview({ locale, overview }: { locale: Locale; overview: Admin
         ))}
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+      <div className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)]">
         <Card>
           <CardHeader>
             <CardTitle>{isFrench ? "Dernieres licences" : "Recent licenses"}</CardTitle>
           </CardHeader>
           <CardContent>
             {overview.licenses.length > 0 ? (
-              <div className="overflow-x-auto">
+              <>
+                <div className="grid gap-3 md:hidden">
+                  {overview.licenses.map((license) => (
+                    <article className="rounded-md border border-brand-border p-4" key={license.id}>
+                      <Cluster className="justify-between">
+                        <StatusBadge status={license.status} />
+                        <span className="font-mono text-xs text-brand-slate">v{license.keyVersion}</span>
+                      </Cluster>
+                      <div className="mt-3 break-all font-mono text-xs">
+                        {license.keyPrefix}-...-{license.keyLast4}
+                      </div>
+                      <div className="mt-3 text-sm">
+                        <div className="font-medium">{license.productName}</div>
+                        <div className="mt-1 break-words text-brand-slate">{license.customerEmail}</div>
+                      </div>
+                      <dl className="mt-4 grid grid-cols-2 gap-3 text-xs">
+                        <div>
+                          <dt className="text-brand-slate">{isFrench ? "Limites" : "Limits"}</dt>
+                          <dd className="mt-1 font-medium">
+                            PROD {license.productionLimit} / STG {license.stagingLimit}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt className="text-brand-slate">{isFrench ? "Activations" : "Activations"}</dt>
+                          <dd className="mt-1 font-medium">{license.activationCount}</dd>
+                        </div>
+                        <div className="col-span-2">
+                          <dt className="text-brand-slate">{isFrench ? "Derniere validation" : "Last validation"}</dt>
+                          <dd className="mt-1 font-medium">{formatDate(license.lastValidatedAt, locale)}</dd>
+                        </div>
+                      </dl>
+                    </article>
+                  ))}
+                </div>
+                <div className="hidden overflow-x-auto md:block">
                 <table className="w-full min-w-[56rem] text-left text-sm">
                   <thead className="border-b border-brand-border text-xs uppercase text-brand-slate">
                     <tr>
@@ -118,7 +152,8 @@ function LicenseOverview({ locale, overview }: { locale: Locale; overview: Admin
                     ))}
                   </tbody>
                 </table>
-              </div>
+                </div>
+              </>
             ) : (
               <EmptyState>{isFrench ? "Aucune licence emise pour le moment." : "No issued licenses yet."}</EmptyState>
             )}

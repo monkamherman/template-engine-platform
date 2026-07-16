@@ -1,9 +1,17 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
+import { Menu } from "lucide-react"
 
 import { LogoLockup } from "@/components/brand/logo"
 import { LanguageToggle } from "@/components/navigation/language-toggle"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Container } from "@/components/ui/layout"
 import type { NavigationItem } from "@/config/navigation"
 import { legalNavigation, publicNavigation } from "@/config/navigation"
@@ -100,11 +108,14 @@ export function WorkspaceShell({
           <Link href={routes.home(locale)}>
             <LogoLockup className="h-10 w-auto" />
           </Link>
-          <Badge variant={tone === "admin" ? "destructive" : "orange"}>{title}</Badge>
+          <div className="flex items-center gap-3">
+            <Badge variant={tone === "admin" ? "destructive" : "orange"}>{title}</Badge>
+            {navigation.length > 0 ? <WorkspaceMobileMenu locale={locale} navigation={navigation} title={title} /> : null}
+          </div>
         </Container>
       </header>
-      <Container wide className="grid gap-6 py-6 lg:grid-cols-[16rem_1fr]">
-        <aside className="rounded-lg border border-brand-border bg-white p-4">
+      <Container wide className="grid min-w-0 gap-6 py-4 sm:py-6 lg:grid-cols-[16rem_minmax(0,1fr)]">
+        <aside className="hidden rounded-lg border border-brand-border bg-white p-4 lg:block">
           <nav aria-label={title} className="grid gap-2 text-sm font-semibold">
             {navigation.map((item) => (
               <Link key={item.id} href={item.href(locale)} className="rounded-md px-3 py-2 text-brand-slate hover:bg-brand-orange-soft hover:text-brand-ink">
@@ -113,9 +124,38 @@ export function WorkspaceShell({
             ))}
           </nav>
         </aside>
-        <div>{children}</div>
+        <div className="min-w-0">{children}</div>
       </Container>
     </div>
+  )
+}
+
+function WorkspaceMobileMenu({
+  locale,
+  navigation,
+  title,
+}: {
+  locale: Locale
+  navigation: NavigationItem[]
+  title: string
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button aria-label={`${title} menu`} className="lg:hidden" size="icon" type="button" variant="outline">
+          <Menu aria-hidden="true" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-[min(20rem,calc(100vw-2rem))]">
+        {navigation.map((item) => (
+          <DropdownMenuItem asChild key={item.id}>
+            <Link className="w-full py-2 font-semibold" href={item.href(locale)}>
+              {item.label[locale]}
+            </Link>
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 

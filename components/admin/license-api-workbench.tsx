@@ -77,14 +77,14 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
   }
 
   return (
-    <main className="grid gap-6">
-      <header className="rounded-xl border border-brand-border bg-white p-6 shadow-subtle">
+    <section className="grid min-w-0 gap-6">
+      <header className="rounded-xl border border-brand-border bg-white p-4 shadow-subtle sm:p-6">
         <Cluster>
           <Badge variant="orange">API V1</Badge>
           <Badge variant="outline">admin workbench</Badge>
           <Badge variant="outline">protocol header required</Badge>
         </Cluster>
-        <h1 className="mt-5 font-heading text-3xl font-extrabold">
+        <h1 className="mt-5 font-heading text-2xl font-extrabold sm:text-3xl">
           {isFrench ? "Atelier API licences" : "License API workbench"}
         </h1>
         <p className="mt-3 max-w-3xl leading-7 text-brand-slate">
@@ -100,7 +100,7 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
           : "Recommended test order: activate, then validate with the same Installation ID, Site URL and environment. After deactivate, validate must fail until the installation is activated again."}
       </Alert>
 
-      <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+      <div className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <Card>
           <CardHeader>
             <CardTitle>{isFrench ? "Requete" : "Request"}</CardTitle>
@@ -134,8 +134,8 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
                 </Select>
               </FormField>
             </div>
-            <Cluster>
-              <Button onClick={() => setInstallationId(crypto.randomUUID())} size="compact" type="button" variant="ghost">
+            <Cluster className="items-stretch">
+              <Button className="w-full sm:w-auto" onClick={() => setInstallationId(crypto.randomUUID())} size="compact" type="button" variant="ghost">
                 {isFrench ? "Nouvel Installation ID" : "New Installation ID"}
               </Button>
             </Cluster>
@@ -150,9 +150,10 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
                 <Input id="themeVersion" onChange={(event) => setThemeVersion(event.target.value)} value={themeVersion} />
               </FormField>
             </div>
-            <Cluster>
+            <Cluster className="items-stretch">
               {(["activate", "validate", "deactivate"] satisfies Endpoint[]).map((endpoint) => (
                 <Button
+                  className="w-full sm:w-auto"
                   disabled={!licenseKey || loadingEndpoint !== null}
                   isLoading={loadingEndpoint === endpoint}
                   key={endpoint}
@@ -187,14 +188,14 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
               </Alert>
             ) : null}
             <Textarea
-              className="min-h-[28rem] font-mono text-xs"
+              className="min-h-[20rem] overflow-x-auto font-mono text-xs sm:min-h-[28rem]"
               readOnly
               value={result.body ? JSON.stringify(result.body, null, 2) : ""}
             />
           </CardContent>
         </Card>
       </div>
-    </main>
+    </section>
   )
 }
 
