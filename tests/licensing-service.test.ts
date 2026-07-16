@@ -229,9 +229,16 @@ test("protocol fixture package exists for cross-repository integration", () => {
 
 test("admin license route uses the API workbench interface", () => {
   const adminRoute = readFileSync("app/[locale]/admin/[...segments]/page.tsx", "utf8")
+  const dashboard = readFileSync("components/admin/license-admin-dashboard.tsx", "utf8")
   const workbench = readFileSync("components/admin/license-api-workbench.tsx", "utf8")
+  const adminQuery = readFileSync("modules/licensing/queries/admin-license-query.ts", "utf8")
 
-  assert.match(adminRoute, /<LicenseApiWorkbench locale=\{locale\}/)
+  assert.match(adminRoute, /dynamic = "force-dynamic"/)
+  assert.match(adminRoute, /<LicenseAdminDashboard locale=\{locale\}/)
+  assert.match(dashboard, /getAdminLicenseOverview\(prisma\)/)
+  assert.match(dashboard, /<LicenseApiWorkbench locale=\{locale\}/)
+  assert.match(adminQuery, /keyLast4/)
+  assert.doesNotMatch(adminQuery, /secretCiphertext|secretHash|secretNonce|secretAuthTag/)
   assert.match(workbench, /\/api\/licenses\/\$\{endpoint\}/)
   assert.match(workbench, /"X-TEP-Protocol": "1"/)
   assert.match(workbench, /SEED_DEV_LICENSE=true pnpm db:seed/)

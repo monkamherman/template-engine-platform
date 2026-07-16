@@ -246,7 +246,7 @@ An entitled customer can securely receive the correct release, access matching d
 
 ### Sprint 05A — License service foundation
 
-Current status: in progress on branch `feat/sprint-05a-license-service`.
+Current status: ready for QA handoff on branch `feat/sprint-05a-license-service`.
 
 Audit summary:
 
@@ -262,15 +262,16 @@ Implemented foundation:
 - environment validation covers required license secrets and rate-limit mode;
 - licensing module now includes key generation/canonicalization, HMAC verification, AES-GCM encryption, domain normalization, limit policy, signed lease generation/verification, memory rate limiting, issuance, reveal, rotation, status changes and limit changes;
 - public protocol routes `/api/licenses/activate`, `/api/licenses/validate` and `/api/licenses/deactivate` exist and delegate to domain services;
+- `/admin/licenses` is connected to real license and activation queries and includes the protocol workbench for operator testing;
 - protocol fixture files for Sprint 05C are present under `tests/fixtures/license-protocol`;
 - development seed can generate a local-only test license when `SEED_DEV_LICENSE=true`;
 - unit tests cover the security primitives, route envelope behavior and protocol fixture package.
 
-Remaining work before Sprint 05A completion:
+QA handoff items before Sprint 05A release sign-off:
 
 - database-backed integration tests against disposable PostgreSQL;
 - concurrency proof for production/staging activation limits;
-- account/admin license pages connected to authorized queries;
+- customer account license pages connected to authorized queries;
 - exact signed lease fixtures generated from a committed test keypair for cross-repository 05C;
 - production shared rate limiter adapter decision.
 

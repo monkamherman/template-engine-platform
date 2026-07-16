@@ -289,9 +289,12 @@ export const interfaceRegistry = [
     buildPath,
     audience: "admin" as const,
     owner: "operations",
-    maturity: "WIREFRAME" as const,
-    dataMode: "fixture" as const,
-    notes: "Role-protected development guard with disabled preview actions.",
+    maturity: id === "admin.licenses" ? ("CONNECTED" as const) : ("WIREFRAME" as const),
+    dataMode: id === "admin.licenses" ? ("query" as const) : ("fixture" as const),
+    notes:
+      id === "admin.licenses"
+        ? "Operator view reads issued licenses and activations through the licensing query layer; API workbench remains for protocol testing."
+        : "Role-protected development guard with disabled preview actions.",
   })),
   {
     id: "system.interface-map",
