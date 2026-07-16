@@ -1,0 +1,14 @@
+{
+  "protocolVersion": 1,
+  "fixtureRevision": 1,
+  "cases": [
+    {
+      "input": "https://Shop.Example.test/path?x=1",
+      "expected": "shop.example.test"
+    },
+    {
+      "input": "http://localhost:8080/test",
+      "expected": "localhost:8080"
+    }
+  ]
+}

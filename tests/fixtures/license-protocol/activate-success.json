@@ -1,0 +1,19 @@
+{
+  "protocolVersion": 1,
+  "fixtureRevision": 1,
+  "ok": true,
+  "data": {
+    "license": {
+      "status": "ACTIVE",
+      "keyPrefix": "TEP1-0000-0000",
+      "keyLast4": "0000",
+      "expiresAt": null
+    },
+    "activation": {
+      "installationId": "6df54c7c-e60a-4e31-8bdc-4ecf3b22bc4b",
+      "environment": "PRODUCTION",
+      "normalizedDomain": "shop.example.test",
+      "status": "ACTIVE"
+    }
+  }
+}

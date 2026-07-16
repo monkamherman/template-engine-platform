@@ -6,4 +6,13 @@ export { normalizeActivationDomain } from "./domain/domain-normalization"
 export { isActivationLimitReached } from "./domain/license-policy"
 export { parseLicenseEnvironment } from "./env"
 export { MemoryLicenseRateLimiter } from "./rate-limit/memory-license-rate-limiter"
+export {
+  changeLicenseLimits,
+  issueLicenseForEntitlement,
+  reactivateLicense,
+  revealLicenseKey,
+  revokeLicense,
+  rotateLicenseKey,
+  suspendLicense,
+} from "./services/management-service"
 export type { LicenseActivationEnvironment, LicenseLeaseClaims } from "./types"

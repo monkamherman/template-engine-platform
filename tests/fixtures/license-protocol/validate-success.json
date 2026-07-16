@@ -1,0 +1,12 @@
+{
+  "protocolVersion": 1,
+  "fixtureRevision": 1,
+  "ok": true,
+  "data": {
+    "services": {
+      "officialUpdates": true,
+      "protectedDownloads": true,
+      "support": true
+    }
+  }
+}

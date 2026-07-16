@@ -1,3 +1,4 @@
+import { LicenseApiWorkbench } from "@/components/admin/license-api-workbench"
 import { ReviewWorkspacePreview } from "@/components/admin/review-workspace-preview"
 import { InterfacePage } from "@/components/layout/interface-page"
 import { getInterfacePreviewByPath } from "@/modules/platform/interface-query"
@@ -17,6 +18,10 @@ export default async function AdminGeneratedPage({
 
   if (segments[0] === "documentation") {
     return <ReviewWorkspacePreview kind="documentation" locale={locale} />
+  }
+
+  if (segments[0] === "licenses") {
+    return <LicenseApiWorkbench locale={locale} />
   }
 
   const preview = getInterfacePreviewByPath(locale, ["admin", ...segments])

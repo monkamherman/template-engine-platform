@@ -1,0 +1,11 @@
+{
+  "protocolVersion": 1,
+  "fixtureRevision": 1,
+  "ok": true,
+  "data": {
+    "activation": {
+      "installationId": "6df54c7c-e60a-4e31-8bdc-4ecf3b22bc4b",
+      "status": "DEACTIVATED"
+    }
+  }
+}

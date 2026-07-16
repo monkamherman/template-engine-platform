@@ -1,16 +1,18 @@
-import { BillingMode, OfferType, PrismaClient, ProductStatus } from "@prisma/client";
+import { BillingMode, EntitlementSource, OfferType, PrismaClient, ProductStatus, Role } from "@prisma/client";
+
+import { issueLicenseForEntitlement, parseLicenseEnvironment } from "../modules/licensing";
 
 const prisma = new PrismaClient();
 
 async function main() {
   const product = await prisma.product.upsert({
-    where: { slug: "woo-app-template-engine" },
+    where: { slug: "woo-app-theme" },
     update: {
       name: "Woo App Template Engine",
       status: ProductStatus.ACTIVE,
     },
     create: {
-      slug: "woo-app-template-engine",
+      slug: "woo-app-theme",
       name: "Woo App Template Engine",
       description: "Commercial WooCommerce template engine license.",
       status: ProductStatus.ACTIVE,
@@ -44,6 +46,8 @@ async function main() {
     },
   ];
 
+  let starterOfferId = "";
+
   for (const offer of offers) {
     const savedOffer = await prisma.offer.upsert({
       where: { code: offer.code },
@@ -62,6 +66,10 @@ async function main() {
         status: ProductStatus.ACTIVE,
       },
     });
+
+    if (offer.code === "STARTER") {
+      starterOfferId = savedOffer.id;
+    }
 
     await prisma.price.upsert({
       where: {
@@ -83,6 +91,52 @@ async function main() {
         active: true,
       },
     });
+  }
+
+  if (process.env.SEED_DEV_LICENSE === "true") {
+    const env = parseLicenseEnvironment(process.env);
+    const user = await prisma.user.upsert({
+      where: { email: "dev-license-customer@example.test" },
+      update: { status: "ACTIVE" },
+      create: {
+        email: "dev-license-customer@example.test",
+        name: "Dev License Customer",
+        status: "ACTIVE",
+      },
+    });
+
+    await prisma.userRole.upsert({
+      where: {
+        userId_role: {
+          userId: user.id,
+          role: Role.CUSTOMER,
+        },
+      },
+      update: {},
+      create: {
+        userId: user.id,
+        role: Role.CUSTOMER,
+      },
+    });
+
+    const entitlement = await prisma.entitlement.create({
+      data: {
+        userId: user.id,
+        offerId: starterOfferId,
+        status: "ACTIVE",
+        source: EntitlementSource.MANUAL,
+      },
+    });
+    const license = await issueLicenseForEntitlement({
+      actor: { id: "seed", type: "system" },
+      entitlementId: entitlement.id,
+      env,
+      prisma,
+      reason: "Local development seed license",
+    });
+
+    console.warn("Development license generated. Do not use this key outside local development.");
+    console.warn(`DEV_LICENSE_KEY=${license.displayKey}`);
   }
 }
 

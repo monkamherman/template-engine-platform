@@ -260,17 +260,19 @@ Implemented foundation:
 
 - V1 schema migration adds one license per entitlement, key last-four, ciphertext/nonce/auth tag, hash/encryption/key versions, production/staging limits and activation environment;
 - environment validation covers required license secrets and rate-limit mode;
-- licensing module now includes key generation/canonicalization, HMAC verification, AES-GCM encryption, domain normalization, limit policy, signed lease generation/verification and memory rate limiting;
-- unit tests cover the security primitives and protocol invariants.
+- licensing module now includes key generation/canonicalization, HMAC verification, AES-GCM encryption, domain normalization, limit policy, signed lease generation/verification, memory rate limiting, issuance, reveal, rotation, status changes and limit changes;
+- public protocol routes `/api/licenses/activate`, `/api/licenses/validate` and `/api/licenses/deactivate` exist and delegate to domain services;
+- protocol fixture files for Sprint 05C are present under `tests/fixtures/license-protocol`;
+- development seed can generate a local-only test license when `SEED_DEV_LICENSE=true`;
+- unit tests cover the security primitives, route envelope behavior and protocol fixture package.
 
 Remaining work before Sprint 05A completion:
 
-- Prisma repositories and transactional issuance/activation/validation/deactivation services;
-- audit-event writing for license lifecycle actions;
-- protocol V1 API routes and Zod request/response schemas;
+- database-backed integration tests against disposable PostgreSQL;
+- concurrency proof for production/staging activation limits;
 - account/admin license pages connected to authorized queries;
-- database-backed concurrency tests for activation limits;
-- safe seed path for development test entitlement/license.
+- exact signed lease fixtures generated from a committed test keypair for cross-repository 05C;
+- production shared rate limiter adapter decision.
 
 ### Phase 10 — Hardening and launch
 
