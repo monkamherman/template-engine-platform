@@ -1,0 +1,10 @@
+{
+  "protocolVersion": 1,
+  "fixtureRevision": 1,
+  "ok": false,
+  "error": {
+    "code": "LICENSE_SUSPENDED",
+    "message": "The license could not be validated.",
+    "retryable": false
+  }
+}

@@ -1,7 +1,10 @@
+import { LicenseAdminDashboard } from "@/components/admin/license-admin-dashboard"
 import { ReviewWorkspacePreview } from "@/components/admin/review-workspace-preview"
 import { InterfacePage } from "@/components/layout/interface-page"
 import { getInterfacePreviewByPath } from "@/modules/platform/interface-query"
 import type { Locale } from "@/src/i18n/locales"
+
+export const dynamic = "force-dynamic"
 
 export default async function AdminGeneratedPage({
   params,
@@ -17,6 +20,10 @@ export default async function AdminGeneratedPage({
 
   if (segments[0] === "documentation") {
     return <ReviewWorkspacePreview kind="documentation" locale={locale} />
+  }
+
+  if (segments[0] === "licenses") {
+    return <LicenseAdminDashboard locale={locale} />
   }
 
   const preview = getInterfacePreviewByPath(locale, ["admin", ...segments])

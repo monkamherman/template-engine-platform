@@ -148,7 +148,7 @@ Until a production authentication provider is connected, forms must clearly use 
 | `admin.payment-detail` | `/{locale}/admin/payments/{paymentId}` | Payment detail | Inspect provider references and safe operational state | fixture/query | commerce |
 | `admin.entitlements` | `/{locale}/admin/entitlements` | Entitlement list | Review and manage customer access rights | fixture/query | entitlements |
 | `admin.entitlement-detail` | `/{locale}/admin/entitlements/{entitlementId}` | Entitlement detail | Inspect origin, state and audit-sensitive actions | fixture/query | entitlements/audit |
-| `admin.licenses` | `/{locale}/admin/licenses` | License list | Search issued official-service keys | fixture/query | licensing |
+| `admin.licenses` | `/{locale}/admin/licenses` | License operations | Inspect issued official-service keys, activation state and protocol test responses | query | licensing |
 | `admin.license-detail` | `/{locale}/admin/licenses/{licenseId}` | License detail | Inspect status, activations, limits and revocation actions | fixture/query | licensing/audit |
 | `admin.releases` | `/{locale}/admin/releases` | Release list | Manage release metadata and publication state | fixture/query | releases |
 | `admin.release-new` | `/{locale}/admin/releases/new` | New release | Prepare release metadata and documentation requirements | preview/fixture | releases/documentation |

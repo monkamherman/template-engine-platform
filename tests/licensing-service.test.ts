@@ -1,4 +1,5 @@
 import assert from "node:assert/strict"
+import { existsSync, readFileSync } from "node:fs"
 import { generateKeyPairSync, randomBytes } from "node:crypto"
 import test from "node:test"
 
@@ -195,4 +196,50 @@ test("license route protocol maps invalid license errors generically", async () 
   assert.equal(response.status, 401)
   assert.equal(body.error.code, "INVALID_LICENSE")
   assert.equal(body.error.message, "The license could not be validated.")
+})
+
+test("protocol fixture package exists for cross-repository integration", () => {
+  const fixtureDir = "tests/fixtures/license-protocol"
+  const required = [
+    "activate-request.json",
+    "activate-success.json",
+    "validate-request.json",
+    "validate-success.json",
+    "deactivate-request.json",
+    "deactivate-success.json",
+    "invalid-license.json",
+    "limit-reached.json",
+    "suspended-license.json",
+    "revoked-license.json",
+    "lease-valid.txt",
+    "lease-expired.txt",
+    "lease-tampered.txt",
+    "domain-normalization.json",
+  ]
+
+  for (const file of required) {
+    assert.equal(existsSync(`${fixtureDir}/${file}`), true, file)
+    if (file.endsWith(".json")) {
+      const parsed = JSON.parse(readFileSync(`${fixtureDir}/${file}`, "utf8")) as { protocolVersion: number; fixtureRevision: number }
+      assert.equal(parsed.protocolVersion, 1, file)
+      assert.equal(parsed.fixtureRevision, 1, file)
+    }
+  }
+})
+
+test("admin license route uses the API workbench interface", () => {
+  const adminRoute = readFileSync("app/[locale]/admin/[...segments]/page.tsx", "utf8")
+  const dashboard = readFileSync("components/admin/license-admin-dashboard.tsx", "utf8")
+  const workbench = readFileSync("components/admin/license-api-workbench.tsx", "utf8")
+  const adminQuery = readFileSync("modules/licensing/queries/admin-license-query.ts", "utf8")
+
+  assert.match(adminRoute, /dynamic = "force-dynamic"/)
+  assert.match(adminRoute, /<LicenseAdminDashboard locale=\{locale\}/)
+  assert.match(dashboard, /getAdminLicenseOverview\(prisma\)/)
+  assert.match(dashboard, /<LicenseApiWorkbench locale=\{locale\}/)
+  assert.match(adminQuery, /keyLast4/)
+  assert.doesNotMatch(adminQuery, /secretCiphertext|secretHash|secretNonce|secretAuthTag/)
+  assert.match(workbench, /\/api\/licenses\/\$\{endpoint\}/)
+  assert.match(workbench, /"X-TEP-Protocol": "1"/)
+  assert.match(workbench, /SEED_DEV_LICENSE=true pnpm db:seed/)
 })

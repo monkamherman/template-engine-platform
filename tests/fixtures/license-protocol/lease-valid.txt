@@ -1,0 +1,1 @@
+test-fixture-valid-lease-generated-by-platform-test-key

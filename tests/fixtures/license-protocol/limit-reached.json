@@ -1,0 +1,10 @@
+{
+  "protocolVersion": 1,
+  "fixtureRevision": 1,
+  "ok": false,
+  "error": {
+    "code": "PRODUCTION_LIMIT_REACHED",
+    "message": "The license could not be validated.",
+    "retryable": false
+  }
+}
