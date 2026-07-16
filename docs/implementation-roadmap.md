@@ -244,6 +244,34 @@ Exit condition:
 
 An entitled customer can securely receive the correct release, access matching documentation, and an official-service key can be limited, suspended and revoked without falsely claiming to revoke software copyright rights.
 
+### Sprint 05A — License service foundation
+
+Current status: in progress on branch `feat/sprint-05a-license-service`.
+
+Audit summary:
+
+- existing schema had `License` and `LicenseActivation`, but only one generic `activationLimit` and no encrypted redisplay storage;
+- account/admin license pages are still preview-backed;
+- only `/api/health` exists as a real API route; license protocol routes are not connected yet;
+- current tests are Node test runner based, with no database integration harness yet;
+- auth remains a development fixture, so privileged reveal/rotation UI must stay unreleased until production auth exists.
+
+Implemented foundation:
+
+- V1 schema migration adds one license per entitlement, key last-four, ciphertext/nonce/auth tag, hash/encryption/key versions, production/staging limits and activation environment;
+- environment validation covers required license secrets and rate-limit mode;
+- licensing module now includes key generation/canonicalization, HMAC verification, AES-GCM encryption, domain normalization, limit policy, signed lease generation/verification and memory rate limiting;
+- unit tests cover the security primitives and protocol invariants.
+
+Remaining work before Sprint 05A completion:
+
+- Prisma repositories and transactional issuance/activation/validation/deactivation services;
+- audit-event writing for license lifecycle actions;
+- protocol V1 API routes and Zod request/response schemas;
+- account/admin license pages connected to authorized queries;
+- database-backed concurrency tests for activation limits;
+- safe seed path for development test entitlement/license.
+
 ### Phase 10 — Hardening and launch
 
 Suggested sprints: Sprint 14 and Sprint 15.
