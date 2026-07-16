@@ -275,6 +275,17 @@ QA handoff items before Sprint 05A release sign-off:
 - exact signed lease fixtures generated from a committed test keypair for cross-repository 05C;
 - production shared rate limiter adapter decision.
 
+### Sprint 05C — Cross-repository license integration
+
+Current status: opened on platform branch `test/sprint-05c-license-integration`.
+
+Initial handoff:
+
+- required platform fixture files are present under `tests/fixtures/license-protocol`;
+- `docs/license-integration-report.md` tracks the compatibility matrix and scenario evidence;
+- theme repository branch and tested theme commit are pending;
+- no compatibility claim is approved until scenarios A-L are executed against exact platform and theme commits.
+
 ### Phase 10 — Hardening and launch
 
 Suggested sprints: Sprint 14 and Sprint 15.
