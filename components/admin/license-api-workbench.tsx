@@ -19,6 +19,7 @@ type ApiState = {
   status: number | null
   body: unknown
   error: string | null
+  endpoint: Endpoint | null
 }
 
 const defaultInstallationId = "6df54c7c-e60a-4e31-8bdc-4ecf3b22bc4b"
@@ -31,7 +32,7 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
   const [environment, setEnvironment] = useState<"PRODUCTION" | "STAGING">("PRODUCTION")
   const [productSlug, setProductSlug] = useState("woo-app-theme")
   const [themeVersion, setThemeVersion] = useState("1.0.0")
-  const [result, setResult] = useState<ApiState>({ status: null, body: null, error: null })
+  const [result, setResult] = useState<ApiState>({ status: null, body: null, error: null, endpoint: null })
   const [loadingEndpoint, setLoadingEndpoint] = useState<Endpoint | null>(null)
 
   const payload = useMemo(
@@ -48,7 +49,7 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
 
   async function callEndpoint(endpoint: Endpoint) {
     setLoadingEndpoint(endpoint)
-    setResult({ status: null, body: null, error: null })
+    setResult({ status: null, body: null, error: null, endpoint })
 
     try {
       const endpointPayload = endpoint === "deactivate" ? withoutThemeVersion(payload) : payload
@@ -62,12 +63,13 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
         body: JSON.stringify(endpointPayload),
       })
       const body = (await response.json()) as unknown
-      setResult({ status: response.status, body, error: null })
+      setResult({ status: response.status, body, error: null, endpoint })
     } catch (error) {
       setResult({
         status: null,
         body: null,
         error: error instanceof Error ? error.message : "Unknown request failure",
+        endpoint,
       })
     } finally {
       setLoadingEndpoint(null)
@@ -94,8 +96,8 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
 
       <Alert variant="info">
         {isFrench
-          ? "Utilise uniquement des cles de developpement. La cle n'est pas placee dans l'URL et la reponse brute permet de verifier l'enveloppe protocole."
-          : "Use development keys only. The key is not placed in the URL and the raw response lets you inspect the protocol envelope."}
+          ? "Ordre de test conseille: activate, puis validate avec le meme Installation ID, Site URL et environnement. Apres deactivate, validate doit echouer tant que l'installation n'est pas reactivee."
+          : "Recommended test order: activate, then validate with the same Installation ID, Site URL and environment. After deactivate, validate must fail until the installation is activated again."}
       </Alert>
 
       <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
@@ -132,6 +134,11 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
                 </Select>
               </FormField>
             </div>
+            <Cluster>
+              <Button onClick={() => setInstallationId(crypto.randomUUID())} size="compact" type="button" variant="ghost">
+                {isFrench ? "Nouvel Installation ID" : "New Installation ID"}
+              </Button>
+            </Cluster>
             <FormField htmlFor="siteUrl" label="Site URL">
               <Input id="siteUrl" onChange={(event) => setSiteUrl(event.target.value)} value={siteUrl} />
             </FormField>
@@ -153,7 +160,7 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
                   type="button"
                   variant={endpoint === "deactivate" ? "outline" : "primary"}
                 >
-                  {endpoint}
+                  {endpointLabel(endpoint, isFrench)}
                 </Button>
               ))}
             </Cluster>
@@ -172,6 +179,13 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
               <Badge variant="outline">X-TEP-Protocol: 1</Badge>
             </div>
             {result.error ? <Alert variant="danger">{result.error}</Alert> : null}
+            {isInvalidValidateResult(result) ? (
+              <Alert variant="warning">
+                {isFrench
+                  ? "Validate cherche une activation ACTIVE existante. Relance activate avec exactement les memes champs, puis validate avant deactivate."
+                  : "Validate looks for an existing ACTIVE activation. Run activate again with exactly the same fields, then validate before deactivate."}
+              </Alert>
+            ) : null}
             <Textarea
               className="min-h-[28rem] font-mono text-xs"
               readOnly
@@ -182,6 +196,18 @@ export function LicenseApiWorkbench({ locale }: { locale: Locale }) {
       </div>
     </main>
   )
+}
+
+function endpointLabel(endpoint: Endpoint, isFrench: boolean) {
+  if (endpoint === "activate") return isFrench ? "1. activer" : "1. activate"
+  if (endpoint === "validate") return isFrench ? "2. valider" : "2. validate"
+  return isFrench ? "3. desactiver" : "3. deactivate"
+}
+
+function isInvalidValidateResult(result: ApiState) {
+  if (result.endpoint !== "validate" || !result.body || typeof result.body !== "object") return false
+  const error = "error" in result.body ? result.body.error : null
+  return Boolean(error && typeof error === "object" && "code" in error && error.code === "INVALID_LICENSE")
 }
 
 function withoutThemeVersion(payload: {
