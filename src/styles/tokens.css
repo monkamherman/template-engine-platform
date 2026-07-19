@@ -4,9 +4,22 @@
   --brand-canvas: #fafaf7;
   --brand-slate: #3a404c;
   --brand-border: #d9dce2;
-  --brand-orange: #ff6b00;
-  --brand-orange-strong: #d94f00;
-  --brand-orange-soft: #fff0e5;
+  --brand-orange: #f97316;
+  --brand-orange-strong: #ea580c;
+  --brand-orange-soft: rgb(249 115 22 / 0.12);
+
+  --marketing-background: #0b0f19;
+  --marketing-card: #111827;
+  --marketing-card-subtle: #0f172a;
+  --marketing-border: #1f2937;
+  --marketing-slate: #334155;
+  --marketing-accent: #f97316;
+  --marketing-accent-soft: rgb(249 115 22 / 0.12);
+  --marketing-success: #22c55e;
+  --marketing-warning: #f59e0b;
+  --marketing-danger: #ef4444;
+  --marketing-foreground: #f8fafc;
+  --marketing-muted-foreground: #94a3b8;
 
   --success: #0f7a4f;
   --success-soft: #e7f6ef;
@@ -16,7 +29,7 @@
   --danger-soft: #fde7e4;
   --info: #155eef;
   --info-soft: #e8f0ff;
-  --focus-ring: #ff6b00;
+  --focus-ring: #f97316;
   --muted: #eef0f3;
   --surface: #fafaf7;
   --surface-elevated: #ffffff;

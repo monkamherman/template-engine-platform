@@ -126,7 +126,7 @@ export const interfaceRegistry = [
     owner: "marketing/catalog",
     maturity: "BRANDED",
     dataMode: "content",
-    notes: "Public branded foundation; final marketing copy continues in later waves.",
+    notes: "Sprint 06A branded landing page with hero, product visual, value strip, shop-model tabs, features, offers, documentation preview and final CTA.",
   },
   {
     id: "marketing.product",

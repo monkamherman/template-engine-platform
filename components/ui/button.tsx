@@ -18,7 +18,7 @@ const buttonVariants = cva(
           "border border-brand-border bg-transparent text-brand-ink hover:border-brand-ink hover:bg-white",
         ghost: "text-brand-slate hover:bg-brand-orange-soft hover:text-brand-ink",
         danger:
-          "bg-danger text-white shadow-subtle hover:bg-[#8f1d14]",
+          "bg-danger text-white shadow-subtle hover:bg-danger/90",
       },
       size: {
         default: "h-11 px-5 py-2.5",
