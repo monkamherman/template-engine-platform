@@ -366,7 +366,7 @@ function PricingHero({ locale, t }: { locale: Locale; t: PricingCopy }) {
             </Button>
           </div>
         </div>
-        <Card className="border-marketing-border bg-marketing-card text-marketing-foreground">
+        {/* <Card className="border-marketing-border bg-marketing-card text-marketing-foreground">
           <CardContent className="p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-marketing-muted">
               {locale === "fr" ? "Source prix" : "Price source"}
@@ -380,7 +380,7 @@ function PricingHero({ locale, t }: { locale: Locale; t: PricingCopy }) {
                 : "This interface accepts no browser-supplied price and shows no unapproved final amount."}
             </p>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
     </section>
   )
