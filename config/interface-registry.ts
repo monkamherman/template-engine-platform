@@ -157,9 +157,9 @@ export const interfaceRegistry = [
     buildPath: routes.marketing.demos,
     audience: "public",
     owner: "catalog",
-    maturity: "WIREFRAME",
+    maturity: "BRANDED",
     dataMode: "fixture",
-    notes: "Fictional demo scenarios only; no customer claims.",
+    notes: "Sprint 06D branded demos index with illustrative shop scenarios, filters, model comparison, educational cards, validation alert and final CTA; no customer claims.",
   },
   {
     id: "marketing.demo-detail",

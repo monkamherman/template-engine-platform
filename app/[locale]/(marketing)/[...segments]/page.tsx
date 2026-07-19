@@ -26,6 +26,7 @@ export default async function MarketingGeneratedPage({
 
 export function generateStaticParams() {
   const routes = [
+
     ["demos"],
     ["demos", "dropshipping-modele"],
     ["use-cases"],
