@@ -8,9 +8,15 @@ Goal: Convert a first-time visitor into someone who understands the product and 
 ## Prompt to paste into Stitch
 
 ```text
-Build a complete responsive landing page for Template Engine Platform.
+Build the complete responsive main content for the Template Engine Platform landing page.
 
 Use shadcn/ui as the primary design system. Use 21st.dev components only when they integrate perfectly with shadcn/ui. Do not invent a separate component library. Think in React + TypeScript + Tailwind for a Next.js App Router project.
+
+Scope boundary:
+- Design only the page-specific content that appears between the existing global header and the existing global footer.
+- Do not design or include a header, navbar, mobile menu, language switcher, account dropdown or footer.
+- The page should start directly with the landing hero content and end with the final CTA section.
+- Page-level section anchors or local content navigation are allowed only if they are inside the main content.
 
 Product context:
 Template Engine Platform is the commercial platform for a modular WooCommerce Template Engine. It helps entrepreneurs, agencies and technical operators launch ecommerce stores faster by using a reusable WooCommerce theme foundation that can adapt to niche, market, language and shop model.
@@ -43,13 +49,6 @@ Visual identity:
 
 Page objective:
 Explain in less than five seconds that the product is a ready commercial system for launching WooCommerce stores faster with reusable templates, official license access, documentation and optional support.
-
-Top navigation:
-- Logo placeholder: Template Engine
-- Links: Product, Features, Demos, Pricing, Docs
-- Secondary action: Sign in
-- Primary action: View pricing
-- Mobile: use shadcn Sheet navigation
 
 Hero section:
 Create a strong hero with:
@@ -121,9 +120,6 @@ Final CTA:
 Headline: “Prepare your next ecommerce launch with a system, not a blank page.”
 Buttons: “View pricing” and “Open documentation”.
 
-Footer:
-Simple footer with Product, Docs, Legal, Account.
-
 Responsive requirements:
 - Desktop layout must feel premium and spacious.
 - Tablet must keep the hero visual readable.
@@ -137,6 +133,8 @@ Accessibility:
 - Buttons must have clear labels.
 
 Do not include:
+- any global header or navigation;
+- any global footer;
 - fake customer logos;
 - fake testimonials;
 - fake revenue claims;
@@ -145,7 +143,7 @@ Do not include:
 - overly flashy gradients;
 - irrelevant AI/robot imagery.
 
-Output a complete page design with clear sections and implementation-friendly component structure.
+Output a complete page-specific main content design with clear sections and implementation-friendly component structure, excluding header and footer.
 ```
 
 ## Review criteria
@@ -157,4 +155,5 @@ The generated home page is acceptable only if:
 - Starter, Pro and Managed appear as commercial paths;
 - shadcn/ui primitives are visible in the structure;
 - mobile is not an afterthought;
+- no header, navbar, mobile menu or footer is generated;
 - no fake proof or overpromise is present.
