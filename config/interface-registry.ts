@@ -146,9 +146,9 @@ export const interfaceRegistry = [
     buildPath: routes.marketing.features,
     audience: "public",
     owner: "catalog",
-    maturity: "WIREFRAME",
+    maturity: "BRANDED",
     dataMode: "content",
-    notes: "Feature group wireframe generated from interface query.",
+    notes: "Sprint 06C branded features page with category tabs, shop-model grid, workflow, license/service boundary, technical confidence section and final CTA.",
   },
   {
     id: "marketing.demos",
