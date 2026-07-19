@@ -8,9 +8,15 @@ Goal: Give customers a calm and useful entry point into setup, activation, launc
 ## Prompt to paste into Stitch
 
 ```text
-Build a complete responsive Documentation Home page for Template Engine Platform.
+Build the complete responsive main content for the Template Engine Platform Documentation Home page.
 
 Use shadcn/ui as the primary design system. Use 21st.dev components only when they integrate perfectly with shadcn/ui. Do not invent a separate component library. Think in React + TypeScript + Tailwind for a Next.js App Router project.
+
+Scope boundary:
+- Design only the page-specific content between the existing global header and existing global footer.
+- Do not design or include a header, navbar, mobile menu, language switcher, account dropdown or footer.
+- Do not design the global documentation shell navigation unless it is a page-specific docs sidebar inside the content.
+- The page should start with the documentation breadcrumb/search/hero content and end with the support/version section or final docs CTA.
 
 Product context:
 Template Engine Platform provides commercial access, official downloads, license activation, documentation, onboarding and support for a modular WooCommerce Template Engine.
@@ -40,12 +46,12 @@ Visual identity:
 Page objective:
 Make users feel they can install, configure and maintain the product without being lost.
 
-Top docs layout:
-Use a documentation-focused page shell:
-- top navigation inherited from marketing;
-- breadcrumb: Home / Docs;
+Docs content layout:
+Use a documentation-focused main content layout:
+- breadcrumb inside the page content: Home / Docs;
 - main search input using shadcn Command style;
-- optional right-side “Current version” card.
+- optional right-side “Current version” card;
+- optional page-specific docs category sidebar only if it helps the content.
 
 Hero:
 - badge: “Documentation”
@@ -122,11 +128,8 @@ Show a small version selector or card:
 - Last updated placeholder
 - Link to release notes
 
-Footer:
-Simple docs footer with links to Product, Pricing, Legal and Support.
-
 Responsive requirements:
-- Desktop: documentation shell with search and category grid.
+- Desktop: documentation content with search and category grid.
 - Tablet: maintain readable cards and search prominence.
 - Mobile: search first, then path selector, then category cards.
 - Avoid dense multi-column text on mobile.
@@ -139,13 +142,15 @@ Accessibility:
 - Do not rely only on icon meaning.
 
 Do not include:
+- any global header or navigation;
+- any global footer;
 - fake version numbers unless marked as placeholder;
 - unapproved legal promises;
 - generic blog layout;
 - unrelated developer docs visuals;
 - overly flashy marketing gradients.
 
-Output a complete implementation-friendly documentation home page design.
+Output a complete implementation-friendly documentation home main content design, excluding header and footer.
 ```
 
 ## Review criteria
@@ -157,4 +162,5 @@ The generated Documentation Home page is acceptable only if:
 - Starter, Pro and Managed support paths are clear;
 - activation, installation and troubleshooting are easy to find;
 - the layout is calm and readable;
-- mobile starts with search and essential paths.
+- mobile starts with search and essential paths;
+- no header, navbar, mobile menu or footer is generated.
