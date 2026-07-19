@@ -8,9 +8,14 @@ Goal: Let visitors see concrete store scenarios and understand how the same engi
 ## Prompt to paste into Stitch
 
 ```text
-Build a complete responsive Demos index page for Template Engine Platform.
+Build the complete responsive main content for the Template Engine Platform Demos index page.
 
 Use shadcn/ui as the primary design system. Use 21st.dev components only when they integrate perfectly with shadcn/ui. Do not invent a separate component library. Think in React + TypeScript + Tailwind for a Next.js App Router project.
+
+Scope boundary:
+- Design only the page-specific content between the existing global header and existing global footer.
+- Do not design or include a header, navbar, mobile menu, language switcher, account dropdown or footer.
+- The page should start with the demos hero/content intro and end with the final demos CTA.
 
 Product context:
 Template Engine Platform sells commercial access to a modular WooCommerce Template Engine. The Demos page should show example store configurations that can be used as inspiration before choosing Starter, Pro or Managed.
@@ -143,6 +148,8 @@ Accessibility:
 - High contrast.
 
 Do not include:
+- any global header or navigation;
+- any global footer;
 - fake customer logos;
 - fake revenue screenshots;
 - fake store reviews;
@@ -150,7 +157,7 @@ Do not include:
 - claims that demos are live customer stores;
 - overly decorative backgrounds that hide the cards.
 
-Output a complete implementation-friendly demos index page design.
+Output a complete implementation-friendly demos index main content design, excluding header and footer.
 ```
 
 ## Review criteria
@@ -161,4 +168,5 @@ The generated Demos page is acceptable only if:
 - filters are practical and shadcn-compatible;
 - each demo card shows niche, market, language and model;
 - the page helps visitors choose between Starter, Pro and Managed;
-- mobile card browsing is clear.
+- mobile card browsing is clear;
+- no header, navbar, mobile menu or footer is generated.
