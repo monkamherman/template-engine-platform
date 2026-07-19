@@ -3,11 +3,21 @@
 Use this block at the beginning of every Stitch prompt unless a page-specific prompt already includes it.
 
 ```text
-Build a production-ready responsive web interface for Template Engine Platform, a commercial platform that sells, licenses, documents and supports a modular WooCommerce Template Engine.
+Build a production-ready responsive page-specific main content interface for Template Engine Platform, a commercial platform that sells, licenses, documents and supports a modular WooCommerce Template Engine.
 
 Use shadcn/ui as the primary design system. Use 21st.dev components only when they integrate perfectly with shadcn/ui and keep the same visual language. Do not invent a separate component library.
 
 Use React + TypeScript + Tailwind thinking. Design components that can be implemented in a Next.js App Router project.
+
+Scope boundary:
+- Design only the page-specific main content.
+- Do not design or include the global header.
+- Do not design or include desktop navigation bars.
+- Do not design or include mobile navigation drawers.
+- Do not design or include language switchers or account menus.
+- Do not design or include the global footer.
+- The design must start below the existing application header and end before the existing application footer.
+- Breadcrumbs, local tabs, section anchors, filters and page-specific sidebars are allowed when they belong to the page content.
 
 Visual identity:
 - premium SaaS
@@ -36,7 +46,7 @@ Visual identity:
 - no fake testimonials
 - no invented metrics
 
-The page must feel like a real commercial SaaS/product platform, not a generic template.
+The page content must feel like part of a real commercial SaaS/product platform, not a generic template.
 
 All states must be realistic: loading, empty, disabled and error states when relevant.
 
@@ -54,17 +64,18 @@ Prefer these component patterns:
 - `Accordion` for FAQ and detailed explanations;
 - `Table` or `DataTable` for account/admin lists;
 - `Dialog` for confirmation flows;
-- `Sheet` for mobile navigation or contextual panels;
 - `Alert` for warnings, legal review states or activation problems;
 - `Breadcrumb` for documentation and account/admin depths;
 - `Command` for documentation search or admin search;
 - `Tooltip` for technical labels.
 
+Do not ask Stitch to generate global shell components such as header, footer, language selector, user menu, top navigation or mobile menu. Those are shared platform components and will be handled separately.
+
 ## Layout rules
 
 - Desktop max width should feel premium, usually 1120px to 1280px.
-- Use a sticky top navigation when useful, but avoid heavy chrome.
-- Keep the first viewport very clear: headline, short explanation, primary CTA, secondary CTA and strong visual proof of the product.
+- Do not include global application chrome. The content should be ready to be placed inside an existing marketing, documentation, account or admin shell.
+- Keep the first viewport of the main content very clear: headline, short explanation, primary CTA, secondary CTA and strong visual proof of the product.
 - Use section rhythm: hero, value proof, explanation, comparison, conversion.
 - Mobile must be designed intentionally, not simply stacked without hierarchy.
 
@@ -84,4 +95,4 @@ Do not claim automatic universal deployment or guaranteed sales. Do not imply th
 
 ## Output expectation
 
-Ask Stitch for a complete page design, not just a hero section. The output should include desktop and mobile considerations, component names and implementation-friendly structure.
+Ask Stitch for complete page-specific main content, not just a hero section. The output should include desktop and mobile considerations, component names and implementation-friendly structure, without global header or footer design.
