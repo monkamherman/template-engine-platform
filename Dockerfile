@@ -6,8 +6,9 @@ RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json* ./
-RUN npm ci
+COPY package.json pnpm-lock.yaml ./
+RUN npm install -g pnpm@10.32.0
+RUN pnpm install --frozen-lockfile
 
 # Generate Prisma Client
 COPY prisma ./prisma/

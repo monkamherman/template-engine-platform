@@ -30,7 +30,7 @@ const doc = (
 })
 
 export const englishDocumentationDocuments = [
-  doc("docs.index", "", "Customer documentation", "Versioned guide for installing, activating, configuring and maintaining Template Engine.", "Main path", [
+  doc("docs.home", "", "Customer documentation", "Versioned guide for installing, activating, configuring and maintaining Template Engine.", "Main path", [
     "Start with requirements, then installation, official activation and initial setup.",
     "Guides remain in technical draft until the first theme release is validated.",
   ], ["/en/docs/getting-started", "/en/docs/requirements", "/en/legal/software-license"]),

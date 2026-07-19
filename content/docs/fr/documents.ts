@@ -12,7 +12,7 @@ const review = {
 export const frenchDocumentationDocuments = [
   {
     ...review,
-    id: "docs.index",
+    id: "docs.home",
     slug: "",
     title: "Documentation client",
     summary: "Mode d'emploi versionne pour installer, activer, configurer et maintenir le Template Engine.",
