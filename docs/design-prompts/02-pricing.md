@@ -8,9 +8,14 @@ Goal: Help visitors understand Starter, Pro and Managed, then choose the correct
 ## Prompt to paste into Stitch
 
 ```text
-Build a complete responsive pricing page for Template Engine Platform.
+Build the complete responsive main content for the Template Engine Platform pricing page.
 
 Use shadcn/ui as the primary design system. Use 21st.dev components only when they integrate perfectly with shadcn/ui. Do not invent a custom design system. Think in React + TypeScript + Tailwind for a Next.js App Router project.
+
+Scope boundary:
+- Design only the page-specific content between the existing global header and existing global footer.
+- Do not design or include a header, navbar, mobile menu, language switcher, account dropdown or footer.
+- The page should start with the pricing hero/content intro and end with the final pricing CTA.
 
 Product context:
 Template Engine Platform sells commercial access to a modular WooCommerce Template Engine. The offers are Starter, Pro and Managed.
@@ -43,7 +48,7 @@ Make the visitor understand which offer fits them:
 - Pro: customer wants guided setup;
 - Managed: customer wants ongoing validation, maintenance and operational support.
 
-Top section:
+Top content section:
 - badge: “Commercial access plans”
 - headline: “Choose the level of support behind your WooCommerce Template Engine.”
 - subheadline: “Start with the official template package, then add onboarding or managed operational support depending on how much help you want around launch and updates.”
@@ -142,6 +147,8 @@ Accessibility:
 - No meaning communicated by color alone.
 
 Do not include:
+- any global header or navigation;
+- any global footer;
 - fake discounts;
 - fake countdown timers;
 - invented revenue claims;
@@ -149,7 +156,7 @@ Do not include:
 - binding legal terms presented as final;
 - aggressive sales language.
 
-Output a complete implementation-friendly pricing page design.
+Output a complete implementation-friendly pricing main content design, excluding header and footer.
 ```
 
 ## Review criteria
@@ -161,4 +168,5 @@ The generated pricing page is acceptable only if:
 - Managed feels premium but not vague;
 - the license explanation is clear and legally careful;
 - the comparison table is mobile-friendly;
+- no header, navbar, mobile menu or footer is generated;
 - no final prices are invented unless explicitly supplied later.

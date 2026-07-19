@@ -8,9 +8,14 @@ Goal: Explain the platform and template capabilities without turning the page in
 ## Prompt to paste into Stitch
 
 ```text
-Build a complete responsive Features page for Template Engine Platform.
+Build the complete responsive main content for the Template Engine Platform Features page.
 
 Use shadcn/ui as the primary design system. Use 21st.dev components only when they integrate perfectly with shadcn/ui. Do not invent a separate component library. Think in React + TypeScript + Tailwind for a Next.js App Router project.
+
+Scope boundary:
+- Design only the page-specific content between the existing global header and existing global footer.
+- Do not design or include a header, navbar, mobile menu, language switcher, account dropdown or footer.
+- The page should start with the features hero/content intro and end with the final feature CTA.
 
 Product context:
 Template Engine Platform is the commercial platform around a modular WooCommerce Template Engine. It helps customers access official downloads, licenses, documentation, onboarding and support for launching ecommerce stores with reusable sections, niche presets, localization and different shop models.
@@ -141,6 +146,8 @@ Accessibility:
 - Icons must be decorative or have proper labels.
 
 Do not include:
+- any global header or navigation;
+- any global footer;
 - fake automation claims;
 - fake metrics;
 - fake customer logos;
@@ -148,7 +155,7 @@ Do not include:
 - promise of guaranteed sales;
 - confusing SaaS analytics dashboards unrelated to ecommerce.
 
-Output a complete implementation-friendly features page design.
+Output a complete implementation-friendly features main content design, excluding header and footer.
 ```
 
 ## Review criteria
@@ -159,4 +166,5 @@ The generated Features page is acceptable only if:
 - it separates storefront features from platform/license/service features;
 - it is not just a generic grid of icons;
 - it remains understandable for entrepreneurs;
-- it gives technical buyers confidence without becoming developer documentation.
+- it gives technical buyers confidence without becoming developer documentation;
+- no header, navbar, mobile menu or footer is generated.

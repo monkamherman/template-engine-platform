@@ -18,6 +18,31 @@ Every generated page must preserve the same product identity:
 - precise spacing and high readability;
 - production-ready, not placeholder-looking.
 
+## Page scope boundary
+
+Stitch must generate only the page-specific main content.
+
+Do not ask Stitch to design, redesign or include:
+
+- the global marketing header;
+- the global account/admin header;
+- desktop navigation bars;
+- mobile navigation drawers;
+- language switchers;
+- authentication dropdowns;
+- global footers;
+- legal/footer link groups.
+
+Those elements are shared application chrome and must be implemented once through the platform shell. Page prompts may reference that a global header or footer exists, but the generated design must start below the header and end before the footer.
+
+Allowed page-level navigation elements:
+
+- breadcrumbs inside documentation, account or admin content;
+- local tabs;
+- section anchors;
+- filters;
+- sidebars specific to documentation or admin content.
+
 ## Required design system
 
 All prompts must instruct the design tool to use:
@@ -53,7 +78,7 @@ Use the project identity consistently:
 
 1. Select one prompt from this directory.
 2. Paste it into Stitch.
-3. Generate the page.
+3. Generate the page-specific main content only.
 4. Export screenshots and code when available.
 5. Review visual quality, UX hierarchy, mobile behavior and component realism.
 6. Create a refinement prompt if needed.
@@ -78,6 +103,7 @@ A generated interface is not ready unless it satisfies all of the following:
 - The page clearly communicates its main purpose within five seconds.
 - The layout is responsive across desktop, tablet and mobile.
 - The output uses shadcn/ui-compatible components such as Card, Button, Badge, Tabs, Accordion, Table, Dialog, Sheet, Command, Alert or Breadcrumb where relevant.
+- The output does not include a global header, navbar, mobile navigation drawer or global footer.
 - Primary and secondary calls to action are visually distinct.
 - The orange accent is used sparingly for action and focus, not as decorative noise.
 - The page avoids fake testimonials, fake customer logos and invented performance metrics.
