@@ -202,8 +202,8 @@ export const interfaceRegistry = [
     audience: "public",
     owner: "catalog",
     maturity: "BRANDED",
-    dataMode: "fixture",
-    notes: "Offer comparison foundation; prices remain server-owned fixtures.",
+    dataMode: "content",
+    notes: "Sprint 06B branded pricing page with plan cards, license clarification, comparison, decision helper, FAQ and final CTA; final prices remain outside this interface.",
   },
   ...["starter", "pro", "managed"].map((slug) => ({
     id: `marketing.offer-${slug}`,

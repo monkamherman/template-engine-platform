@@ -90,14 +90,14 @@ test("customer acceptance schema avoids unapproved IP and user-agent collection"
 
 test("offer and license previews expose legal and documentation references", () => {
   const offerLinks = readFileSync("components/marketing/offer-legal-links.tsx", "utf8")
-  const pricingPage = readFileSync("app/[locale]/(marketing)/pricing/page.tsx", "utf8")
+  const pricingPage = readFileSync("components/marketing/pricing/pricing-page.tsx", "utf8")
   const licensePreview = readFileSync("components/account/license-key-preview.tsx", "utf8")
   const adminPreview = readFileSync("components/admin/review-workspace-preview.tsx", "utf8")
 
   assert.match(offerLinks, /routes\.legal\.softwareLicense/)
   assert.match(offerLinks, /routes\.legal\.commercialTerms/)
   assert.match(offerLinks, /routes\.legal\.supportPolicy/)
-  assert.match(pricingPage, /routes\.docs\.article\(activeLocale, "getting-started"\)/)
+  assert.match(pricingPage, /routes\.docs\.article\(locale, "getting-started"\)/)
   assert.match(licensePreview, /TEP-PRVW/)
   assert.match(licensePreview, /routes\.docs\.article\(locale, "activation"\)/)
   assert.match(adminPreview, /Publish version/)
