@@ -33,7 +33,7 @@ export function LogoMark({
       height={size}
       priority
       src={conceptSrc[concept]}
-      width={size}
+      width={size}  
     />
   )
 }
