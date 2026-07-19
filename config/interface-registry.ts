@@ -250,15 +250,17 @@ export const interfaceRegistry = [
     notes: "Explicit legal-review placeholder; no invented binding terms.",
   })),
   ...documentationSlugs.map((slug) => ({
-    id: slug ? `docs.${slug.replaceAll("/", ".")}` : "docs.index",
+    id: slug ? `docs.${slug.replaceAll("/", ".")}` : "docs.home",
     title: slug ? `Documentation ${slug.replaceAll("/", " ")}` : "Documentation index",
     routePattern: p(slug ? `/docs/${slug.replace("1.0.0", "{version}")}` : "/docs"),
     buildPath: (locale: Locale) => routes.docs.article(locale, slug),
     audience: "public" as const,
     owner: "documentation",
-    maturity: "WIREFRAME" as const,
+    maturity: (slug ? "WIREFRAME" : "BRANDED") as InterfaceMaturity,
     dataMode: "content" as const,
-    notes: "Reviewed draft documentation structure backed by typed content.",
+    notes: slug
+      ? "Reviewed draft documentation structure backed by typed content."
+      : "Sprint 06D branded documentation home with search preview, customer paths, category grid, highlighted guides, support bridge, review notice and non-final version card.",
   })),
   ...authInterfaceSeeds.map(([id, title, buildPath, routePattern]) => ({
     id,
