@@ -70,9 +70,9 @@ const palette = [
   ["brand-canvas", "#FAFAF7"],
   ["brand-slate", "#3A404C"],
   ["brand-border", "#D9DCE2"],
-  ["brand-orange", "#FF6B00"],
-  ["brand-orange-strong", "#D94F00"],
-  ["brand-orange-soft", "#FFF0E5"],
+  ["brand-orange", "#F97316"],
+  ["brand-orange-strong", "#EA580C"],
+  ["brand-orange-soft", "rgba(249, 115, 22, 0.12)"],
 ]
 
 const semantic = [
@@ -80,7 +80,7 @@ const semantic = [
   ["warning", "#9A5B00"],
   ["danger", "#B42318"],
   ["info", "#155EEF"],
-  ["focus-ring", "#FF6B00"],
+  ["focus-ring", "#F97316"],
   ["surface", "#FAFAF7"],
 ]
 

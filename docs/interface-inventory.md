@@ -10,7 +10,7 @@ Initial status for all non-deferred interfaces is `SKELETON` until implementatio
 
 Runtime source: `config/interface-registry.ts`.
 
-Sprint 03 has introduced the central route builders, navigation lists, interface registry and generated preview renderer for the V1 skeleton. Public home/product/pricing pages remain branded Sprint 02/early Sprint 03 surfaces. The generated marketing, auth, customer account and admin routes are currently `WIREFRAME` unless their runtime registry entry marks a more specific maturity.
+Sprint 03 has introduced the central route builders, navigation lists, interface registry and generated preview renderer for the V1 skeleton. Public product/pricing pages remain branded Sprint 02/early Sprint 03 surfaces. Sprint 06A upgrades `marketing.home` to a page-specific branded landing interface with the approved dark marketing palette, modular hero visual, shop-model tabs, feature grid, offer preview, documentation preview and final CTA. The generated marketing, auth, customer account and admin routes are currently `WIREFRAME` unless their runtime registry entry marks a more specific maturity.
 
 All generated preview pages use representative fixture data through `modules/platform/interface-query.ts`; they do not simulate successful checkout, authentication, license activation, download signing or administrative writes. Protected customer and admin areas use an explicit development fixture session only outside production until a real auth provider is approved.
 
