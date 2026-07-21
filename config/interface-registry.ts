@@ -269,9 +269,10 @@ export const interfaceRegistry = [
     buildPath,
     audience: "auth" as const,
     owner: "auth",
-    maturity: "WIREFRAME" as const,
-    dataMode: "preview" as const,
-    notes: "Provider unavailable; forms are preview-only and do not persist.",
+    maturity: "CONNECTED" as const,
+    dataMode: "adapter" as const,
+    notes:
+      "Sprint 07 auth adapter integration with Auth.js, encrypted JWT sessions, Prisma-persisted users/accounts/passwords, Google OAuth, email/password and magic-link verification; requires filled Google/SMTP env before validation.",
   })),
   ...accountInterfaceSeeds.map(([id, title, buildPath, routePattern]) => ({
     id,

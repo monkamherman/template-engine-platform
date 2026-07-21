@@ -1,14 +1,15 @@
-import { InterfacePage } from "@/components/layout/interface-page"
-import { getInterfacePreviewById } from "@/modules/platform/interface-query"
-import type { Locale } from "@/src/i18n/locales"
+import { AuthPageContent } from "@/components/auth/auth-pages"
 
 export default async function LoginPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>
+  searchParams: Promise<{ status?: string }>
 }) {
   const { locale: rawLocale } = await params
-  const locale = rawLocale as Locale
+  const { status } = await searchParams
+  const locale = rawLocale === "en" ? "en" : "fr"
 
-  return <InterfacePage preview={getInterfacePreviewById(locale, "auth.login")} />
+  return <AuthPageContent kind="login" locale={locale} status={status} />
 }

@@ -77,12 +77,20 @@ export function MarketingShell({
 
 export function AuthShell({ children, locale }: { children: ReactNode; locale: Locale }) {
   return (
-    <div className="min-h-screen bg-brand-ivory">
-      <Container className="py-8">
-        <Link href={routes.home(locale)}>
+    <div className="min-h-screen bg-marketing-background text-marketing-foreground">
+      <Container className="py-6 sm:py-8">
+        <Link
+          className="inline-flex rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+          href={routes.home(locale)}
+        >
           <LogoLockup className="h-12 w-auto" />
         </Link>
-        <div className="mx-auto mt-10 max-w-xl">{children}</div>
+        <div className="mt-8 rounded-xl border border-marketing-border bg-marketing-card-subtle px-4 py-3 text-sm leading-6 text-marketing-muted">
+          {locale === "fr"
+            ? "Acces compte securise: Google OAuth ou email/password avec verification par magic link."
+            : "Secure account access: Google OAuth or email/password with magic-link verification."}
+        </div>
+        <div className="mx-auto mt-8">{children}</div>
       </Container>
     </div>
   )

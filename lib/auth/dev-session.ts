@@ -1,14 +1,32 @@
+import { Role } from "@prisma/client"
+
+import { auth } from "@/auth"
+
 export type DevSession = {
   user: {
     id: string
     email: string
     name: string
-    roles: Array<"CUSTOMER" | "SUPPORT" | "ADMIN">
+    roles: Role[]
   }
-  mode: "development-fixture"
+  mode: "authjs" | "development-fixture"
 }
 
 export async function getCustomerSession(): Promise<DevSession | null> {
+  const session = await auth()
+
+  if (session?.user?.id && session.user.roles.includes(Role.CUSTOMER)) {
+    return {
+      mode: "authjs",
+      user: {
+        id: session.user.id,
+        email: session.user.email ?? "",
+        name: session.user.name ?? "Customer",
+        roles: session.user.roles,
+      },
+    }
+  }
+
   if (process.env.NODE_ENV === "production") {
     return null
   }
@@ -19,12 +37,26 @@ export async function getCustomerSession(): Promise<DevSession | null> {
       id: "dev_customer",
       email: "client.preview@example.test",
       name: "Client Preview",
-      roles: ["CUSTOMER"],
+      roles: [Role.CUSTOMER],
     },
   }
 }
 
 export async function getAdminSession(): Promise<DevSession | null> {
+  const session = await auth()
+
+  if (session?.user?.id && session.user.roles.includes(Role.ADMIN)) {
+    return {
+      mode: "authjs",
+      user: {
+        id: session.user.id,
+        email: session.user.email ?? "",
+        name: session.user.name ?? "Admin",
+        roles: session.user.roles,
+      },
+    }
+  }
+
   if (process.env.NODE_ENV === "production") {
     return null
   }
@@ -35,7 +67,7 @@ export async function getAdminSession(): Promise<DevSession | null> {
       id: "dev_admin",
       email: "admin.preview@example.test",
       name: "Admin Preview",
-      roles: ["CUSTOMER", "ADMIN"],
+      roles: [Role.CUSTOMER, Role.ADMIN],
     },
   }
 }

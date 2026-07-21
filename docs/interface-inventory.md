@@ -11,9 +11,9 @@ Initial status for all non-deferred interfaces is `SKELETON` until implementatio
 Runtime source: `config/interface-registry.ts`.
 
 
-Sprint 03 has introduced the central route builders, navigation lists, interface registry and generated preview renderer for the V1 skeleton. Public product pages remain branded Sprint 02/early Sprint 03 surfaces. Sprint 06A upgrades `marketing.home` to a page-specific branded landing interface with the approved dark marketing palette, modular hero visual, shop-model tabs, feature grid, offer preview, documentation preview and final CTA. Sprint 06B upgrades `marketing.pricing` to a branded pricing interface with plan cards, license clarification, comparison, decision helper, FAQ and final CTA, while keeping final prices outside the page until approved catalog/checkout data is connected. Sprint 06C upgrades `marketing.features` to a branded features interface with category tabs, shop-model grid, launch workflow, license/service boundary, technical confidence section and final CTA. Sprint 06D upgrades `docs.home` to a branded documentation entry point with search preview, customer paths, category grid, highlighted guides, support bridge, review notice and non-final version card. The generated marketing, auth, customer account and admin routes are currently `WIREFRAME` unless their runtime registry entry marks a more specific maturity.
+Sprint 03 has introduced the central route builders, navigation lists, interface registry and generated preview renderer for the V1 skeleton. Public product pages remain branded Sprint 02/early Sprint 03 surfaces. Sprint 06A upgrades `marketing.home` to a page-specific branded landing interface with the approved dark marketing palette, modular hero visual, shop-model tabs, feature grid, offer preview, documentation preview and final CTA. Sprint 06B upgrades `marketing.pricing` to a branded pricing interface with plan cards, license clarification, comparison, decision helper, FAQ and final CTA, while keeping final prices outside the page until approved catalog/checkout data is connected. Sprint 06C upgrades `marketing.features` to a branded features interface with category tabs, shop-model grid, launch workflow, license/service boundary, technical confidence section and final CTA. Sprint 06D upgrades `docs.home` to a branded documentation entry point with search preview, customer paths, category grid, highlighted guides, support bridge, review notice and non-final version card. Sprint 07A upgrades `auth.login`, `auth.register`, `auth.forgot-password`, `auth.reset-password` and `auth.verify-email` to branded auth pages. Sprint 07 auth integration connects those pages to Auth.js, encrypted JWT sessions, Prisma-persisted users/accounts/passwords, Google OAuth, email/password and expiring magic-link verification; the interfaces remain below `VALIDATED` until real Google and SMTP credentials are configured and tested. The generated marketing, customer account and admin routes are currently `WIREFRAME` unless their runtime registry entry marks a more specific maturity.
 
-All generated preview pages use representative fixture data through `modules/platform/interface-query.ts`; they do not simulate successful checkout, authentication, license activation, download signing or administrative writes. Protected customer and admin areas use an explicit development fixture session only outside production until a real auth provider is approved.
+All generated preview pages use representative fixture data through `modules/platform/interface-query.ts`; they do not simulate successful checkout, license activation, download signing or administrative writes. Protected customer and admin areas now prefer Auth.js sessions and retain an explicit development fixture fallback only outside production.
 
 The development interface map lives at `/{locale}/dev/interfaces` and is hidden through `notFound()` in production.
 
@@ -101,13 +101,13 @@ Documentation routes require stable IDs, locale metadata, version compatibility 
 
 | ID | Route | Interface | Main purpose | Initial data mode | Owner |
 |---|---|---|---|---|---|
-| `auth.login` | `/{locale}/login` | Login | Authenticate an existing customer or operator | preview/adapter | auth |
-| `auth.register` | `/{locale}/register` | Registration | Create a customer identity when provider is connected | preview/adapter | auth |
-| `auth.forgot-password` | `/{locale}/forgot-password` | Password recovery request | Request recovery instructions | preview/adapter | auth |
-| `auth.reset-password` | `/{locale}/reset-password` | Password reset | Complete password recovery | preview/adapter | auth |
-| `auth.verify-email` | `/{locale}/verify-email` | Email verification | Explain or complete identity verification | preview/adapter | auth |
+| `auth.login` | `/{locale}/login` | Login | Authenticate an existing customer or operator | adapter | auth |
+| `auth.register` | `/{locale}/register` | Registration | Create a customer identity and send verification | adapter | auth |
+| `auth.forgot-password` | `/{locale}/forgot-password` | Password recovery request | Request recovery instructions without leaking account existence | adapter | auth |
+| `auth.reset-password` | `/{locale}/reset-password` | Password reset | Complete password recovery through an expiring magic link | adapter | auth |
+| `auth.verify-email` | `/{locale}/verify-email` | Email verification | Complete identity verification through an expiring magic link | adapter | auth |
 
-Until a production authentication provider is connected, forms must clearly use development preview behavior and must not simulate persisted success.
+Auth forms are connected to Auth.js and Prisma. Google OAuth and SMTP credentials must be supplied per environment before the auth interfaces can move from `CONNECTED` to `VALIDATED`.
 
 ## Customer account interfaces
 
