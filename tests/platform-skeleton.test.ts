@@ -84,11 +84,15 @@ test("development interface map is explicitly production-hidden", () => {
   assert.match(source, /notFound\(\)/)
 })
 
-test("marketing shell exposes language toggle in header and footer", () => {
+test("marketing shell exposes public navigation through a lateral menu", () => {
   const shellSource = readFileSync("components/layout/shells.tsx", "utf8")
   const toggleSource = readFileSync("components/navigation/language-toggle.tsx", "utf8")
 
-  assert.match(shellSource, /<LanguageToggle locale=\{locale\}/)
+  assert.match(shellSource, /<MarketingSideMenu locale=\{locale\} \/>/)
+  assert.match(shellSource, /<SheetTrigger asChild>/)
+  assert.match(shellSource, /<SheetContent className=.* side="right">/)
+  assert.match(shellSource, /publicNavigation\.map/)
+  assert.match(shellSource, /<SheetClose asChild/)
   assert.match(shellSource, /<LanguageToggle compact locale=\{locale\}/)
   assert.match(toggleSource, /usePathname/)
   assert.match(toggleSource, /\[locale, \.\.\.segments\.slice\(1\)\]/)
