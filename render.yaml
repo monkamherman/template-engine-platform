@@ -5,7 +5,7 @@ services:
     plan: free
     branch: main
     buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm run build
-    startCommand: pnpm start
+    startCommand: HOSTNAME=0.0.0.0 pnpm start
     healthCheckPath: /api/health
     autoDeploy: true
     envVars:
