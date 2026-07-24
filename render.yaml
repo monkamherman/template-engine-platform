@@ -1,0 +1,49 @@
+services:
+  - type: web
+    name: template-engine-platform-co
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm run build
+    startCommand: pnpm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: APP_URL
+        value: https://template-engine-platform-co.onrender.com
+      - key: DATABASE_URL
+        sync: false
+      - key: AUTH_SECRET
+        sync: false
+      - key: AUTH_MAGIC_LINK_SECRET
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: AUTH_GOOGLE_ID
+        sync: false
+      - key: AUTH_GOOGLE_SECRET
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: LICENSE_HASH_PEPPER_V1
+        sync: false
+      - key: LICENSE_ENCRYPTION_KEY_V1
+        sync: false
+      - key: LICENSE_SIGNING_PRIVATE_KEY_PEM
+        sync: false
+      - key: LICENSE_SIGNING_PUBLIC_KEY_PEM
+        sync: false
+      - key: LICENSE_SIGNING_KEY_ID
+        sync: false
+      - key: LICENSE_LEASE_TTL_SECONDS
+        value: "259200"
+      - key: LICENSE_GRACE_PERIOD_SECONDS
+        value: "604800"
+      - key: LICENSE_RATE_LIMIT_MODE
+        value: memory
