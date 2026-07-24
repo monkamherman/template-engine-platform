@@ -159,6 +159,22 @@ const sprint11aAdminInterfaces = new Set([
 
 const sprint11aAdminPreviewInterfaces = new Set(["admin.product-new"])
 
+const sprint11bAdminInterfaces = new Set([
+  "admin.entitlements",
+  "admin.entitlement-detail",
+  "admin.license-detail",
+  "admin.releases",
+  "admin.release-new",
+  "admin.release-detail",
+  "admin.legal-documents",
+  "admin.support",
+  "admin.support-detail",
+  "admin.audit",
+  "admin.settings",
+])
+
+const sprint11bAdminPreviewInterfaces = new Set(["admin.release-new", "admin.settings"])
+
 export const interfaceRegistry = [
   {
     id: "marketing.home",
@@ -337,13 +353,15 @@ export const interfaceRegistry = [
     buildPath,
     audience: "admin" as const,
     owner: "operations",
-    maturity: (id === "admin.licenses" ? "CONNECTED" : sprint11aAdminInterfaces.has(id) ? "BRANDED" : "WIREFRAME") as InterfaceMaturity,
-    dataMode: (id === "admin.licenses" ? "query" : sprint11aAdminPreviewInterfaces.has(id) ? "preview" : "fixture") as InterfaceDataMode,
+    maturity: (id === "admin.licenses" ? "CONNECTED" : sprint11aAdminInterfaces.has(id) || sprint11bAdminInterfaces.has(id) ? "BRANDED" : "WIREFRAME") as InterfaceMaturity,
+    dataMode: (id === "admin.licenses" ? "query" : sprint11aAdminPreviewInterfaces.has(id) || sprint11bAdminPreviewInterfaces.has(id) ? "preview" : "fixture") as InterfaceDataMode,
     notes:
       id === "admin.licenses"
         ? "Operator view reads issued licenses and activations through the licensing query layer; API workbench remains for protocol testing."
         : sprint11aAdminInterfaces.has(id)
           ? "Sprint 11A branded admin commerce UI backed by centralized fixtures; provider references are masked, write/refund/delete actions are disabled until backend authorization and audit services are connected, and browser values are not treated as commercial truth."
+          : sprint11bAdminInterfaces.has(id)
+            ? "Sprint 11B branded admin operations UI backed by centralized fixtures/query data; complete license keys, private keys, peppers, ciphertext, tokens, provider secrets and signed URLs are not exposed, sensitive actions are disabled until backend authorization/audit exists, and draft/review legal content is not presented as approved."
         : "Role-protected development guard with disabled preview actions.",
   })),
   {
