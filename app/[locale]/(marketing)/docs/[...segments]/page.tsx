@@ -30,6 +30,9 @@ export default async function DocumentationArticlePage({
       locale={locale}
       next={neighbors.next}
       previous={neighbors.previous}
+      productVersionRange={document.productVersionRange}
+      relatedLinks={document.relatedLinks}
+      releaseVersion={document.releaseVersion}
       reviewStatus={document.reviewStatus}
       sections={document.sections}
       summary={document.summary}

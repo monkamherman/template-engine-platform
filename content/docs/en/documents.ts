@@ -29,7 +29,7 @@ const doc = (
   sections: [{ id: "overview", title: sectionTitle, body }],
 })
 
-export const englishDocumentationDocuments = [
+export const englishDocumentationDocuments: DocumentationContentDocument[] = [
   doc("docs.home", "", "Customer documentation", "Versioned guide for installing, activating, configuring and maintaining Template Engine.", "Main path", [
     "Start with requirements, then installation, official activation and initial setup.",
     "Guides remain in technical draft until the first theme release is validated.",
