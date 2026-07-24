@@ -116,6 +116,16 @@ const adminInterfaceSeeds = [
   ["admin.settings", "Platform settings", routes.admin.settings, p("/admin/settings")],
 ] satisfies readonly InterfaceSeed[]
 
+const sprint08AccountInterfaces = new Set([
+  "account.dashboard",
+  "account.orders",
+  "account.order-detail",
+  "account.entitlements",
+  "account.entitlement-detail",
+  "account.downloads",
+  "account.releases",
+])
+
 export const interfaceRegistry = [
   {
     id: "marketing.home",
@@ -281,9 +291,11 @@ export const interfaceRegistry = [
     buildPath,
     audience: "account" as const,
     owner: "account",
-    maturity: "WIREFRAME" as const,
+    maturity: (sprint08AccountInterfaces.has(id) ? "BRANDED" : "WIREFRAME") as InterfaceMaturity,
     dataMode: "fixture" as const,
-    notes: "Development fixture identity and repository-backed preview data.",
+    notes: sprint08AccountInterfaces.has(id)
+      ? "Sprint 08A branded account core UI backed by centralized fixture/query data; no real invoices, full license keys or signed download URLs are exposed."
+      : "Development fixture identity and repository-backed preview data.",
   })),
   ...adminInterfaceSeeds.map(([id, title, buildPath, routePattern]) => ({
     id,

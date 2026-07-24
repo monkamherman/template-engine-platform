@@ -1,5 +1,4 @@
-import { InterfacePage } from "@/components/layout/interface-page"
-import { getInterfacePreviewById } from "@/modules/platform/interface-query"
+import { AccountCorePage } from "@/components/account/account-core-pages"
 import type { Locale } from "@/src/i18n/locales"
 
 export default async function AccountPage({
@@ -10,5 +9,5 @@ export default async function AccountPage({
   const { locale: rawLocale } = await params
   const locale = rawLocale as Locale
 
-  return <InterfacePage preview={getInterfacePreviewById(locale, "account.dashboard")} />
+  return <AccountCorePage kind="dashboard" locale={locale} />
 }
