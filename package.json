@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "pnpm db:generate && next build",
-    "start": "node .next/standalone/server.js",
+    "start": "HOSTNAME=${HOSTNAME:-0.0.0.0} node .next/standalone/server.js",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.ts",
