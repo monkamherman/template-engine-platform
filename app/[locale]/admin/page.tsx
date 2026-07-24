@@ -1,5 +1,4 @@
-import { InterfacePage } from "@/components/layout/interface-page"
-import { getInterfacePreviewById } from "@/modules/platform/interface-query"
+import { AdminCommercePage } from "@/components/admin/admin-commerce-pages"
 import type { Locale } from "@/src/i18n/locales"
 
 export default async function AdminPage({
@@ -10,5 +9,5 @@ export default async function AdminPage({
   const { locale: rawLocale } = await params
   const locale = rawLocale as Locale
 
-  return <InterfacePage preview={getInterfacePreviewById(locale, "admin.dashboard")} />
+  return <AdminCommercePage kind="dashboard" locale={locale} />
 }

@@ -141,6 +141,24 @@ const sprint08bPreviewInterfaces = new Set([
   "account.settings-security",
 ])
 
+const sprint11aAdminInterfaces = new Set([
+  "admin.dashboard",
+  "admin.customers",
+  "admin.customer-detail",
+  "admin.products",
+  "admin.product-new",
+  "admin.product-detail",
+  "admin.offers",
+  "admin.offer-detail",
+  "admin.prices",
+  "admin.orders",
+  "admin.order-detail",
+  "admin.payments",
+  "admin.payment-detail",
+])
+
+const sprint11aAdminPreviewInterfaces = new Set(["admin.product-new"])
+
 export const interfaceRegistry = [
   {
     id: "marketing.home",
@@ -319,11 +337,13 @@ export const interfaceRegistry = [
     buildPath,
     audience: "admin" as const,
     owner: "operations",
-    maturity: id === "admin.licenses" ? ("CONNECTED" as const) : ("WIREFRAME" as const),
-    dataMode: id === "admin.licenses" ? ("query" as const) : ("fixture" as const),
+    maturity: (id === "admin.licenses" ? "CONNECTED" : sprint11aAdminInterfaces.has(id) ? "BRANDED" : "WIREFRAME") as InterfaceMaturity,
+    dataMode: (id === "admin.licenses" ? "query" : sprint11aAdminPreviewInterfaces.has(id) ? "preview" : "fixture") as InterfaceDataMode,
     notes:
       id === "admin.licenses"
         ? "Operator view reads issued licenses and activations through the licensing query layer; API workbench remains for protocol testing."
+        : sprint11aAdminInterfaces.has(id)
+          ? "Sprint 11A branded admin commerce UI backed by centralized fixtures; provider references are masked, write/refund/delete actions are disabled until backend authorization and audit services are connected, and browser values are not treated as commercial truth."
         : "Role-protected development guard with disabled preview actions.",
   })),
   {
