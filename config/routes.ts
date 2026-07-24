@@ -44,6 +44,11 @@ export const routes = {
     resetPassword: localized("/reset-password"),
     verifyEmail: localized("/verify-email"),
   },
+  checkout: {
+    index: localized("/checkout"),
+    success: localized("/checkout/success"),
+    failed: localized("/checkout/failed"),
+  },
   account: {
     dashboard: localized("/account"),
     orders: localized("/account/orders"),

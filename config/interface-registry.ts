@@ -44,6 +44,12 @@ const authInterfaceSeeds = [
   ["auth.verify-email", "Email verification", routes.auth.verifyEmail, p("/verify-email")],
 ] satisfies readonly InterfaceSeed[]
 
+const checkoutInterfaceSeeds = [
+  ["checkout.index", "Checkout", routes.checkout.index, p("/checkout")],
+  ["checkout.success", "Checkout success", routes.checkout.success, p("/checkout/success")],
+  ["checkout.failed", "Checkout failed", routes.checkout.failed, p("/checkout/failed")],
+] satisfies readonly InterfaceSeed[]
+
 const accountInterfaceSeeds = [
   ["account.dashboard", "Account dashboard", routes.account.dashboard, p("/account")],
   ["account.orders", "Order history", routes.account.orders, p("/account/orders")],
@@ -332,6 +338,18 @@ export const interfaceRegistry = [
     dataMode: "adapter" as const,
     notes:
       "Sprint 07 auth adapter integration with Auth.js, encrypted JWT sessions, Prisma-persisted users/accounts/passwords, Google OAuth, email/password and magic-link verification; requires filled Google/SMTP env before validation.",
+  })),
+  ...checkoutInterfaceSeeds.map(([id, title, buildPath, routePattern]) => ({
+    id,
+    title,
+    routePattern,
+    buildPath,
+    audience: "public" as const,
+    owner: "commerce",
+    maturity: "BRANDED" as const,
+    dataMode: "preview" as const,
+    notes:
+      "Sprint 09A checkout/payment-state UI with fixture offer selection, non-persistent customer fields, draft legal references, disabled payment CTA and no invented provider, payment success, secrets or license keys.",
   })),
   ...accountInterfaceSeeds.map(([id, title, buildPath, routePattern]) => ({
     id,
