@@ -1,4 +1,5 @@
 import { AdminCommercePage } from "@/components/admin/admin-commerce-pages"
+import { AdminOperationsPage } from "@/components/admin/admin-operations-pages"
 import { LicenseAdminDashboard } from "@/components/admin/license-admin-dashboard"
 import { ReviewWorkspacePreview } from "@/components/admin/review-workspace-preview"
 import { InterfacePage } from "@/components/layout/interface-page"
@@ -62,16 +63,54 @@ export default async function AdminGeneratedPage({
     )
   }
 
+  if (section === "entitlements") {
+    return resourceType ? (
+      <AdminOperationsPage kind="entitlement-detail" locale={locale} resourceId={resourceType} />
+    ) : (
+      <AdminOperationsPage kind="entitlements" locale={locale} />
+    )
+  }
+
+  if (section === "licenses") {
+    return resourceType ? (
+      <AdminOperationsPage kind="license-detail" locale={locale} resourceId={resourceType} />
+    ) : (
+      <LicenseAdminDashboard locale={locale} />
+    )
+  }
+
+  if (section === "releases") {
+    if (resourceType === "new") return <AdminOperationsPage kind="release-new" locale={locale} />
+
+    return resourceType ? (
+      <AdminOperationsPage kind="release-detail" locale={locale} resourceId={resourceType} />
+    ) : (
+      <AdminOperationsPage kind="releases" locale={locale} />
+    )
+  }
+
   if (section === "legal") {
-    return <ReviewWorkspacePreview kind="legal" locale={locale} />
+    return <AdminOperationsPage kind="legal" locale={locale} />
   }
 
   if (section === "documentation") {
     return <ReviewWorkspacePreview kind="documentation" locale={locale} />
   }
 
-  if (section === "licenses") {
-    return <LicenseAdminDashboard locale={locale} />
+  if (section === "support") {
+    return resourceType ? (
+      <AdminOperationsPage kind="support-detail" locale={locale} resourceId={resourceType} />
+    ) : (
+      <AdminOperationsPage kind="support" locale={locale} />
+    )
+  }
+
+  if (section === "audit") {
+    return <AdminOperationsPage kind="audit" locale={locale} />
+  }
+
+  if (section === "settings") {
+    return <AdminOperationsPage kind="settings" locale={locale} />
   }
 
   const preview = getInterfacePreviewByPath(locale, ["admin", ...segments])
@@ -101,11 +140,15 @@ export function generateStaticParams() {
     ["payments", "pay_pending_preview"],
     ["entitlements"],
     ["entitlements", "ent_preview"],
+    ["entitlements", "ent_pending_preview"],
+    ["entitlements", "ent_suspended_preview"],
     ["licenses"],
     ["licenses", "lic_preview"],
+    ["licenses", "lic_suspended_preview"],
     ["releases"],
     ["releases", "new"],
     ["releases", "rel_preview"],
+    ["releases", "rel_draft_preview"],
     ["legal"],
     ["legal", "legal_preview"],
     ["documentation"],
@@ -114,6 +157,7 @@ export function generateStaticParams() {
     ["services", "svc_preview"],
     ["support"],
     ["support", "sup_preview"],
+    ["support", "sup_download_preview"],
     ["audit"],
     ["settings"],
   ]
