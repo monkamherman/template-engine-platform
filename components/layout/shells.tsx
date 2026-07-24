@@ -41,6 +41,20 @@ export function MarketingShell({
           <Link href={routes.home(locale)} className="brand-focus rounded-sm">
             <LogoLockup className="h-12 w-auto" />
           </Link>
+          <nav aria-label="Navigation publique" className="hidden items-center gap-3 text-sm font-semibold lg:flex">
+            {publicNavigation.map((item) => (
+              <Link key={item.id} href={item.href(locale)} className="rounded-sm px-2 py-1 text-brand-slate hover:text-brand-ink">
+                {item.label[locale]}
+              </Link>
+            ))}
+            <Link href={routes.auth.login(locale)} className="rounded-sm px-2 py-1 text-brand-slate hover:text-brand-ink">
+              {locale === "fr" ? "Connexion" : "Login"}
+            </Link>
+            <Link href={routes.marketing.pricing(locale)} className="rounded-md bg-brand-orange px-4 py-2 text-white hover:bg-brand-orange-strong">
+              {locale === "fr" ? "Voir les offres" : "View plans"}
+            </Link>
+            <LanguageToggle locale={locale} />
+          </nav>
           <MarketingSideMenu locale={locale} />
         </Container>
       </header>
@@ -77,7 +91,7 @@ function MarketingSideMenu({ locale }: { locale: Locale }) {
       <SheetTrigger asChild>
         <Button
           aria-label={locale === "fr" ? "Ouvrir le menu" : "Open menu"}
-          className="border-brand-border bg-white text-brand-ink hover:border-brand-orange hover:bg-brand-orange-soft"
+          className="border-brand-border bg-white text-brand-ink hover:border-brand-orange hover:bg-brand-orange-soft lg:hidden"
           size="icon"
           type="button"
           variant="outline"
