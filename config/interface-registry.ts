@@ -321,10 +321,10 @@ export const interfaceRegistry = [
     buildPath: (locale: Locale) => routes.docs.article(locale, slug),
     audience: "public" as const,
     owner: "documentation",
-    maturity: (slug ? "WIREFRAME" : "BRANDED") as InterfaceMaturity,
+    maturity: "BRANDED" as InterfaceMaturity,
     dataMode: "content" as const,
     notes: slug
-      ? "Reviewed draft documentation structure backed by typed content."
+      ? "Sprint 10A branded documentation detail layout backed by typed localized content, with breadcrumbs, review/version metadata, local table of contents, related links, support path, previous/next navigation and cautious release states."
       : "Sprint 06D branded documentation home with search preview, customer paths, category grid, highlighted guides, support bridge, review notice and non-final version card.",
   })),
   ...authInterfaceSeeds.map(([id, title, buildPath, routePattern]) => ({

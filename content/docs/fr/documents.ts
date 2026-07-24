@@ -9,7 +9,7 @@ const review = {
   owner: "documentation",
 } as const
 
-export const frenchDocumentationDocuments = [
+export const frenchDocumentationDocuments: DocumentationContentDocument[] = [
   {
     ...review,
     id: "docs.home",

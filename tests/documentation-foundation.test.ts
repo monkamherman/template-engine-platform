@@ -38,6 +38,42 @@ test("new legal and documentation routes are registered interfaces", () => {
   assert.equal(registeredPaths.has(routes.admin.documentation("fr")), true)
 })
 
+test("documentation detail interfaces are branded content pages", () => {
+  for (const slug of documentationSlugs) {
+    const id = slug ? `docs.${slug.replaceAll("/", ".")}` : "docs.home"
+    const entry = interfaceRegistry.find((item) => item.id === id)
+
+    assert.equal(entry?.maturity, "BRANDED", id)
+    assert.equal(entry?.dataMode, "content", id)
+    assert.match(entry?.notes ?? "", slug ? /breadcrumbs, review\/version metadata/ : /documentation home/)
+  }
+})
+
+test("documentation detail shell exposes article navigation, review and support boundaries", () => {
+  const shell = readFileSync("components/layout/document-shell.tsx", "utf8")
+  const route = readFileSync("app/[locale]/(marketing)/docs/[...segments]/page.tsx", "utf8")
+
+  assert.match(shell, /Breadcrumb/)
+  assert.match(shell, /onThisPage/)
+  assert.match(shell, /RelatedLinksCard/)
+  assert.match(shell, /SupportCard/)
+  assert.match(shell, /ReleaseOverview/)
+  assert.match(shell, /does not publish final compatibility/)
+  assert.match(shell, /without sharing keys, tokens, passwords, card data or provider secrets/)
+  assert.match(route, /productVersionRange={document\.productVersionRange}/)
+  assert.match(route, /relatedLinks={document\.relatedLinks}/)
+  assert.match(route, /releaseVersion={document\.releaseVersion}/)
+})
+
+test("release documentation remains cautious until approval", () => {
+  const release = listDocumentationDocuments("fr").find((document) => document.slug === "releases/1.0.0")
+
+  assert.equal(release?.releaseVersion, "1.0.0")
+  assert.equal(release?.reviewStatus, "TECH_REVIEW")
+  assert.match(release?.productVersionRange ?? "", /unreleased/)
+  assert.doesNotMatch(release?.summary ?? "", /compatible|approuvee|approved/i)
+})
+
 test("content links remain localized internal routes", () => {
   const documents = [...listLegalDocuments("fr"), ...listDocumentationDocuments("fr")]
 
