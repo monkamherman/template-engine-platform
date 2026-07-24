@@ -124,6 +124,21 @@ const sprint08AccountInterfaces = new Set([
   "account.entitlement-detail",
   "account.downloads",
   "account.releases",
+  "account.licenses",
+  "account.license-detail",
+  "account.onboarding",
+  "account.onboarding-detail",
+  "account.support",
+  "account.support-new",
+  "account.support-detail",
+  "account.settings-profile",
+  "account.settings-security",
+])
+
+const sprint08bPreviewInterfaces = new Set([
+  "account.support-new",
+  "account.settings-profile",
+  "account.settings-security",
 ])
 
 export const interfaceRegistry = [
@@ -292,9 +307,9 @@ export const interfaceRegistry = [
     audience: "account" as const,
     owner: "account",
     maturity: (sprint08AccountInterfaces.has(id) ? "BRANDED" : "WIREFRAME") as InterfaceMaturity,
-    dataMode: "fixture" as const,
+    dataMode: (sprint08bPreviewInterfaces.has(id) ? "preview" : "fixture") as InterfaceDataMode,
     notes: sprint08AccountInterfaces.has(id)
-      ? "Sprint 08A branded account core UI backed by centralized fixture/query data; no real invoices, full license keys or signed download URLs are exposed."
+      ? "Sprint 08 account UI backed by centralized fixture/query data; license keys are masked, sensitive actions are disabled until backend authorization/audit exists, preview forms do not persist, and storefront rendering is not made dependent on license-service availability."
       : "Development fixture identity and repository-backed preview data.",
   })),
   ...adminInterfaceSeeds.map(([id, title, buildPath, routePattern]) => ({

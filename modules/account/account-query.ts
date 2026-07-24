@@ -59,11 +59,80 @@ export type AccountRelease = {
   docsSlug: string
 }
 
+export type AccountLicense = {
+  id: string
+  entitlementId: string
+  offer: "Starter" | "Pro" | "Managed"
+  maskedKey: string
+  keyPrefix: string
+  keyLast4: string
+  status: "active" | "suspended" | "revoked" | "expired"
+  productionLimit: number
+  stagingLimit: number
+  issuedAt: string
+  expiresAt?: string
+  activations: Array<{
+    id: string
+    environment: "PRODUCTION" | "STAGING"
+    normalizedDomain: string
+    status: "active" | "deactivated" | "blocked"
+    lastSeenAt: string
+  }>
+}
+
+export type AccountOnboardingRequest = {
+  id: string
+  offer: "Pro" | "Managed"
+  status: "pending" | "in_review" | "needs_customer_action" | "closed"
+  title: string
+  createdAt: string
+  updatedAt: string
+  milestones: Array<{
+    id: string
+    label: string
+    status: "pending" | "in_review" | "needs_customer_action" | "closed"
+  }>
+}
+
+export type AccountSupportTicket = {
+  id: string
+  subject: string
+  status: "pending" | "in_review" | "needs_customer_action" | "closed"
+  category: "installation" | "license" | "download" | "billing" | "other"
+  createdAt: string
+  updatedAt: string
+  messages: Array<{
+    id: string
+    author: "customer" | "support"
+    body: string
+    createdAt: string
+  }>
+}
+
+export type AccountSettings = {
+  profile: {
+    name: string
+    email: string
+    locale: Locale
+    accountStatus: "verified" | "pending_verification"
+  }
+  security: {
+    passwordProvider: "email_password"
+    googleLinked: boolean
+    emailVerified: boolean
+    activeSessions: number
+  }
+}
+
 export type AccountCoreData = {
   orders: AccountOrder[]
   entitlements: AccountEntitlement[]
   downloads: AccountDownload[]
   releases: AccountRelease[]
+  licenses: AccountLicense[]
+  onboarding: AccountOnboardingRequest[]
+  supportTickets: AccountSupportTicket[]
+  settings: AccountSettings
 }
 
 const rights = {
@@ -221,6 +290,138 @@ export function getAccountCoreData(locale: Locale): AccountCoreData {
             : ["Managed operations preview", "Staging validation to connect", "Non-final compatibility notes"],
       },
     ],
+    licenses: [
+      {
+        id: "lic_preview",
+        entitlementId: "ent_preview",
+        offer: "Starter",
+        maskedKey: "TEP1-PRVW-****-****-****-****-****-8F2C",
+        keyPrefix: "TEP1-PRVW",
+        keyLast4: "8F2C",
+        status: "active",
+        productionLimit: 1,
+        stagingLimit: 1,
+        issuedAt: "2026-07-18",
+        activations: [
+          {
+            id: "act_prod_preview",
+            environment: "PRODUCTION",
+            normalizedDomain: "shop-preview.example.test",
+            status: "active",
+            lastSeenAt: "2026-07-21",
+          },
+          {
+            id: "act_stage_preview",
+            environment: "STAGING",
+            normalizedDomain: "staging-preview.example.test",
+            status: "active",
+            lastSeenAt: "2026-07-21",
+          },
+        ],
+      },
+      {
+        id: "lic_suspended_preview",
+        entitlementId: "ent_expired_preview",
+        offer: "Managed",
+        maskedKey: "TEP1-SUSP-****-****-****-****-****-41AB",
+        keyPrefix: "TEP1-SUSP",
+        keyLast4: "41AB",
+        status: "suspended",
+        productionLimit: 1,
+        stagingLimit: 1,
+        issuedAt: "2026-01-12",
+        expiresAt: "2026-07-12",
+        activations: [
+          {
+            id: "act_suspended_preview",
+            environment: "PRODUCTION",
+            normalizedDomain: "archived-shop.example.test",
+            status: "blocked",
+            lastSeenAt: "2026-07-12",
+          },
+        ],
+      },
+    ],
+    onboarding: [
+      {
+        id: "svc_preview",
+        offer: "Pro",
+        status: "needs_customer_action",
+        title: locale === "fr" ? "Preparation installation Pro" : "Pro setup preparation",
+        createdAt: "2026-07-20",
+        updatedAt: "2026-07-22",
+        milestones: [
+          { id: "svc_scope", label: locale === "fr" ? "Cadrage boutique" : "Store scope", status: "closed" },
+          { id: "svc_assets", label: locale === "fr" ? "Elements client" : "Customer assets", status: "needs_customer_action" },
+          { id: "svc_review", label: locale === "fr" ? "Validation initiale" : "Initial review", status: "pending" },
+        ],
+      },
+      {
+        id: "svc_managed_preview",
+        offer: "Managed",
+        status: "in_review",
+        title: locale === "fr" ? "Validation maintenance Managed" : "Managed maintenance review",
+        createdAt: "2026-07-19",
+        updatedAt: "2026-07-23",
+        milestones: [
+          { id: "svc_backup", label: locale === "fr" ? "Controle backup" : "Backup check", status: "in_review" },
+          { id: "svc_staging", label: "Staging", status: "pending" },
+        ],
+      },
+    ],
+    supportTickets: [
+      {
+        id: "sup_preview",
+        subject: locale === "fr" ? "Question sur activation staging" : "Question about staging activation",
+        status: "in_review",
+        category: "license",
+        createdAt: "2026-07-21",
+        updatedAt: "2026-07-23",
+        messages: [
+          {
+            id: "msg_customer_preview",
+            author: "customer",
+            body:
+              locale === "fr"
+                ? "Je veux confirmer la difference entre production et staging avant activation."
+                : "I want to confirm the difference between production and staging before activation.",
+            createdAt: "2026-07-21",
+          },
+          {
+            id: "msg_support_preview",
+            author: "support",
+            body:
+              locale === "fr"
+                ? "Le support repondra sans demander de cle complete ni mot de passe."
+                : "Support will respond without asking for a complete key or password.",
+            createdAt: "2026-07-23",
+          },
+        ],
+      },
+      {
+        id: "sup_closed_preview",
+        subject: locale === "fr" ? "Acces documentation" : "Documentation access",
+        status: "closed",
+        category: "download",
+        createdAt: "2026-07-18",
+        updatedAt: "2026-07-20",
+        messages: [],
+      },
+    ],
+    settings: {
+      profile: {
+        name: locale === "fr" ? "Client Preview" : "Preview Customer",
+        email: "client.preview@example.test",
+        locale,
+        accountStatus: "verified",
+      },
+      security: {
+        passwordProvider: "email_password",
+        googleLinked: true,
+        emailVerified: true,
+        activeSessions: 1,
+      },
+    },
   }
 }
 
@@ -230,4 +431,16 @@ export function findAccountOrder(locale: Locale, id: string) {
 
 export function findAccountEntitlement(locale: Locale, id: string) {
   return getAccountCoreData(locale).entitlements.find((entitlement) => entitlement.id === id)
+}
+
+export function findAccountLicense(locale: Locale, id: string) {
+  return getAccountCoreData(locale).licenses.find((license) => license.id === id)
+}
+
+export function findAccountOnboardingRequest(locale: Locale, id: string) {
+  return getAccountCoreData(locale).onboarding.find((request) => request.id === id)
+}
+
+export function findAccountSupportTicket(locale: Locale, id: string) {
+  return getAccountCoreData(locale).supportTickets.find((ticket) => ticket.id === id)
 }
