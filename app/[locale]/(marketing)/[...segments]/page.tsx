@@ -1,7 +1,27 @@
 import { InterfacePage } from "@/components/layout/interface-page"
 import { OfferLegalLinks } from "@/components/marketing/offer-legal-links"
+import { buildLocalizedMetadata } from "@/config/seo"
 import { getInterfacePreviewByPath } from "@/modules/platform/interface-query"
+import { isLocale } from "@/src/i18n/locales"
 import type { Locale } from "@/src/i18n/locales"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; segments?: string[] }>
+}) {
+  const { locale: rawLocale, segments = [] } = await params
+  const locale = isLocale(rawLocale) ? rawLocale : "fr"
+  const preview = getInterfacePreviewByPath(locale, segments)
+
+  return buildLocalizedMetadata({
+    locale,
+    path: preview.path,
+    title: preview.entry.title,
+    description: preview.entry.notes,
+    noindex: preview.entry.maturity === "SKELETON",
+  })
+}
 
 export default async function MarketingGeneratedPage({
   params,

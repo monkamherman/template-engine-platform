@@ -1,9 +1,17 @@
+import type { Metadata } from "next"
 import type { ReactNode } from "react"
 
 import { WorkspaceShell } from "@/components/layout/shells"
 import { adminNavigation } from "@/config/navigation"
 import { getAdminSession } from "@/lib/auth/dev-session"
 import type { Locale } from "@/src/i18n/locales"
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default async function AdminLayout({
   children,
