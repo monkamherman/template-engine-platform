@@ -35,6 +35,7 @@ export default async function DocumentationArticlePage({
       releaseVersion={document.releaseVersion}
       reviewStatus={document.reviewStatus}
       sections={document.sections}
+      slug={document.slug}
       summary={document.summary}
       title={document.title}
     >

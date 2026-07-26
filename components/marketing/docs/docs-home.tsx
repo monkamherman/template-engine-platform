@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   ClipboardCheck,
   CreditCard,
+  Download,
   FileText,
   Globe2,
   HelpCircle,
@@ -92,6 +93,9 @@ const copy = {
     compatibleTheme: "Theme compatible",
     lastUpdated: "Derniere revue",
     releaseNotes: "Notes de version",
+    downloadMarkdown: "Telecharger Markdown",
+    downloadPdf: "Telecharger le PDF",
+    pdfSoon: "Bientot",
     reviewDraft: "Brouillon en revue technique",
     pendingRelease: "En attente de release approuvee",
     openGuide: "Ouvrir le guide",
@@ -129,6 +133,9 @@ const copy = {
     compatibleTheme: "Compatible theme",
     lastUpdated: "Last reviewed",
     releaseNotes: "Release notes",
+    downloadMarkdown: "Download Markdown",
+    downloadPdf: "Download PDF",
+    pdfSoon: "Soon",
     reviewDraft: "Technical review draft",
     pendingRelease: "Pending approved release",
     openGuide: "Open guide",
@@ -658,6 +665,19 @@ function DocsVersionCard({ locale, metadata }: { locale: Locale; metadata: DocsH
             {t.releaseNotes}
             <ArrowRight aria-hidden="true" />
           </Link>
+        </Button>
+        <Button className="mt-3 w-full" disabled type="button">
+          <Download aria-hidden="true" />
+          {t.downloadPdf}
+          <Badge className="border-marketing-border bg-marketing-card-subtle text-marketing-muted">
+            {t.pdfSoon}
+          </Badge>
+        </Button>
+        <Button asChild className="mt-3 w-full border-marketing-border bg-marketing-card-subtle text-marketing-foreground hover:border-marketing-accent hover:bg-marketing-background" variant="outline">
+          <a href={routes.docs.download(locale)}>
+            <Download aria-hidden="true" />
+            {t.downloadMarkdown}
+          </a>
         </Button>
       </CardContent>
     </Card>

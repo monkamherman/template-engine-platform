@@ -11,6 +11,7 @@ import {
   listDocumentationDocuments,
   listLegalDocuments,
 } from "../modules/content/documents"
+import { buildDocumentationDownload } from "../modules/content/document-downloads"
 import {
   hasUnapprovedThirdPartyNotices,
   requiredReleasePackageFiles,
@@ -63,6 +64,49 @@ test("documentation detail shell exposes article navigation, review and support 
   assert.match(route, /productVersionRange={document\.productVersionRange}/)
   assert.match(route, /relatedLinks={document\.relatedLinks}/)
   assert.match(route, /releaseVersion={document\.releaseVersion}/)
+  assert.match(route, /slug={document\.slug}/)
+})
+
+test("documentation markdown downloads are generated from public content", () => {
+  const bundle = buildDocumentationDownload("fr")
+  const guide = buildDocumentationDownload("en", "installation")
+  const missing = buildDocumentationDownload("fr", "missing-guide")
+
+  assert.equal(bundle?.documentCount, documentationSlugs.length)
+  assert.equal(bundle?.filename, "template-engine-docs-fr.md")
+  assert.match(bundle?.body ?? "", /Documentation Template Engine Platform/)
+  assert.match(bundle?.body ?? "", /Etat de revue/)
+
+  assert.equal(guide?.documentCount, 1)
+  assert.equal(guide?.filename, "template-engine-docs-en-installation.md")
+  assert.match(guide?.body ?? "", /# Installation/)
+  assert.match(guide?.body ?? "", /Review state/)
+  assert.equal(missing, null)
+})
+
+test("documentation download route validates query and returns attachments", () => {
+  const source = readFileSync("app/api/docs/download/route.ts", "utf8")
+
+  assert.match(source, /docsDownloadQuerySchema/)
+  assert.match(source, /z\.enum\(\["fr", "en"\]\)/)
+  assert.match(source, /invalid_docs_download_query/)
+  assert.match(source, /documentation_not_found/)
+  assert.match(source, /Content-Disposition/)
+  assert.match(source, /text\/markdown/)
+})
+
+test("documentation UI presents PDF as disabled and Markdown as active download", () => {
+  const shell = readFileSync("components/layout/document-shell.tsx", "utf8")
+  const home = readFileSync("components/marketing/docs/docs-home.tsx", "utf8")
+
+  assert.match(shell, /downloadPdf/)
+  assert.match(shell, /downloadMarkdown/)
+  assert.match(shell, /disabled type="button"/)
+  assert.match(shell, /routes\.docs\.download\(locale, slug\)/)
+  assert.match(home, /downloadPdf/)
+  assert.match(home, /downloadMarkdown/)
+  assert.match(home, /disabled type="button"/)
+  assert.match(home, /routes\.docs\.download\(locale\)/)
 })
 
 test("release documentation remains cautious until approval", () => {

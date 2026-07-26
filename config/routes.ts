@@ -14,6 +14,8 @@ export const routes = {
     index: localized("/docs"),
     article: (locale: Locale, slug = "") => `/${locale}/docs${slug ? `/${slug}` : ""}`,
     release: (locale: Locale, version: string) => `/${locale}/docs/releases/${version}`,
+    download: (locale: Locale, slug?: string) =>
+      `/api/docs/download?locale=${locale}${slug ? `&slug=${encodeURIComponent(slug)}` : ""}`,
   },
   legal: {
     softwareLicense: localized("/legal/software-license"),
