@@ -371,10 +371,10 @@ function MarketingHomeHero({ locale, t }: { locale: Locale; t: MarketingHomeCopy
   return (
     <section className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(24rem,0.82fr)] lg:items-center lg:px-8 lg:py-20">
       <div className="max-w-3xl">
-        <Badge className="border-marketing-accent-soft bg-marketing-accent-soft text-marketing-accent">
+        {/* <Badge className="border-marketing-accent-soft bg-marketing-accent-soft text-marketing-accent">
           {t.badge}
-        </Badge>
-        <h1 className="mt-6 text-balance font-heading text-4xl font-extrabold leading-tight text-marketing-foreground sm:text-5xl lg:text-6xl">
+        </Badge> */}
+        <h1 className="mt-6 text-balance font-heading text-2xl font-extrabold leading-tight text-marketing-foreground sm:text-5xl lg:text-6xl">
           {t.heroTitle}
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-marketing-muted">{t.heroLead}</p>

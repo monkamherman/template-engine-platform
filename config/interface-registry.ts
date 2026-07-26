@@ -202,7 +202,7 @@ export const interfaceRegistry = [
     owner: "catalog",
     maturity: "BRANDED",
     dataMode: "content",
-    notes: "Branded starter page with product positioning.",
+    notes: "Branded product overview with modular WooCommerce positioning, shop-model explanation, license boundary, workflow and CTAs.",
   },
   {
     id: "marketing.features",

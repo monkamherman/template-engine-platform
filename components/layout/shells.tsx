@@ -13,6 +13,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Container } from "@/components/ui/layout"
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 import type { NavigationItem } from "@/config/navigation"
 import { legalNavigation, publicNavigation } from "@/config/navigation"
 import { routes } from "@/config/routes"
@@ -28,11 +37,11 @@ export function MarketingShell({
   return (
     <div className="min-h-screen bg-brand-canvas text-brand-ink">
       <header className="border-b border-brand-border bg-brand-ivory">
-        <Container wide className="flex flex-wrap items-center justify-between gap-4 py-4">
+        <Container wide className="flex items-center justify-between gap-4 py-4">
           <Link href={routes.home(locale)} className="brand-focus rounded-sm">
             <LogoLockup className="h-12 w-auto" />
           </Link>
-          <nav aria-label="Navigation publique" className="flex flex-wrap items-center gap-3 text-sm font-semibold">
+          <nav aria-label="Navigation publique" className="hidden items-center gap-3 text-sm font-semibold lg:flex">
             {publicNavigation.map((item) => (
               <Link key={item.id} href={item.href(locale)} className="rounded-sm px-2 py-1 text-brand-slate hover:text-brand-ink">
                 {item.label[locale]}
@@ -46,6 +55,7 @@ export function MarketingShell({
             </Link>
             <LanguageToggle locale={locale} />
           </nav>
+          <MarketingSideMenu locale={locale} />
         </Container>
       </header>
       {children}
@@ -72,6 +82,69 @@ export function MarketingShell({
         </Container>
       </footer>
     </div>
+  )
+}
+
+function MarketingSideMenu({ locale }: { locale: Locale }) {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button
+          aria-label={locale === "fr" ? "Ouvrir le menu" : "Open menu"}
+          className="border-brand-border bg-white text-brand-ink hover:border-brand-orange hover:bg-brand-orange-soft lg:hidden"
+          size="icon"
+          type="button"
+          variant="outline"
+        >
+          <Menu aria-hidden="true" />
+        </Button>
+      </SheetTrigger>
+      <SheetContent className="border-brand-border bg-brand-ivory p-0 text-brand-ink" side="right">
+        <div className="flex h-full flex-col">
+          <SheetHeader className="border-b border-brand-border px-6 py-5 text-left">
+            <SheetTitle className="text-brand-ink">Template Engine</SheetTitle>
+            <SheetDescription className="text-brand-slate">
+              {locale === "fr"
+                ? "Navigation publique de la plateforme commerciale."
+                : "Public navigation for the commercial platform."}
+            </SheetDescription>
+          </SheetHeader>
+          <nav aria-label="Navigation publique" className="grid gap-2 px-4 py-5 text-sm font-semibold">
+            {publicNavigation.map((item) => (
+              <SheetClose asChild key={item.id}>
+                <Link
+                  className="rounded-md px-3 py-3 text-brand-slate hover:bg-brand-orange-soft hover:text-brand-ink"
+                  href={item.href(locale)}
+                >
+                  {item.label[locale]}
+                </Link>
+              </SheetClose>
+            ))}
+            <SheetClose asChild>
+              <Link
+                className="rounded-md px-3 py-3 text-brand-slate hover:bg-brand-orange-soft hover:text-brand-ink"
+                href={routes.auth.login(locale)}
+              >
+                {locale === "fr" ? "Connexion" : "Login"}
+              </Link>
+            </SheetClose>
+          </nav>
+          <div className="mt-auto border-t border-brand-border px-6 py-5">
+            <SheetClose asChild>
+              <Link
+                className="inline-flex h-11 w-full items-center justify-center rounded-md bg-brand-orange px-4 text-sm font-semibold text-white hover:bg-brand-orange-strong"
+                href={routes.marketing.pricing(locale)}
+              >
+                {locale === "fr" ? "Voir les offres" : "View plans"}
+              </Link>
+            </SheetClose>
+            <div className="mt-5">
+              <LanguageToggle compact locale={locale} />
+            </div>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
   )
 }
 
