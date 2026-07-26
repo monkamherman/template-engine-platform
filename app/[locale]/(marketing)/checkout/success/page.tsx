@@ -1,5 +1,14 @@
+import type { Metadata } from "next"
+
 import { CheckoutPage } from "@/components/checkout/checkout-pages"
 import type { Locale } from "@/src/i18n/locales"
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default async function CheckoutSuccessRoute({
   params,

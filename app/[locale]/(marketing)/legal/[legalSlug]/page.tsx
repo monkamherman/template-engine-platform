@@ -2,8 +2,29 @@ import { notFound } from "next/navigation"
 
 import { DocumentSections, DocumentShell } from "@/components/layout/document-shell"
 import { routes } from "@/config/routes"
+import { buildDocumentMetadata } from "@/config/seo"
 import { getLegalDocument, legalSlugs } from "@/modules/content/documents"
 import { isLocale, type Locale } from "@/src/i18n/locales"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; legalSlug: string }>
+}) {
+  const { locale: rawLocale, legalSlug } = await params
+  if (!isLocale(rawLocale)) return {}
+
+  const document = getLegalDocument(rawLocale, legalSlug)
+  if (!document) return {}
+
+  return buildDocumentMetadata({
+    locale: rawLocale,
+    path: routes.legal.document(rawLocale, document.slug),
+    title: document.title,
+    description: document.summary,
+    noindex: !["APPROVED", "PUBLISHED"].includes(document.reviewStatus),
+  })
+}
 
 export default async function LegalDocumentPage({
   params,

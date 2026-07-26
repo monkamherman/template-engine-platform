@@ -2,8 +2,29 @@ import { notFound } from "next/navigation"
 
 import { DocumentSections, DocumentShell } from "@/components/layout/document-shell"
 import { routes } from "@/config/routes"
+import { buildDocumentMetadata } from "@/config/seo"
 import { documentationSlugs, getDocumentationDocument, getDocumentationNeighbors } from "@/modules/content/documents"
 import { isLocale, type Locale } from "@/src/i18n/locales"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; segments: string[] }>
+}) {
+  const { locale: rawLocale, segments } = await params
+  if (!isLocale(rawLocale)) return {}
+
+  const slug = segments.join("/")
+  const document = getDocumentationDocument(rawLocale, slug)
+  if (!document) return {}
+
+  return buildDocumentMetadata({
+    locale: rawLocale,
+    path: routes.docs.article(rawLocale, document.slug),
+    title: document.title,
+    description: document.summary,
+  })
+}
 
 export default async function DocumentationArticlePage({
   params,

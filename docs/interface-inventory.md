@@ -15,6 +15,8 @@ Sprint 03 has introduced the central route builders, navigation lists, interface
 
 All generated preview pages use representative fixture data through `modules/platform/interface-query.ts`; they do not simulate successful checkout, license activation, download signing or administrative writes. Protected customer and admin areas now prefer Auth.js sessions and retain an explicit development fixture fallback only outside production.
 
+Sprint SEO-01 adds the public SEO foundation: centralized metadata helpers, localized canonical and hreflang values, sitemap generation for public marketing/documentation/legal routes, robots exclusions for private and transactional surfaces, and `noindex` metadata for auth, account, admin and checkout routes. The current root HTML language remains a documented structural follow-up because the root layout sits above the locale segment.
+
 The development interface map lives at `/{locale}/dev/interfaces` and is hidden through `notFound()` in production.
 
 ## Sprint 04 implementation status
