@@ -6,6 +6,7 @@ import {
   BookOpen,
   CalendarDays,
   CheckCircle2,
+  Download,
   FileText,
   GitBranch,
   HelpCircle,
@@ -44,6 +45,7 @@ type DocumentShellProps = {
   releaseVersion?: string
   relatedLinks?: string[]
   sections: Array<{ id: string; title: string }>
+  slug?: string
   breadcrumbs: Array<{ label: string; href: string }>
   previous?: DocumentationContentDocument | null
   next?: DocumentationContentDocument | null
@@ -78,6 +80,9 @@ const copy = {
     changelogText: "Le changelog detaille doit venir du paquet theme approuve et de ses metadonnees de release.",
     compatibilityText: "La plage actuelle reste marquee comme non finale tant que la matrice de tests n'est pas publiee.",
     warningsText: "Verifier sauvegarde, staging, checksum, documentation incluse et chemins de rollback avant production.",
+    downloadMarkdown: "Telecharger Markdown",
+    downloadPdf: "Telecharger le PDF",
+    pdfSoon: "Bientot",
   },
   en: {
     docs: "Docs",
@@ -107,6 +112,9 @@ const copy = {
     changelogText: "The detailed changelog must come from the approved theme package and its release metadata.",
     compatibilityText: "The current range remains non-final until the compatibility matrix is published.",
     warningsText: "Verify backup, staging, checksum, included documentation and rollback paths before production.",
+    downloadMarkdown: "Download Markdown",
+    downloadPdf: "Download PDF",
+    pdfSoon: "Soon",
   },
 } as const
 
@@ -121,6 +129,7 @@ export function DocumentShell({
   releaseVersion,
   relatedLinks = [],
   sections,
+  slug,
   breadcrumbs,
   previous,
   next,
@@ -192,6 +201,23 @@ export function DocumentShell({
               <MetaItem icon={CalendarDays} label={t.reviewed} value={lastReviewedAt} />
               <MetaItem icon={GitBranch} label={t.versionScope} value={versionScope} />
             </div>
+            {slug !== undefined ? (
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Button disabled type="button">
+                  <Download aria-hidden="true" />
+                  {t.downloadPdf}
+                  <Badge className="border-marketing-border bg-marketing-card-subtle text-marketing-muted">
+                    {t.pdfSoon}
+                  </Badge>
+                </Button>
+                <Button asChild className="border-marketing-border bg-marketing-card-subtle text-marketing-foreground hover:border-marketing-accent hover:bg-marketing-background" variant="outline">
+                  <a href={routes.docs.download(locale, slug)}>
+                    <Download aria-hidden="true" />
+                    {t.downloadMarkdown}
+                  </a>
+                </Button>
+              </div>
+            ) : null}
           </header>
 
           {isRelease ? <ReleaseOverview locale={locale} productVersionRange={versionScope} /> : null}
