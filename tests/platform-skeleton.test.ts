@@ -10,8 +10,23 @@ import { getInterfacePreviewById, getInterfacePreviewByPath } from "../modules/p
 test("route builders produce localized V1 interface paths", () => {
   assert.equal(routes.home("fr"), "/fr")
   assert.equal(routes.marketing.offer("en", "pro"), "/en/offers/pro")
+  assert.equal(routes.marketing.about("fr"), "/fr/about")
   assert.equal(routes.account.licenseDetail("fr", "lic_preview"), "/fr/account/licenses/lic_preview")
   assert.equal(routes.admin.releaseDetail("en", "rel_preview"), "/en/admin/releases/rel_preview")
+})
+
+test("marketing support pages are branded and route-specific", () => {
+  const supportEntries = ["marketing.faq", "marketing.contact", "marketing.about"]
+
+  for (const id of supportEntries) {
+    const entry = interfaceRegistry.find((item) => item.id === id)
+
+    assert.equal(entry?.maturity, "BRANDED", id)
+    assert.match(entry?.notes ?? "", /Sprint 06E-bis/, id)
+  }
+
+  assert.equal(interfaceRegistry.find((item) => item.id === "marketing.contact")?.dataMode, "preview")
+  assert.equal(getInterfacePreviewByPath("fr", ["about"]).entry.id, "marketing.about")
 })
 
 test("interface registry has unique IDs and resolved preview routes", () => {
