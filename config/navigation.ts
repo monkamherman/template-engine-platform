@@ -17,6 +17,7 @@ export const publicNavigation: NavigationItem[] = [
   { id: "docs", label: { fr: "Docs", en: "Docs" }, href: routes.docs.index, access: "public" },
   { id: "pricing", label: { fr: "Offres", en: "Plans" }, href: routes.marketing.pricing, access: "public" },
   { id: "faq", label: { fr: "FAQ", en: "FAQ" }, href: routes.marketing.faq, access: "public" },
+  { id: "about", label: { fr: "A propos", en: "About" }, href: routes.marketing.about, access: "public" },
 ]
 
 export const legalNavigation: NavigationItem[] = [

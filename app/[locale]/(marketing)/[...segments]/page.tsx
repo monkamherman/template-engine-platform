@@ -37,8 +37,6 @@ export function generateStaticParams() {
     ["offers", "starter"],
     ["offers", "pro"],
     ["offers", "managed"],
-    ["faq"],
-    ["contact"],
   ]
 
   return ["fr", "en"].flatMap((locale) => routes.map((segments) => ({ locale, segments })))

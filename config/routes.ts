@@ -35,6 +35,7 @@ export const routes = {
     offer: (locale: Locale, slug: string) => `/${locale}/offers/${slug}`,
     faq: localized("/faq"),
     contact: localized("/contact"),
+    about: localized("/about"),
     legal: (locale: Locale, slug: string) => `/${locale}/legal/${slug}`,
   },
   auth: {
